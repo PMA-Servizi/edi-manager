@@ -1,0 +1,50 @@
+services:
+  frontend:
+    container_name: edi-manager-fe
+    build:
+      context: ./edi-manager-fe
+      target: ${NODE_ENV:-development}-stage
+    networks:
+      - edi-manager-network
+    volumes:
+      - ./edi-manager-fe:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    expose:
+      - "3000"
+  
+  backend:
+    container_name: edi-manager-be
+    build:
+      context: ./edi-manager-be
+    networks:
+      - edi-manager-network
+    volumes:
+      - ./edi-manager-be:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    expose:
+      - "4000"
+  
+  proxy:
+    build:
+      context: ./edi-manager-infra
+    ports:
+      - ${APP_PORT-8080}:80
+    env_file:
+      - .env
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./edi-manager-infra/templates:/etc/nginx/templates:ro
+    networks:
+      - edi-manager-network
+      
+    
+
+
+networks:
+  edi-manager-network:
