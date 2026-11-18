@@ -91,7 +91,6 @@ services:
       timeout: 3s
       retries: 10
 
-    
 volumes:
   postgres-data:
   redis-data:

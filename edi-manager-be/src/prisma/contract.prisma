@@ -1,0 +1,106 @@
+// use prisma-8
+enum EdiOperation {
+  @@type('pg/text@1')
+  DOWNLOAD = 'download'
+  UPLOAD = 'upload'
+}
+
+model EdiType {
+  id        String(varchar) @id @onCreate(uuid(4))
+  name      String(text)
+  operation EdiOperation
+
+  @@unique([name, operation])
+}
+
+model Customer {
+  id                  String(varchar) @id @onCreate(uuid(4))
+  name                String(text)
+  slug                String(varchar)
+  sap_customer_number String(varchar) @unique
+  catalog_id          Int4            @default(1)
+}
+
+enum EdiCodeType {
+  @@type('pg/varchar@1')
+  PARTITA_IVA = 'ZZ'
+  CODICE_EAN_UCC = '14'
+}
+
+model Company {
+  id                       String(varchar) @id @onCreate(uuid(4))
+  name                     String(text)
+  slug                     String(varchar)
+  division                 String(varchar) @unique
+  edi_company_code         String(varchar)
+  edi_company_code_type   EdiCodeType
+  business_name            String(text)
+  address                  String(text)
+  city                     String(text)
+  province                 String(varchar)
+  postal_code              String(varchar)
+  country                  String(text)
+  court_of_law             String(text)?
+  ccia                     String(text)
+  share_capital            String(text)
+  raee_registration_number String(varchar)
+  pile_registration_number String(varchar)
+}
+
+enum RunStatus {
+  @@type("pg/text@1")
+  QUEUED = 'queued'
+  COMPLETED = 'completed'
+  FAILED = 'failed'
+}
+
+model Run {
+  id            String(varchar) @id @onCreate(uuid(4))
+  created_at    DateTime        @onCreate(now())
+  updated_at    DateTime        @onCreate(now()) @onUpdate(now())
+  status        RunStatus
+  error_message String(text)?
+
+  company_id    String(varchar)
+  company       Company         @relation(fields: [company_id], references: [id])
+
+  edi_type_id   String(varchar)
+  edi_type      EdiType         @relation(fields: [edi_type_id], references: [id])
+}
+
+model Habilitation {
+  id          String(varchar)  @id @onCreate(uuid(4))
+  enabled     Boolean          @default(false)
+  interval    Int2
+
+  customer_id String(varchar)
+  customer    Customer         @relation(fields: [customer_id], references: [id])
+
+  company_id  String(varchar)
+  company     Company          @relation(fields: [company_id], references: [id])
+
+  edi_type_id String(varchar)
+  edi_type    EdiType          @relation(fields: [edi_type_id], references: [id])
+
+  last_run_id String(varchar)?
+  last_run    Run?             @relation(fields: [last_run_id], references: [id])
+
+  @@unique([customer_id, company_id, edi_type_id])
+}
+
+enum ProcessOutcome {
+  @@type("pg/text@1")
+  SUCCCESS = 'success'
+  FAIL = 'fail'
+}
+
+model File {
+  id            String(varchar) @id @onCreate(uuid(4))
+  created_at    DateTime        @onCreate(now())
+  filename      String(text)
+  status        ProcessOutcome
+  error_message String(text)?
+
+  run_id        String(varchar)
+  run           Run             @relation(fields: [run_id], references: [id])
+}
