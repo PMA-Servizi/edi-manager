@@ -15,7 +15,7 @@ export class FlowsWorker implements OnModuleInit, OnModuleDestroy {
   onModuleInit() {
     this.worker = new Worker(
       this.flowsQueue.queueId,
-      async (job) => this.flowsService.runFlow(job),
+      async (job) => this.flowsService.runFlowJob(job),
       { connection: this.flowsQueue.connectionOptions },
     );
   }

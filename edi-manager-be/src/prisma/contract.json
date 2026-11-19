@@ -4,28 +4,24 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
-    "Company": {
-      "model": "Company",
+    "Companies": {
+      "model": "Companies",
       "namespace": "public"
     },
-    "Customer": {
-      "model": "Customer",
+    "Customers": {
+      "model": "Customers",
       "namespace": "public"
     },
-    "EdiType": {
-      "model": "EdiType",
+    "Files": {
+      "model": "Files",
       "namespace": "public"
     },
-    "File": {
-      "model": "File",
+    "Flows": {
+      "model": "Flows",
       "namespace": "public"
     },
-    "Habilitation": {
-      "model": "Habilitation",
-      "namespace": "public"
-    },
-    "Run": {
-      "model": "Run",
+    "Runs": {
+      "model": "Runs",
       "namespace": "public"
     }
   },
@@ -56,6 +52,71 @@
               {
                 "name": "UPLOAD",
                 "value": "upload"
+              }
+            ]
+          },
+          "EdiRecordType": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "ANPROD",
+                "value": "ANPROD"
+              },
+              {
+                "name": "DESADV",
+                "value": "DESADV"
+              },
+              {
+                "name": "ORDERS",
+                "value": "ORDERS"
+              },
+              {
+                "name": "ORDRSP",
+                "value": "ORDRSP"
+              },
+              {
+                "name": "PACLIS",
+                "value": "PACLIS"
+              },
+              {
+                "name": "SELLIN",
+                "value": "SELLIN"
+              },
+              {
+                "name": "INVSUP",
+                "value": "INVSUP"
+              },
+              {
+                "name": "ORDLIS",
+                "value": "ORDLIS"
+              },
+              {
+                "name": "REMADV",
+                "value": "REMADV"
+              },
+              {
+                "name": "INVRPT",
+                "value": "INVRPT"
+              },
+              {
+                "name": "SLSRPT",
+                "value": "SLSRPT"
+              },
+              {
+                "name": "PRICAT",
+                "value": "PRICAT"
+              },
+              {
+                "name": "NOTACC",
+                "value": "NOTACC"
+              },
+              {
+                "name": "NOTADD",
+                "value": "NOTADD"
+              },
+              {
+                "name": "ORDPRP",
+                "value": "ORDPRP"
               }
             ]
           },
@@ -91,7 +152,7 @@
           }
         },
         "models": {
-          "Company": {
+          "Companies": {
             "fields": {
               "address": {
                 "nullable": false,
@@ -100,7 +161,7 @@
                   "kind": "scalar"
                 }
               },
-              "business_name": {
+              "businessName": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -128,7 +189,7 @@
                   "kind": "scalar"
                 }
               },
-              "court_of_law": {
+              "courtOfLaw": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -142,14 +203,14 @@
                   "kind": "scalar"
                 }
               },
-              "edi_company_code": {
+              "ediCompanyCode": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "edi_company_code_type": {
+              "ediCompanyCodeType": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/varchar@1",
@@ -176,14 +237,14 @@
                   "kind": "scalar"
                 }
               },
-              "pile_registration_number": {
+              "pileRegistrationNumber": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "postal_code": {
+              "postalCode": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -197,14 +258,14 @@
                   "kind": "scalar"
                 }
               },
-              "raee_registration_number": {
+              "raeeRegistrationNumber": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "share_capital": {
+              "shareCapital": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -225,7 +286,7 @@
                 "address": {
                   "column": "address"
                 },
-                "business_name": {
+                "businessName": {
                   "column": "business_name"
                 },
                 "ccia": {
@@ -237,16 +298,16 @@
                 "country": {
                   "column": "country"
                 },
-                "court_of_law": {
+                "courtOfLaw": {
                   "column": "court_of_law"
                 },
                 "division": {
                   "column": "division"
                 },
-                "edi_company_code": {
+                "ediCompanyCode": {
                   "column": "edi_company_code"
                 },
-                "edi_company_code_type": {
+                "ediCompanyCodeType": {
                   "column": "edi_company_code_type"
                 },
                 "id": {
@@ -255,19 +316,19 @@
                 "name": {
                   "column": "name"
                 },
-                "pile_registration_number": {
+                "pileRegistrationNumber": {
                   "column": "pile_registration_number"
                 },
-                "postal_code": {
+                "postalCode": {
                   "column": "postal_code"
                 },
                 "province": {
                   "column": "province"
                 },
-                "raee_registration_number": {
+                "raeeRegistrationNumber": {
                   "column": "raee_registration_number"
                 },
-                "share_capital": {
+                "shareCapital": {
                   "column": "share_capital"
                 },
                 "slug": {
@@ -275,12 +336,12 @@
                 }
               },
               "namespaceId": "public",
-              "table": "Company"
+              "table": "Companies"
             }
           },
-          "Customer": {
+          "Customers": {
             "fields": {
-              "catalog_id": {
+              "catalogId": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/int4@1",
@@ -301,7 +362,7 @@
                   "kind": "scalar"
                 }
               },
-              "sap_customer_number": {
+              "sapCustomerNumber": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -319,7 +380,7 @@
             "relations": {},
             "storage": {
               "fields": {
-                "catalog_id": {
+                "catalogId": {
                   "column": "catalog_id"
                 },
                 "id": {
@@ -328,7 +389,7 @@
                 "name": {
                   "column": "name"
                 },
-                "sap_customer_number": {
+                "sapCustomerNumber": {
                   "column": "sap_customer_number"
                 },
                 "slug": {
@@ -336,59 +397,12 @@
                 }
               },
               "namespaceId": "public",
-              "table": "Customer"
+              "table": "Customers"
             }
           },
-          "EdiType": {
+          "Files": {
             "fields": {
-              "id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
-              },
-              "name": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "operation": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                },
-                "valueSet": {
-                  "entityKind": "enum",
-                  "entityName": "EdiOperation",
-                  "namespaceId": "public",
-                  "plane": "domain"
-                }
-              }
-            },
-            "relations": {},
-            "storage": {
-              "fields": {
-                "id": {
-                  "column": "id"
-                },
-                "name": {
-                  "column": "name"
-                },
-                "operation": {
-                  "column": "operation"
-                }
-              },
-              "namespaceId": "public",
-              "table": "EdiType"
-            }
-          },
-          "File": {
-            "fields": {
-              "created_at": {
+              "createdAt": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-date@1",
@@ -398,7 +412,7 @@
                   }
                 }
               },
-              "error_message": {
+              "errorMessage": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -419,7 +433,7 @@
                   "kind": "scalar"
                 }
               },
-              "run_id": {
+              "runId": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -446,24 +460,24 @@
                 "nullable": false,
                 "on": {
                   "localFields": [
-                    "run_id"
+                    "runId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "Run",
+                  "model": "Runs",
                   "namespace": "public"
                 }
               }
             },
             "storage": {
               "fields": {
-                "created_at": {
+                "createdAt": {
                   "column": "created_at"
                 },
-                "error_message": {
+                "errorMessage": {
                   "column": "error_message"
                 },
                 "filename": {
@@ -472,7 +486,7 @@
                 "id": {
                   "column": "id"
                 },
-                "run_id": {
+                "runId": {
                   "column": "run_id"
                 },
                 "status": {
@@ -480,30 +494,36 @@
                 }
               },
               "namespaceId": "public",
-              "table": "File"
+              "table": "Files"
             }
           },
-          "Habilitation": {
+          "Flows": {
             "fields": {
-              "company_id": {
+              "companyId": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "customer_id": {
+              "customerId": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "edi_type_id": {
+              "ediRecordType": {
                 "nullable": false,
                 "type": {
-                  "codecId": "sql/varchar@1",
+                  "codecId": "pg/text@1",
                   "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "EdiRecordType",
+                  "namespaceId": "public",
+                  "plane": "domain"
                 }
               },
               "enabled": {
@@ -527,11 +547,24 @@
                   "kind": "scalar"
                 }
               },
-              "last_run_id": {
+              "lastRunId": {
                 "nullable": true,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
+                }
+              },
+              "operation": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "EdiOperation",
+                  "namespaceId": "public",
+                  "plane": "domain"
                 }
               }
             },
@@ -541,14 +574,14 @@
                 "nullable": false,
                 "on": {
                   "localFields": [
-                    "company_id"
+                    "companyId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "Company",
+                  "model": "Companies",
                   "namespace": "public"
                 }
               },
@@ -557,60 +590,44 @@
                 "nullable": false,
                 "on": {
                   "localFields": [
-                    "customer_id"
+                    "customerId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "Customer",
+                  "model": "Customers",
                   "namespace": "public"
                 }
               },
-              "edi_type": {
-                "cardinality": "N:1",
-                "nullable": false,
-                "on": {
-                  "localFields": [
-                    "edi_type_id"
-                  ],
-                  "targetFields": [
-                    "id"
-                  ]
-                },
-                "to": {
-                  "model": "EdiType",
-                  "namespace": "public"
-                }
-              },
-              "last_run": {
+              "lastRun": {
                 "cardinality": "N:1",
                 "nullable": true,
                 "on": {
                   "localFields": [
-                    "last_run_id"
+                    "lastRunId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "Run",
+                  "model": "Runs",
                   "namespace": "public"
                 }
               }
             },
             "storage": {
               "fields": {
-                "company_id": {
+                "companyId": {
                   "column": "company_id"
                 },
-                "customer_id": {
+                "customerId": {
                   "column": "customer_id"
                 },
-                "edi_type_id": {
-                  "column": "edi_type_id"
+                "ediRecordType": {
+                  "column": "edi_record_type"
                 },
                 "enabled": {
                   "column": "enabled"
@@ -621,24 +638,20 @@
                 "interval": {
                   "column": "interval"
                 },
-                "last_run_id": {
+                "lastRunId": {
                   "column": "last_run_id"
+                },
+                "operation": {
+                  "column": "operation"
                 }
               },
               "namespaceId": "public",
-              "table": "Habilitation"
+              "table": "Flows"
             }
           },
-          "Run": {
+          "Runs": {
             "fields": {
-              "company_id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
-              },
-              "created_at": {
+              "createdAt": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-date@1",
@@ -648,17 +661,17 @@
                   }
                 }
               },
-              "edi_type_id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
-              },
-              "error_message": {
+              "errorMessage": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "flowId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
@@ -682,7 +695,7 @@
                   "plane": "domain"
                 }
               },
-              "updated_at": {
+              "updatedAt": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-date@1",
@@ -694,52 +707,33 @@
               }
             },
             "relations": {
-              "company": {
+              "flow": {
                 "cardinality": "N:1",
                 "nullable": false,
                 "on": {
                   "localFields": [
-                    "company_id"
+                    "flowId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "Company",
-                  "namespace": "public"
-                }
-              },
-              "edi_type": {
-                "cardinality": "N:1",
-                "nullable": false,
-                "on": {
-                  "localFields": [
-                    "edi_type_id"
-                  ],
-                  "targetFields": [
-                    "id"
-                  ]
-                },
-                "to": {
-                  "model": "EdiType",
+                  "model": "Flows",
                   "namespace": "public"
                 }
               }
             },
             "storage": {
               "fields": {
-                "company_id": {
-                  "column": "company_id"
-                },
-                "created_at": {
+                "createdAt": {
                   "column": "created_at"
                 },
-                "edi_type_id": {
-                  "column": "edi_type_id"
-                },
-                "error_message": {
+                "errorMessage": {
                   "column": "error_message"
+                },
+                "flowId": {
+                  "column": "flow_id"
                 },
                 "id": {
                   "column": "id"
@@ -747,12 +741,12 @@
                 "status": {
                   "column": "status"
                 },
-                "updated_at": {
+                "updatedAt": {
                   "column": "updated_at"
                 }
               },
               "namespaceId": "public",
-              "table": "Run"
+              "table": "Runs"
             }
           }
         }
@@ -764,12 +758,12 @@
       "public": {
         "entries": {
           "table": {
-            "Company": {
+            "Companies": {
               "checks": [
                 {
                   "expression": "\"edi_company_code_type\" IN ('ZZ', '14')",
-                  "name": "Company_edi_company_code_type_check_1b603106",
-                  "prefix": "Company_edi_company_code_type_check"
+                  "name": "Companies_edi_company_code_type_check_1b603106",
+                  "prefix": "Companies_edi_company_code_type_check"
                 }
               ],
               "columns": {
@@ -880,7 +874,7 @@
                 }
               ]
             },
-            "Customer": {
+            "Customers": {
               "columns": {
                 "catalog_id": {
                   "codecId": "pg/int4@1",
@@ -927,59 +921,12 @@
                 }
               ]
             },
-            "EdiType": {
-              "checks": [
-                {
-                  "expression": "\"operation\" IN ('download', 'upload')",
-                  "name": "EdiType_operation_check_48aa35a1",
-                  "prefix": "EdiType_operation_check"
-                }
-              ],
-              "columns": {
-                "id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
-                "name": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "operation": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false,
-                  "valueSet": {
-                    "entityKind": "valueSet",
-                    "entityName": "EdiOperation",
-                    "namespaceId": "public",
-                    "plane": "storage"
-                  }
-                }
-              },
-              "foreignKeys": [],
-              "indexes": [],
-              "primaryKey": {
-                "columns": [
-                  "id"
-                ]
-              },
-              "uniques": [
-                {
-                  "columns": [
-                    "name",
-                    "operation"
-                  ]
-                }
-              ]
-            },
-            "File": {
+            "Files": {
               "checks": [
                 {
                   "expression": "\"status\" IN ('success', 'fail')",
-                  "name": "File_status_check_cf321638",
-                  "prefix": "File_status_check"
+                  "name": "Files_status_check_cf321638",
+                  "prefix": "Files_status_check"
                 }
               ],
               "columns": {
@@ -1026,21 +973,21 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "File_run_id_idx_61d39f90"
+                    "name": "Files_run_id_idx_61d39f90"
                   },
                   "source": {
                     "columns": [
                       "run_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "File"
+                    "tableName": "Files"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Run"
+                    "tableName": "Runs"
                   }
                 }
               ],
@@ -1049,8 +996,8 @@
                   "columns": [
                     "run_id"
                   ],
-                  "name": "File_run_id_idx_61d39f90",
-                  "prefix": "File_run_id_idx",
+                  "name": "Files_run_id_idx_61d39f90",
+                  "prefix": "Files_run_id_idx",
                   "unique": false
                 }
               ],
@@ -1061,7 +1008,19 @@
               },
               "uniques": []
             },
-            "Habilitation": {
+            "Flows": {
+              "checks": [
+                {
+                  "expression": "\"edi_record_type\" IN ('ANPROD', 'DESADV', 'ORDERS', 'ORDRSP', 'PACLIS', 'SELLIN', 'INVSUP', 'ORDLIS', 'REMADV', 'INVRPT', 'SLSRPT', 'PRICAT', 'NOTACC', 'NOTADD', 'ORDPRP')",
+                  "name": "Flows_edi_record_type_check_54584439",
+                  "prefix": "Flows_edi_record_type_check"
+                },
+                {
+                  "expression": "\"operation\" IN ('download', 'upload')",
+                  "name": "Flows_operation_check_48aa35a1",
+                  "prefix": "Flows_operation_check"
+                }
+              ],
               "columns": {
                 "company_id": {
                   "codecId": "sql/varchar@1",
@@ -1073,10 +1032,16 @@
                   "dataType": "pg/varchar",
                   "nullable": false
                 },
-                "edi_type_id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
+                "edi_record_type": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "EdiRecordType",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
                 },
                 "enabled": {
                   "codecId": "pg/bool@1",
@@ -1101,83 +1066,75 @@
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
                   "nullable": true
+                },
+                "operation": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "EdiOperation",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
                 }
               },
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "Habilitation_customer_id_idx_e16dfa6b"
+                    "name": "Flows_customer_id_idx_e16dfa6b"
                   },
                   "source": {
                     "columns": [
                       "customer_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Habilitation"
+                    "tableName": "Flows"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Customer"
+                    "tableName": "Customers"
                   }
                 },
                 {
                   "index": {
-                    "name": "Habilitation_company_id_idx_1303a718"
+                    "name": "Flows_company_id_idx_1303a718"
                   },
                   "source": {
                     "columns": [
                       "company_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Habilitation"
+                    "tableName": "Flows"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Company"
+                    "tableName": "Companies"
                   }
                 },
                 {
                   "index": {
-                    "name": "Habilitation_edi_type_id_idx_9bc9a9ac"
-                  },
-                  "source": {
-                    "columns": [
-                      "edi_type_id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Habilitation"
-                  },
-                  "target": {
-                    "columns": [
-                      "id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "EdiType"
-                  }
-                },
-                {
-                  "index": {
-                    "name": "Habilitation_last_run_id_idx_c969e924"
+                    "name": "Flows_last_run_id_idx_c969e924"
                   },
                   "source": {
                     "columns": [
                       "last_run_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Habilitation"
+                    "tableName": "Flows"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Run"
+                    "tableName": "Runs"
                   }
                 }
               ],
@@ -1186,32 +1143,24 @@
                   "columns": [
                     "company_id"
                   ],
-                  "name": "Habilitation_company_id_idx_1303a718",
-                  "prefix": "Habilitation_company_id_idx",
+                  "name": "Flows_company_id_idx_1303a718",
+                  "prefix": "Flows_company_id_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "customer_id"
                   ],
-                  "name": "Habilitation_customer_id_idx_e16dfa6b",
-                  "prefix": "Habilitation_customer_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
-                    "edi_type_id"
-                  ],
-                  "name": "Habilitation_edi_type_id_idx_9bc9a9ac",
-                  "prefix": "Habilitation_edi_type_id_idx",
+                  "name": "Flows_customer_id_idx_e16dfa6b",
+                  "prefix": "Flows_customer_id_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "last_run_id"
                   ],
-                  "name": "Habilitation_last_run_id_idx_c969e924",
-                  "prefix": "Habilitation_last_run_id_idx",
+                  "name": "Flows_last_run_id_idx_c969e924",
+                  "prefix": "Flows_last_run_id_idx",
                   "unique": false
                 }
               ],
@@ -1225,25 +1174,21 @@
                   "columns": [
                     "customer_id",
                     "company_id",
-                    "edi_type_id"
+                    "edi_record_type",
+                    "operation"
                   ]
                 }
               ]
             },
-            "Run": {
+            "Runs": {
               "checks": [
                 {
                   "expression": "\"status\" IN ('queued', 'completed', 'failed')",
-                  "name": "Run_status_check_5e80b506",
-                  "prefix": "Run_status_check"
+                  "name": "Runs_status_check_5e80b506",
+                  "prefix": "Runs_status_check"
                 }
               ],
               "columns": {
-                "company_id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
                 "created_at": {
                   "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
@@ -1252,15 +1197,15 @@
                     "precision": 3
                   }
                 },
-                "edi_type_id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
                 "error_message": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": true
+                },
+                "flow_id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
                 },
                 "id": {
                   "codecId": "sql/varchar@1",
@@ -1290,58 +1235,31 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "Run_company_id_idx_1303a718"
+                    "name": "Runs_flow_id_idx_d9dab351"
                   },
                   "source": {
                     "columns": [
-                      "company_id"
+                      "flow_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Run"
+                    "tableName": "Runs"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Company"
-                  }
-                },
-                {
-                  "index": {
-                    "name": "Run_edi_type_id_idx_9bc9a9ac"
-                  },
-                  "source": {
-                    "columns": [
-                      "edi_type_id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Run"
-                  },
-                  "target": {
-                    "columns": [
-                      "id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "EdiType"
+                    "tableName": "Flows"
                   }
                 }
               ],
               "indexes": [
                 {
                   "columns": [
-                    "company_id"
+                    "flow_id"
                   ],
-                  "name": "Run_company_id_idx_1303a718",
-                  "prefix": "Run_company_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
-                    "edi_type_id"
-                  ],
-                  "name": "Run_edi_type_id_idx_9bc9a9ac",
-                  "prefix": "Run_edi_type_id_idx",
+                  "name": "Runs_flow_id_idx_d9dab351",
+                  "prefix": "Runs_flow_id_idx",
                   "unique": false
                 }
               ],
@@ -1368,6 +1286,26 @@
                 "upload"
               ]
             },
+            "EdiRecordType": {
+              "kind": "valueSet",
+              "values": [
+                "ANPROD",
+                "DESADV",
+                "ORDERS",
+                "ORDRSP",
+                "PACLIS",
+                "SELLIN",
+                "INVSUP",
+                "ORDLIS",
+                "REMADV",
+                "INVRPT",
+                "SLSRPT",
+                "PRICAT",
+                "NOTACC",
+                "NOTADD",
+                "ORDPRP"
+              ]
+            },
             "ProcessOutcome": {
               "kind": "valueSet",
               "values": [
@@ -1389,10 +1327,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "ea5d37eacbe5817e57192bc51d0d806a08b0d054ada75f891ac41fa20027953a"
+    "storageHash": "f75c64d831da013a825291843b59fd0b8f36290d0dd76b52478a76e8cedfc09f"
   },
   "execution": {
-    "executionHash": "ff878e7b6175b42d7d64752d4eb6e5c66245b6a8326f87589f1ec7b5c9732854",
+    "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",
     "mutations": {
       "defaults": [
         {
@@ -1401,7 +1339,7 @@
             "kind": "generator"
           },
           "ref": {
-            "entry": "Company",
+            "entry": "Companies",
             "field": "id",
             "namespace": "public"
           }
@@ -1412,18 +1350,7 @@
             "kind": "generator"
           },
           "ref": {
-            "entry": "Customer",
-            "field": "id",
-            "namespace": "public"
-          }
-        },
-        {
-          "onCreate": {
-            "id": "uuidv4",
-            "kind": "generator"
-          },
-          "ref": {
-            "entry": "EdiType",
+            "entry": "Customers",
             "field": "id",
             "namespace": "public"
           }
@@ -1437,7 +1364,7 @@
             }
           },
           "ref": {
-            "entry": "File",
+            "entry": "Files",
             "field": "created_at",
             "namespace": "public"
           }
@@ -1448,7 +1375,7 @@
             "kind": "generator"
           },
           "ref": {
-            "entry": "File",
+            "entry": "Files",
             "field": "id",
             "namespace": "public"
           }
@@ -1459,7 +1386,7 @@
             "kind": "generator"
           },
           "ref": {
-            "entry": "Habilitation",
+            "entry": "Flows",
             "field": "id",
             "namespace": "public"
           }
@@ -1473,7 +1400,7 @@
             }
           },
           "ref": {
-            "entry": "Run",
+            "entry": "Runs",
             "field": "created_at",
             "namespace": "public"
           }
@@ -1484,7 +1411,7 @@
             "kind": "generator"
           },
           "ref": {
-            "entry": "Run",
+            "entry": "Runs",
             "field": "id",
             "namespace": "public"
           }
@@ -1505,7 +1432,7 @@
             }
           },
           "ref": {
-            "entry": "Run",
+            "entry": "Runs",
             "field": "updated_at",
             "namespace": "public"
           }

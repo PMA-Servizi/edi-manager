@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'ea5d37eacbe5817e57192bc51d0d806a08b0d054ada75f891ac41fa20027953a'>;
+  StorageHashBase<'f75c64d831da013a825291843b59fd0b8f36290d0dd76b52478a76e8cedfc09f'>;
 export type ExecutionHash =
-  ExecutionHashBase<'ff878e7b6175b42d7d64752d4eb6e5c66245b6a8326f87589f1ec7b5c9732854'>;
+  ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -278,25 +278,56 @@ type ParameterizedOutputTypeFunctions = PgParameterizedOutputTypes;
 type FieldTypeOverrides = {
   readonly public: {
     readonly models: {
-      readonly Company: {
-        readonly edi_company_code_type: {
-          readonly output: 'ZZ' | '14';
-          readonly input: 'ZZ' | '14';
-        };
+      readonly Companies: {
+        readonly ediCompanyCodeType: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
       };
-      readonly EdiType: {
-        readonly operation: {
-          readonly output: 'download' | 'upload';
-          readonly input: 'download' | 'upload';
-        };
-      };
-      readonly File: {
+      readonly Files: {
         readonly status: {
           readonly output: 'success' | 'fail';
           readonly input: 'success' | 'fail';
         };
       };
-      readonly Run: {
+      readonly Flows: {
+        readonly ediRecordType: {
+          readonly output:
+            | 'ANPROD'
+            | 'DESADV'
+            | 'ORDERS'
+            | 'ORDRSP'
+            | 'PACLIS'
+            | 'SELLIN'
+            | 'INVSUP'
+            | 'ORDLIS'
+            | 'REMADV'
+            | 'INVRPT'
+            | 'SLSRPT'
+            | 'PRICAT'
+            | 'NOTACC'
+            | 'NOTADD'
+            | 'ORDPRP';
+          readonly input:
+            | 'ANPROD'
+            | 'DESADV'
+            | 'ORDERS'
+            | 'ORDRSP'
+            | 'PACLIS'
+            | 'SELLIN'
+            | 'INVSUP'
+            | 'ORDLIS'
+            | 'REMADV'
+            | 'INVRPT'
+            | 'SLSRPT'
+            | 'PRICAT'
+            | 'NOTACC'
+            | 'NOTADD'
+            | 'ORDPRP';
+        };
+        readonly operation: {
+          readonly output: 'download' | 'upload';
+          readonly input: 'download' | 'upload';
+        };
+      };
+      readonly Runs: {
         readonly status: {
           readonly output: 'queued' | 'completed' | 'failed';
           readonly input: 'queued' | 'completed' | 'failed';
@@ -323,19 +354,53 @@ export type FieldInputTypes = FieldTypesFromDomain<
 >;
 type ColumnTypeOverrides = {
   readonly public: {
-    readonly Company: {
+    readonly Companies: {
       readonly edi_company_code_type: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
     };
-    readonly EdiType: {
+    readonly Files: {
+      readonly status: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
+    };
+    readonly Flows: {
+      readonly edi_record_type: {
+        readonly output:
+          | 'ANPROD'
+          | 'DESADV'
+          | 'ORDERS'
+          | 'ORDRSP'
+          | 'PACLIS'
+          | 'SELLIN'
+          | 'INVSUP'
+          | 'ORDLIS'
+          | 'REMADV'
+          | 'INVRPT'
+          | 'SLSRPT'
+          | 'PRICAT'
+          | 'NOTACC'
+          | 'NOTADD'
+          | 'ORDPRP';
+        readonly input:
+          | 'ANPROD'
+          | 'DESADV'
+          | 'ORDERS'
+          | 'ORDRSP'
+          | 'PACLIS'
+          | 'SELLIN'
+          | 'INVSUP'
+          | 'ORDLIS'
+          | 'REMADV'
+          | 'INVRPT'
+          | 'SLSRPT'
+          | 'PRICAT'
+          | 'NOTACC'
+          | 'NOTADD'
+          | 'ORDPRP';
+      };
       readonly operation: {
         readonly output: 'download' | 'upload';
         readonly input: 'download' | 'upload';
       };
     };
-    readonly File: {
-      readonly status: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
-    };
-    readonly Run: {
+    readonly Runs: {
       readonly status: {
         readonly output: 'queued' | 'completed' | 'failed';
         readonly input: 'queued' | 'completed' | 'failed';
@@ -359,86 +424,77 @@ export type StorageColumnInputTypes = ColumnTypesFromStorage<
 >;
 
 export namespace Models {
-  export type public_Company = {
-    address: FieldOutputTypes['public']['Company']['address'];
-    business_name: FieldOutputTypes['public']['Company']['business_name'];
-    ccia: FieldOutputTypes['public']['Company']['ccia'];
-    city: FieldOutputTypes['public']['Company']['city'];
-    country: FieldOutputTypes['public']['Company']['country'];
-    court_of_law: FieldOutputTypes['public']['Company']['court_of_law'];
-    division: FieldOutputTypes['public']['Company']['division'];
-    edi_company_code: FieldOutputTypes['public']['Company']['edi_company_code'];
-    edi_company_code_type: FieldOutputTypes['public']['Company']['edi_company_code_type'];
-    id: FieldOutputTypes['public']['Company']['id'];
-    name: FieldOutputTypes['public']['Company']['name'];
-    pile_registration_number: FieldOutputTypes['public']['Company']['pile_registration_number'];
-    postal_code: FieldOutputTypes['public']['Company']['postal_code'];
-    province: FieldOutputTypes['public']['Company']['province'];
-    raee_registration_number: FieldOutputTypes['public']['Company']['raee_registration_number'];
-    share_capital: FieldOutputTypes['public']['Company']['share_capital'];
-    slug: FieldOutputTypes['public']['Company']['slug'];
+  export type public_Companies = {
+    address: FieldOutputTypes['public']['Companies']['address'];
+    businessName: FieldOutputTypes['public']['Companies']['businessName'];
+    ccia: FieldOutputTypes['public']['Companies']['ccia'];
+    city: FieldOutputTypes['public']['Companies']['city'];
+    country: FieldOutputTypes['public']['Companies']['country'];
+    courtOfLaw: FieldOutputTypes['public']['Companies']['courtOfLaw'];
+    division: FieldOutputTypes['public']['Companies']['division'];
+    ediCompanyCode: FieldOutputTypes['public']['Companies']['ediCompanyCode'];
+    ediCompanyCodeType: FieldOutputTypes['public']['Companies']['ediCompanyCodeType'];
+    id: FieldOutputTypes['public']['Companies']['id'];
+    name: FieldOutputTypes['public']['Companies']['name'];
+    pileRegistrationNumber: FieldOutputTypes['public']['Companies']['pileRegistrationNumber'];
+    postalCode: FieldOutputTypes['public']['Companies']['postalCode'];
+    province: FieldOutputTypes['public']['Companies']['province'];
+    raeeRegistrationNumber: FieldOutputTypes['public']['Companies']['raeeRegistrationNumber'];
+    shareCapital: FieldOutputTypes['public']['Companies']['shareCapital'];
+    slug: FieldOutputTypes['public']['Companies']['slug'];
     readonly [RelationKeys]?: never;
   };
-  export type public_Customer = {
-    catalog_id: FieldOutputTypes['public']['Customer']['catalog_id'];
-    id: FieldOutputTypes['public']['Customer']['id'];
-    name: FieldOutputTypes['public']['Customer']['name'];
-    sap_customer_number: FieldOutputTypes['public']['Customer']['sap_customer_number'];
-    slug: FieldOutputTypes['public']['Customer']['slug'];
+  export type public_Customers = {
+    catalogId: FieldOutputTypes['public']['Customers']['catalogId'];
+    id: FieldOutputTypes['public']['Customers']['id'];
+    name: FieldOutputTypes['public']['Customers']['name'];
+    sapCustomerNumber: FieldOutputTypes['public']['Customers']['sapCustomerNumber'];
+    slug: FieldOutputTypes['public']['Customers']['slug'];
     readonly [RelationKeys]?: never;
   };
-  export type public_EdiType = {
-    id: FieldOutputTypes['public']['EdiType']['id'];
-    name: FieldOutputTypes['public']['EdiType']['name'];
-    operation: FieldOutputTypes['public']['EdiType']['operation'];
-    readonly [RelationKeys]?: never;
-  };
-  export type public_File = {
-    created_at: FieldOutputTypes['public']['File']['created_at'];
-    error_message: FieldOutputTypes['public']['File']['error_message'];
-    filename: FieldOutputTypes['public']['File']['filename'];
-    id: FieldOutputTypes['public']['File']['id'];
-    run_id: FieldOutputTypes['public']['File']['run_id'];
-    status: FieldOutputTypes['public']['File']['status'];
-    run: public_Run;
+  export type public_Files = {
+    createdAt: FieldOutputTypes['public']['Files']['createdAt'];
+    errorMessage: FieldOutputTypes['public']['Files']['errorMessage'];
+    filename: FieldOutputTypes['public']['Files']['filename'];
+    id: FieldOutputTypes['public']['Files']['id'];
+    runId: FieldOutputTypes['public']['Files']['runId'];
+    status: FieldOutputTypes['public']['Files']['status'];
+    run: public_Runs;
     readonly [RelationKeys]?: 'run';
   };
-  export type public_Habilitation = {
-    company_id: FieldOutputTypes['public']['Habilitation']['company_id'];
-    customer_id: FieldOutputTypes['public']['Habilitation']['customer_id'];
-    edi_type_id: FieldOutputTypes['public']['Habilitation']['edi_type_id'];
-    enabled: FieldOutputTypes['public']['Habilitation']['enabled'];
-    id: FieldOutputTypes['public']['Habilitation']['id'];
-    interval: FieldOutputTypes['public']['Habilitation']['interval'];
-    last_run_id: FieldOutputTypes['public']['Habilitation']['last_run_id'];
-    company: public_Company;
-    customer: public_Customer;
-    edi_type: public_EdiType;
-    last_run: public_Run | null;
-    readonly [RelationKeys]?: 'company' | 'customer' | 'edi_type' | 'last_run';
+  export type public_Flows = {
+    companyId: FieldOutputTypes['public']['Flows']['companyId'];
+    customerId: FieldOutputTypes['public']['Flows']['customerId'];
+    ediRecordType: FieldOutputTypes['public']['Flows']['ediRecordType'];
+    enabled: FieldOutputTypes['public']['Flows']['enabled'];
+    id: FieldOutputTypes['public']['Flows']['id'];
+    interval: FieldOutputTypes['public']['Flows']['interval'];
+    lastRunId: FieldOutputTypes['public']['Flows']['lastRunId'];
+    operation: FieldOutputTypes['public']['Flows']['operation'];
+    company: public_Companies;
+    customer: public_Customers;
+    lastRun: public_Runs | null;
+    readonly [RelationKeys]?: 'company' | 'customer' | 'lastRun';
   };
-  export type public_Run = {
-    company_id: FieldOutputTypes['public']['Run']['company_id'];
-    created_at: FieldOutputTypes['public']['Run']['created_at'];
-    edi_type_id: FieldOutputTypes['public']['Run']['edi_type_id'];
-    error_message: FieldOutputTypes['public']['Run']['error_message'];
-    id: FieldOutputTypes['public']['Run']['id'];
-    status: FieldOutputTypes['public']['Run']['status'];
-    updated_at: FieldOutputTypes['public']['Run']['updated_at'];
-    company: public_Company;
-    edi_type: public_EdiType;
-    readonly [RelationKeys]?: 'company' | 'edi_type';
+  export type public_Runs = {
+    createdAt: FieldOutputTypes['public']['Runs']['createdAt'];
+    errorMessage: FieldOutputTypes['public']['Runs']['errorMessage'];
+    flowId: FieldOutputTypes['public']['Runs']['flowId'];
+    id: FieldOutputTypes['public']['Runs']['id'];
+    status: FieldOutputTypes['public']['Runs']['status'];
+    updatedAt: FieldOutputTypes['public']['Runs']['updatedAt'];
+    flow: public_Flows;
+    readonly [RelationKeys]?: 'flow';
   };
 }
 
 export declare const models: {
   public: {
-    Company: Models.public_Company;
-    Customer: Models.public_Customer;
-    EdiType: Models.public_EdiType;
-    File: Models.public_File;
-    Habilitation: Models.public_Habilitation;
-    Run: Models.public_Run;
+    Companies: Models.public_Companies;
+    Customers: Models.public_Customers;
+    Files: Models.public_Files;
+    Flows: Models.public_Flows;
+    Runs: Models.public_Runs;
   };
 };
 
@@ -460,7 +516,7 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
-            readonly Company: {
+            readonly Companies: {
               columns: {
                 readonly address: {
                   readonly dataType: 'pg/text';
@@ -570,7 +626,7 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
-            readonly Customer: {
+            readonly Customers: {
               columns: {
                 readonly catalog_id: {
                   readonly dataType: 'pg/int4';
@@ -612,33 +668,7 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
-            readonly EdiType: {
-              columns: {
-                readonly id: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly name: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly operation: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [{ readonly columns: readonly ['name', 'operation'] }];
-              indexes: readonly [];
-              foreignKeys: readonly [];
-            };
-            readonly File: {
+            readonly Files: {
               columns: {
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
@@ -682,8 +712,8 @@ type ContractBase = Omit<
               uniques: readonly [];
               indexes: readonly [
                 {
-                  readonly name: 'File_run_id_idx_61d39f90';
-                  readonly prefix: 'File_run_id_idx';
+                  readonly name: 'Files_run_id_idx_61d39f90';
+                  readonly prefix: 'Files_run_id_idx';
                   readonly columns: readonly ['run_id'];
                   readonly unique: false;
                 },
@@ -692,18 +722,18 @@ type ContractBase = Omit<
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'File';
+                    readonly tableName: 'Files';
                     readonly columns: readonly ['run_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Run';
+                    readonly tableName: 'Runs';
                     readonly columns: readonly ['id'];
                   };
                 },
               ];
             };
-            readonly Habilitation: {
+            readonly Flows: {
               columns: {
                 readonly company_id: {
                   readonly dataType: 'pg/varchar';
@@ -717,9 +747,9 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly edi_type_id: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
+                readonly edi_record_type: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
@@ -751,33 +781,40 @@ type ContractBase = Omit<
                   readonly nullable: true;
                   readonly many: false;
                 };
+                readonly operation: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [
-                { readonly columns: readonly ['customer_id', 'company_id', 'edi_type_id'] },
+                {
+                  readonly columns: readonly [
+                    'customer_id',
+                    'company_id',
+                    'edi_record_type',
+                    'operation',
+                  ];
+                },
               ];
               indexes: readonly [
                 {
-                  readonly name: 'Habilitation_company_id_idx_1303a718';
-                  readonly prefix: 'Habilitation_company_id_idx';
+                  readonly name: 'Flows_company_id_idx_1303a718';
+                  readonly prefix: 'Flows_company_id_idx';
                   readonly columns: readonly ['company_id'];
                   readonly unique: false;
                 },
                 {
-                  readonly name: 'Habilitation_customer_id_idx_e16dfa6b';
-                  readonly prefix: 'Habilitation_customer_id_idx';
+                  readonly name: 'Flows_customer_id_idx_e16dfa6b';
+                  readonly prefix: 'Flows_customer_id_idx';
                   readonly columns: readonly ['customer_id'];
                   readonly unique: false;
                 },
                 {
-                  readonly name: 'Habilitation_edi_type_id_idx_9bc9a9ac';
-                  readonly prefix: 'Habilitation_edi_type_id_idx';
-                  readonly columns: readonly ['edi_type_id'];
-                  readonly unique: false;
-                },
-                {
-                  readonly name: 'Habilitation_last_run_id_idx_c969e924';
-                  readonly prefix: 'Habilitation_last_run_id_idx';
+                  readonly name: 'Flows_last_run_id_idx_c969e924';
+                  readonly prefix: 'Flows_last_run_id_idx';
                   readonly columns: readonly ['last_run_id'];
                   readonly unique: false;
                 },
@@ -786,61 +823,43 @@ type ContractBase = Omit<
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Habilitation';
+                    readonly tableName: 'Flows';
                     readonly columns: readonly ['customer_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Customer';
+                    readonly tableName: 'Customers';
                     readonly columns: readonly ['id'];
                   };
                 },
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Habilitation';
+                    readonly tableName: 'Flows';
                     readonly columns: readonly ['company_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Company';
+                    readonly tableName: 'Companies';
                     readonly columns: readonly ['id'];
                   };
                 },
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Habilitation';
-                    readonly columns: readonly ['edi_type_id'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'EdiType';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Habilitation';
+                    readonly tableName: 'Flows';
                     readonly columns: readonly ['last_run_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Run';
+                    readonly tableName: 'Runs';
                     readonly columns: readonly ['id'];
                   };
                 },
               ];
             };
-            readonly Run: {
+            readonly Runs: {
               columns: {
-                readonly company_id: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
                   readonly codecId: 'pg/timestamptz-date@1';
@@ -848,16 +867,16 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                   readonly many: false;
                 };
-                readonly edi_type_id: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
                 readonly error_message: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly flow_id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
                   readonly many: false;
                 };
                 readonly id: {
@@ -884,15 +903,9 @@ type ContractBase = Omit<
               uniques: readonly [];
               indexes: readonly [
                 {
-                  readonly name: 'Run_company_id_idx_1303a718';
-                  readonly prefix: 'Run_company_id_idx';
-                  readonly columns: readonly ['company_id'];
-                  readonly unique: false;
-                },
-                {
-                  readonly name: 'Run_edi_type_id_idx_9bc9a9ac';
-                  readonly prefix: 'Run_edi_type_id_idx';
-                  readonly columns: readonly ['edi_type_id'];
+                  readonly name: 'Runs_flow_id_idx_d9dab351';
+                  readonly prefix: 'Runs_flow_id_idx';
+                  readonly columns: readonly ['flow_id'];
                   readonly unique: false;
                 },
               ];
@@ -900,24 +913,12 @@ type ContractBase = Omit<
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Run';
-                    readonly columns: readonly ['company_id'];
+                    readonly tableName: 'Runs';
+                    readonly columns: readonly ['flow_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Company';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Run';
-                    readonly columns: readonly ['edi_type_id'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'EdiType';
+                    readonly tableName: 'Flows';
                     readonly columns: readonly ['id'];
                   };
                 },
@@ -932,6 +933,26 @@ type ContractBase = Omit<
             readonly EdiOperation: {
               readonly kind: 'valueSet';
               readonly values: readonly ['download', 'upload'];
+            };
+            readonly EdiRecordType: {
+              readonly kind: 'valueSet';
+              readonly values: readonly [
+                'ANPROD',
+                'DESADV',
+                'ORDERS',
+                'ORDRSP',
+                'PACLIS',
+                'SELLIN',
+                'INVSUP',
+                'ORDLIS',
+                'REMADV',
+                'INVRPT',
+                'SLSRPT',
+                'PRICAT',
+                'NOTACC',
+                'NOTADD',
+                'ORDPRP',
+              ];
             };
             readonly ProcessOutcome: {
               readonly kind: 'valueSet';
@@ -952,27 +973,23 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
-    readonly Company: { readonly namespace: 'public' & NamespaceId; readonly model: 'Company' };
-    readonly Customer: { readonly namespace: 'public' & NamespaceId; readonly model: 'Customer' };
-    readonly EdiType: { readonly namespace: 'public' & NamespaceId; readonly model: 'EdiType' };
-    readonly File: { readonly namespace: 'public' & NamespaceId; readonly model: 'File' };
-    readonly Habilitation: {
-      readonly namespace: 'public' & NamespaceId;
-      readonly model: 'Habilitation';
-    };
-    readonly Run: { readonly namespace: 'public' & NamespaceId; readonly model: 'Run' };
+    readonly Companies: { readonly namespace: 'public' & NamespaceId; readonly model: 'Companies' };
+    readonly Customers: { readonly namespace: 'public' & NamespaceId; readonly model: 'Customers' };
+    readonly Files: { readonly namespace: 'public' & NamespaceId; readonly model: 'Files' };
+    readonly Flows: { readonly namespace: 'public' & NamespaceId; readonly model: 'Flows' };
+    readonly Runs: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
   };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
         readonly models: {
-          readonly Company: {
+          readonly Companies: {
             readonly fields: {
               readonly address: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly business_name: {
+              readonly businessName: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -988,7 +1005,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly court_of_law: {
+              readonly courtOfLaw: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -996,11 +1013,11 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly edi_company_code: {
+              readonly ediCompanyCode: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly edi_company_code_type: {
+              readonly ediCompanyCodeType: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/varchar@1' };
               };
@@ -1012,11 +1029,11 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly pile_registration_number: {
+              readonly pileRegistrationNumber: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly postal_code: {
+              readonly postalCode: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
@@ -1024,11 +1041,11 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly raee_registration_number: {
+              readonly raeeRegistrationNumber: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly share_capital: {
+              readonly shareCapital: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1039,32 +1056,32 @@ type ContractBase = Omit<
             };
             readonly relations: Record<string, never>;
             readonly storage: {
-              readonly table: 'Company';
+              readonly table: 'Companies';
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly address: { readonly column: 'address' };
-                readonly business_name: { readonly column: 'business_name' };
+                readonly businessName: { readonly column: 'business_name' };
                 readonly ccia: { readonly column: 'ccia' };
                 readonly city: { readonly column: 'city' };
                 readonly country: { readonly column: 'country' };
-                readonly court_of_law: { readonly column: 'court_of_law' };
+                readonly courtOfLaw: { readonly column: 'court_of_law' };
                 readonly division: { readonly column: 'division' };
-                readonly edi_company_code: { readonly column: 'edi_company_code' };
-                readonly edi_company_code_type: { readonly column: 'edi_company_code_type' };
+                readonly ediCompanyCode: { readonly column: 'edi_company_code' };
+                readonly ediCompanyCodeType: { readonly column: 'edi_company_code_type' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
-                readonly pile_registration_number: { readonly column: 'pile_registration_number' };
-                readonly postal_code: { readonly column: 'postal_code' };
+                readonly pileRegistrationNumber: { readonly column: 'pile_registration_number' };
+                readonly postalCode: { readonly column: 'postal_code' };
                 readonly province: { readonly column: 'province' };
-                readonly raee_registration_number: { readonly column: 'raee_registration_number' };
-                readonly share_capital: { readonly column: 'share_capital' };
+                readonly raeeRegistrationNumber: { readonly column: 'raee_registration_number' };
+                readonly shareCapital: { readonly column: 'share_capital' };
                 readonly slug: { readonly column: 'slug' };
               };
             };
           };
-          readonly Customer: {
+          readonly Customers: {
             readonly fields: {
-              readonly catalog_id: {
+              readonly catalogId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
@@ -1076,7 +1093,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly sap_customer_number: {
+              readonly sapCustomerNumber: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
@@ -1087,46 +1104,20 @@ type ContractBase = Omit<
             };
             readonly relations: Record<string, never>;
             readonly storage: {
-              readonly table: 'Customer';
+              readonly table: 'Customers';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly catalog_id: { readonly column: 'catalog_id' };
+                readonly catalogId: { readonly column: 'catalog_id' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
-                readonly sap_customer_number: { readonly column: 'sap_customer_number' };
+                readonly sapCustomerNumber: { readonly column: 'sap_customer_number' };
                 readonly slug: { readonly column: 'slug' };
               };
             };
           };
-          readonly EdiType: {
+          readonly Files: {
             readonly fields: {
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
-              readonly name: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly operation: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-            };
-            readonly relations: Record<string, never>;
-            readonly storage: {
-              readonly table: 'EdiType';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id: { readonly column: 'id' };
-                readonly name: { readonly column: 'name' };
-                readonly operation: { readonly column: 'operation' };
-              };
-            };
-          };
-          readonly File: {
-            readonly fields: {
-              readonly created_at: {
+              readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
@@ -1134,7 +1125,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                 };
               };
-              readonly error_message: {
+              readonly errorMessage: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1146,7 +1137,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly run_id: {
+              readonly runId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
@@ -1157,41 +1148,41 @@ type ContractBase = Omit<
             };
             readonly relations: {
               readonly run: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Run' };
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
-                  readonly localFields: readonly ['run_id'];
+                  readonly localFields: readonly ['runId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
             };
             readonly storage: {
-              readonly table: 'File';
+              readonly table: 'Files';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly created_at: { readonly column: 'created_at' };
-                readonly error_message: { readonly column: 'error_message' };
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly errorMessage: { readonly column: 'error_message' };
                 readonly filename: { readonly column: 'filename' };
                 readonly id: { readonly column: 'id' };
-                readonly run_id: { readonly column: 'run_id' };
+                readonly runId: { readonly column: 'run_id' };
                 readonly status: { readonly column: 'status' };
               };
             };
           };
-          readonly Habilitation: {
+          readonly Flows: {
             readonly fields: {
-              readonly company_id: {
+              readonly companyId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly customer_id: {
+              readonly customerId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly edi_type_id: {
+              readonly ediRecordType: {
                 readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly enabled: {
                 readonly nullable: false;
@@ -1205,79 +1196,68 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int2@1' };
               };
-              readonly last_run_id: {
+              readonly lastRunId: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly operation: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
             readonly relations: {
               readonly company: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Company';
+                  readonly model: 'Companies';
                 };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
-                  readonly localFields: readonly ['company_id'];
+                  readonly localFields: readonly ['companyId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
               readonly customer: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Customer';
+                  readonly model: 'Customers';
                 };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
-                  readonly localFields: readonly ['customer_id'];
+                  readonly localFields: readonly ['customerId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
-              readonly edi_type: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'EdiType';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['edi_type_id'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-              readonly last_run: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Run' };
+              readonly lastRun: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
                 readonly cardinality: 'N:1';
                 readonly nullable: true;
                 readonly on: {
-                  readonly localFields: readonly ['last_run_id'];
+                  readonly localFields: readonly ['lastRunId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
             };
             readonly storage: {
-              readonly table: 'Habilitation';
+              readonly table: 'Flows';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly company_id: { readonly column: 'company_id' };
-                readonly customer_id: { readonly column: 'customer_id' };
-                readonly edi_type_id: { readonly column: 'edi_type_id' };
+                readonly companyId: { readonly column: 'company_id' };
+                readonly customerId: { readonly column: 'customer_id' };
+                readonly ediRecordType: { readonly column: 'edi_record_type' };
                 readonly enabled: { readonly column: 'enabled' };
                 readonly id: { readonly column: 'id' };
                 readonly interval: { readonly column: 'interval' };
-                readonly last_run_id: { readonly column: 'last_run_id' };
+                readonly lastRunId: { readonly column: 'last_run_id' };
+                readonly operation: { readonly column: 'operation' };
               };
             };
           };
-          readonly Run: {
+          readonly Runs: {
             readonly fields: {
-              readonly company_id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
-              readonly created_at: {
+              readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
@@ -1285,13 +1265,13 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                 };
               };
-              readonly edi_type_id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
-              readonly error_message: {
+              readonly errorMessage: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly flowId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
               readonly id: {
                 readonly nullable: false;
@@ -1301,7 +1281,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly updated_at: {
+              readonly updatedAt: {
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
@@ -1311,42 +1291,29 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
-              readonly company: {
+              readonly flow: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Company';
+                  readonly model: 'Flows';
                 };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
-                  readonly localFields: readonly ['company_id'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-              readonly edi_type: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'EdiType';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['edi_type_id'];
+                  readonly localFields: readonly ['flowId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
             };
             readonly storage: {
-              readonly table: 'Run';
+              readonly table: 'Runs';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly company_id: { readonly column: 'company_id' };
-                readonly created_at: { readonly column: 'created_at' };
-                readonly edi_type_id: { readonly column: 'edi_type_id' };
-                readonly error_message: { readonly column: 'error_message' };
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly errorMessage: { readonly column: 'error_message' };
+                readonly flowId: { readonly column: 'flow_id' };
                 readonly id: { readonly column: 'id' };
                 readonly status: { readonly column: 'status' };
-                readonly updated_at: { readonly column: 'updated_at' };
+                readonly updatedAt: { readonly column: 'updated_at' };
               };
             };
           };
@@ -1364,6 +1331,26 @@ type ContractBase = Omit<
             readonly members: readonly [
               { readonly name: 'DOWNLOAD'; readonly value: 'download' },
               { readonly name: 'UPLOAD'; readonly value: 'upload' },
+            ];
+          };
+          readonly EdiRecordType: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'ANPROD'; readonly value: 'ANPROD' },
+              { readonly name: 'DESADV'; readonly value: 'DESADV' },
+              { readonly name: 'ORDERS'; readonly value: 'ORDERS' },
+              { readonly name: 'ORDRSP'; readonly value: 'ORDRSP' },
+              { readonly name: 'PACLIS'; readonly value: 'PACLIS' },
+              { readonly name: 'SELLIN'; readonly value: 'SELLIN' },
+              { readonly name: 'INVSUP'; readonly value: 'INVSUP' },
+              { readonly name: 'ORDLIS'; readonly value: 'ORDLIS' },
+              { readonly name: 'REMADV'; readonly value: 'REMADV' },
+              { readonly name: 'INVRPT'; readonly value: 'INVRPT' },
+              { readonly name: 'SLSRPT'; readonly value: 'SLSRPT' },
+              { readonly name: 'PRICAT'; readonly value: 'PRICAT' },
+              { readonly name: 'NOTACC'; readonly value: 'NOTACC' },
+              { readonly name: 'NOTADD'; readonly value: 'NOTADD' },
+              { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
             ];
           };
           readonly ProcessOutcome: {
@@ -1390,6 +1377,23 @@ type ContractBase = Omit<
           readonly EdiOperation: readonly [
             { readonly name: 'DOWNLOAD'; readonly value: 'download' },
             { readonly name: 'UPLOAD'; readonly value: 'upload' },
+          ];
+          readonly EdiRecordType: readonly [
+            { readonly name: 'ANPROD'; readonly value: 'ANPROD' },
+            { readonly name: 'DESADV'; readonly value: 'DESADV' },
+            { readonly name: 'ORDERS'; readonly value: 'ORDERS' },
+            { readonly name: 'ORDRSP'; readonly value: 'ORDRSP' },
+            { readonly name: 'PACLIS'; readonly value: 'PACLIS' },
+            { readonly name: 'SELLIN'; readonly value: 'SELLIN' },
+            { readonly name: 'INVSUP'; readonly value: 'INVSUP' },
+            { readonly name: 'ORDLIS'; readonly value: 'ORDLIS' },
+            { readonly name: 'REMADV'; readonly value: 'REMADV' },
+            { readonly name: 'INVRPT'; readonly value: 'INVRPT' },
+            { readonly name: 'SLSRPT'; readonly value: 'SLSRPT' },
+            { readonly name: 'PRICAT'; readonly value: 'PRICAT' },
+            { readonly name: 'NOTACC'; readonly value: 'NOTACC' },
+            { readonly name: 'NOTADD'; readonly value: 'NOTADD' },
+            { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
           ];
           readonly ProcessOutcome: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
@@ -1440,7 +1444,7 @@ type ContractBase = Omit<
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
-            readonly entry: 'Company';
+            readonly entry: 'Companies';
             readonly field: 'id';
             readonly namespace: 'public';
           };
@@ -1448,15 +1452,7 @@ type ContractBase = Omit<
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
-            readonly entry: 'Customer';
-            readonly field: 'id';
-            readonly namespace: 'public';
-          };
-        },
-        {
-          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
-          readonly ref: {
-            readonly entry: 'EdiType';
+            readonly entry: 'Customers';
             readonly field: 'id';
             readonly namespace: 'public';
           };
@@ -1468,7 +1464,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'File';
+            readonly entry: 'Files';
             readonly field: 'created_at';
             readonly namespace: 'public';
           };
@@ -1476,7 +1472,7 @@ type ContractBase = Omit<
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
-            readonly entry: 'File';
+            readonly entry: 'Files';
             readonly field: 'id';
             readonly namespace: 'public';
           };
@@ -1484,7 +1480,7 @@ type ContractBase = Omit<
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
-            readonly entry: 'Habilitation';
+            readonly entry: 'Flows';
             readonly field: 'id';
             readonly namespace: 'public';
           };
@@ -1496,7 +1492,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'Run';
+            readonly entry: 'Runs';
             readonly field: 'created_at';
             readonly namespace: 'public';
           };
@@ -1504,7 +1500,7 @@ type ContractBase = Omit<
         {
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
-            readonly entry: 'Run';
+            readonly entry: 'Runs';
             readonly field: 'id';
             readonly namespace: 'public';
           };
@@ -1521,7 +1517,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'Run';
+            readonly entry: 'Runs';
             readonly field: 'updated_at';
             readonly namespace: 'public';
           };

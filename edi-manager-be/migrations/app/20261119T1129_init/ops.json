@@ -17,341 +17,341 @@
     "postcheck": []
   },
   {
-    "id": "table.Company",
-    "label": "Create table \"Company\"",
-    "summary": "Creates table \"Company\"",
+    "id": "table.Companies",
+    "label": "Create table \"Companies\"",
+    "summary": "Creates table \"Companies\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "Company"
+        "name": "Companies"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"Company\" does not exist",
+        "description": "ensure table \"Companies\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Company\""
+          "\"public\".\"Companies\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"Company\""
+          "object": "table \"Companies\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"Company\"",
-        "sql": "CREATE TABLE \"public\".\"Company\" (\n  \"address\" text NOT NULL,\n  \"business_name\" text NOT NULL,\n  \"ccia\" text NOT NULL,\n  \"city\" text NOT NULL,\n  \"country\" text NOT NULL,\n  \"court_of_law\" text,\n  \"division\" character varying NOT NULL,\n  \"edi_company_code\" character varying NOT NULL,\n  \"edi_company_code_type\" character varying NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"name\" text NOT NULL,\n  \"pile_registration_number\" character varying NOT NULL,\n  \"postal_code\" character varying NOT NULL,\n  \"province\" character varying NOT NULL,\n  \"raee_registration_number\" character varying NOT NULL,\n  \"share_capital\" text NOT NULL,\n  \"slug\" character varying NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Company_edi_company_code_type_check_1b603106\" CHECK (\"edi_company_code_type\" IN ('ZZ', '14'))\n)",
+        "description": "create table \"Companies\"",
+        "sql": "CREATE TABLE \"public\".\"Companies\" (\n  \"address\" text NOT NULL,\n  \"business_name\" text NOT NULL,\n  \"ccia\" text NOT NULL,\n  \"city\" text NOT NULL,\n  \"country\" text NOT NULL,\n  \"court_of_law\" text,\n  \"division\" character varying NOT NULL,\n  \"edi_company_code\" character varying NOT NULL,\n  \"edi_company_code_type\" character varying NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"name\" text NOT NULL,\n  \"pile_registration_number\" character varying NOT NULL,\n  \"postal_code\" character varying NOT NULL,\n  \"province\" character varying NOT NULL,\n  \"raee_registration_number\" character varying NOT NULL,\n  \"share_capital\" text NOT NULL,\n  \"slug\" character varying NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Companies_edi_company_code_type_check_1b603106\" CHECK (\"edi_company_code_type\" IN ('ZZ', '14'))\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"Company\" exists",
+        "description": "verify table \"Companies\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"Company\"",
+          "\"public\".\"Companies\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"Company\""
+          "object": "table \"Companies\""
         }
       }
     ]
   },
   {
-    "id": "table.Customer",
-    "label": "Create table \"Customer\"",
-    "summary": "Creates table \"Customer\"",
+    "id": "table.Customers",
+    "label": "Create table \"Customers\"",
+    "summary": "Creates table \"Customers\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "Customer"
+        "name": "Customers"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"Customer\" does not exist",
+        "description": "ensure table \"Customers\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Customer\""
+          "\"public\".\"Customers\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"Customer\""
+          "object": "table \"Customers\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"Customer\"",
-        "sql": "CREATE TABLE \"public\".\"Customer\" (\n  \"catalog_id\" int4 DEFAULT 1 NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"name\" text NOT NULL,\n  \"sap_customer_number\" character varying NOT NULL,\n  \"slug\" character varying NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "description": "create table \"Customers\"",
+        "sql": "CREATE TABLE \"public\".\"Customers\" (\n  \"catalog_id\" int4 DEFAULT 1 NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"name\" text NOT NULL,\n  \"sap_customer_number\" character varying NOT NULL,\n  \"slug\" character varying NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"Customer\" exists",
+        "description": "verify table \"Customers\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"Customer\"",
+          "\"public\".\"Customers\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"Customer\""
+          "object": "table \"Customers\""
         }
       }
     ]
   },
   {
-    "id": "table.EdiType",
-    "label": "Create table \"EdiType\"",
-    "summary": "Creates table \"EdiType\"",
+    "id": "table.EdiTypes",
+    "label": "Create table \"EdiTypes\"",
+    "summary": "Creates table \"EdiTypes\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "EdiType"
+        "name": "EdiTypes"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"EdiType\" does not exist",
+        "description": "ensure table \"EdiTypes\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"EdiType\""
+          "\"public\".\"EdiTypes\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"EdiType\""
+          "object": "table \"EdiTypes\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"EdiType\"",
-        "sql": "CREATE TABLE \"public\".\"EdiType\" (\n  \"id\" character varying NOT NULL,\n  \"name\" text NOT NULL,\n  \"operation\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"EdiType_operation_check_48aa35a1\" CHECK (\"operation\" IN ('download', 'upload'))\n)",
+        "description": "create table \"EdiTypes\"",
+        "sql": "CREATE TABLE \"public\".\"EdiTypes\" (\n  \"id\" character varying NOT NULL,\n  \"operation\" text NOT NULL,\n  \"record_type\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"EdiTypes_operation_check_48aa35a1\" CHECK (\"operation\" IN ('download', 'upload')),\n  CONSTRAINT \"EdiTypes_record_type_check_46bef325\" CHECK (\"record_type\" IN ('ANPROD', 'DESADV', 'ORDERS', 'ORDRSP', 'PACLIS', 'SELLIN', 'INVSUP', 'ORDLIS', 'REMADV', 'INVRPT', 'SLSRPT', 'PRICAT', 'NOTACC', 'NOTADD', 'ORDPRP'))\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"EdiType\" exists",
+        "description": "verify table \"EdiTypes\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"EdiType\"",
+          "\"public\".\"EdiTypes\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"EdiType\""
+          "object": "table \"EdiTypes\""
         }
       }
     ]
   },
   {
-    "id": "table.File",
-    "label": "Create table \"File\"",
-    "summary": "Creates table \"File\"",
+    "id": "table.Files",
+    "label": "Create table \"Files\"",
+    "summary": "Creates table \"Files\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "File"
+        "name": "Files"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"File\" does not exist",
+        "description": "ensure table \"Files\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"File\""
+          "\"public\".\"Files\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"File\""
+          "object": "table \"Files\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"File\"",
-        "sql": "CREATE TABLE \"public\".\"File\" (\n  \"created_at\" timestamptz(3) NOT NULL,\n  \"error_message\" text,\n  \"filename\" text NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"run_id\" character varying NOT NULL,\n  \"status\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"File_status_check_cf321638\" CHECK (\"status\" IN ('success', 'fail'))\n)",
+        "description": "create table \"Files\"",
+        "sql": "CREATE TABLE \"public\".\"Files\" (\n  \"created_at\" timestamptz(3) NOT NULL,\n  \"error_message\" text,\n  \"filename\" text NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"run_id\" character varying NOT NULL,\n  \"status\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Files_status_check_cf321638\" CHECK (\"status\" IN ('success', 'fail'))\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"File\" exists",
+        "description": "verify table \"Files\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"File\"",
+          "\"public\".\"Files\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"File\""
+          "object": "table \"Files\""
         }
       }
     ]
   },
   {
-    "id": "table.Habilitation",
-    "label": "Create table \"Habilitation\"",
-    "summary": "Creates table \"Habilitation\"",
+    "id": "table.Habilitations",
+    "label": "Create table \"Habilitations\"",
+    "summary": "Creates table \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "Habilitation"
+        "name": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"Habilitation\" does not exist",
+        "description": "ensure table \"Habilitations\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"Habilitation\""
+          "object": "table \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"Habilitation\"",
-        "sql": "CREATE TABLE \"public\".\"Habilitation\" (\n  \"company_id\" character varying NOT NULL,\n  \"customer_id\" character varying NOT NULL,\n  \"edi_type_id\" character varying NOT NULL,\n  \"enabled\" bool DEFAULT false NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"interval\" int2 NOT NULL,\n  \"last_run_id\" character varying,\n  PRIMARY KEY (\"id\")\n)",
+        "description": "create table \"Habilitations\"",
+        "sql": "CREATE TABLE \"public\".\"Habilitations\" (\n  \"company_id\" character varying NOT NULL,\n  \"customer_id\" character varying NOT NULL,\n  \"edi_type_id\" character varying NOT NULL,\n  \"enabled\" bool DEFAULT false NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"interval\" int2 NOT NULL,\n  \"last_run_id\" character varying,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"Habilitation\" exists",
+        "description": "verify table \"Habilitations\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"Habilitation\""
+          "object": "table \"Habilitations\""
         }
       }
     ]
   },
   {
-    "id": "table.Run",
-    "label": "Create table \"Run\"",
-    "summary": "Creates table \"Run\"",
+    "id": "table.Runs",
+    "label": "Create table \"Runs\"",
+    "summary": "Creates table \"Runs\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "table",
-        "name": "Run"
+        "name": "Runs"
       }
     },
     "precheck": [
       {
-        "description": "ensure table \"Run\" does not exist",
+        "description": "ensure table \"Runs\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Run\""
+          "\"public\".\"Runs\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "table \"Run\""
+          "object": "table \"Runs\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create table \"Run\"",
-        "sql": "CREATE TABLE \"public\".\"Run\" (\n  \"company_id\" character varying NOT NULL,\n  \"created_at\" timestamptz(3) NOT NULL,\n  \"edi_type_id\" character varying NOT NULL,\n  \"error_message\" text,\n  \"id\" character varying NOT NULL,\n  \"status\" text NOT NULL,\n  \"updated_at\" timestamptz(3) NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Run_status_check_5e80b506\" CHECK (\"status\" IN ('queued', 'completed', 'failed'))\n)",
+        "description": "create table \"Runs\"",
+        "sql": "CREATE TABLE \"public\".\"Runs\" (\n  \"company_id\" character varying NOT NULL,\n  \"created_at\" timestamptz(3) NOT NULL,\n  \"edi_type_id\" character varying NOT NULL,\n  \"error_message\" text,\n  \"id\" character varying NOT NULL,\n  \"status\" text NOT NULL,\n  \"updated_at\" timestamptz(3) NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Runs_status_check_5e80b506\" CHECK (\"status\" IN ('queued', 'completed', 'failed'))\n)",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify table \"Run\" exists",
+        "description": "verify table \"Runs\" exists",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
         "params": [
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "r",
           "p"
         ],
         "expectation": {
           "expects": "present",
-          "object": "table \"Run\""
+          "object": "table \"Runs\""
         }
       }
     ]
   },
   {
-    "id": "unique.Company.Company_division_key",
-    "label": "Add unique constraint on \"Company\" (division)",
+    "id": "unique.Companies.Companies_division_key",
+    "label": "Add unique constraint on \"Companies\" (division)",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "unique",
-        "name": "Company_division_key",
-        "table": "Company"
+        "name": "Companies_division_key",
+        "table": "Companies"
       }
     },
     "precheck": [
       {
-        "description": "ensure constraint \"Company_division_key\" does not exist",
+        "description": "ensure constraint \"Companies_division_key\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Company_division_key",
+          "Companies_division_key",
           "public",
-          "\"public\".\"Company\""
+          "\"public\".\"Companies\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "constraint \"Company_division_key\" on \"Company\""
+          "object": "constraint \"Companies_division_key\" on \"Companies\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add unique constraint \"Company_division_key\"",
-        "sql": "ALTER TABLE \"public\".\"Company\" ADD CONSTRAINT \"Company_division_key\" UNIQUE (\"division\")"
+        "description": "add unique constraint \"Companies_division_key\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" ADD CONSTRAINT \"Companies_division_key\" UNIQUE (\"division\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify unique constraint \"Company_division_key\" exists on (division)",
+        "description": "verify unique constraint \"Companies_division_key\" exists on (division)",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
         "params": [
-          "Company_division_key",
+          "Companies_division_key",
           "public",
-          "\"public\".\"Company\"",
+          "\"public\".\"Companies\"",
           "u",
           "[\"division\"]"
         ]
@@ -359,47 +359,47 @@
     ]
   },
   {
-    "id": "unique.Customer.Customer_sap_customer_number_key",
-    "label": "Add unique constraint on \"Customer\" (sap_customer_number)",
+    "id": "unique.Customers.Customers_sap_customer_number_key",
+    "label": "Add unique constraint on \"Customers\" (sap_customer_number)",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "unique",
-        "name": "Customer_sap_customer_number_key",
-        "table": "Customer"
+        "name": "Customers_sap_customer_number_key",
+        "table": "Customers"
       }
     },
     "precheck": [
       {
-        "description": "ensure constraint \"Customer_sap_customer_number_key\" does not exist",
+        "description": "ensure constraint \"Customers_sap_customer_number_key\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Customer_sap_customer_number_key",
+          "Customers_sap_customer_number_key",
           "public",
-          "\"public\".\"Customer\""
+          "\"public\".\"Customers\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "constraint \"Customer_sap_customer_number_key\" on \"Customer\""
+          "object": "constraint \"Customers_sap_customer_number_key\" on \"Customers\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add unique constraint \"Customer_sap_customer_number_key\"",
-        "sql": "ALTER TABLE \"public\".\"Customer\" ADD CONSTRAINT \"Customer_sap_customer_number_key\" UNIQUE (\"sap_customer_number\")"
+        "description": "add unique constraint \"Customers_sap_customer_number_key\"",
+        "sql": "ALTER TABLE \"public\".\"Customers\" ADD CONSTRAINT \"Customers_sap_customer_number_key\" UNIQUE (\"sap_customer_number\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify unique constraint \"Customer_sap_customer_number_key\" exists on (sap_customer_number)",
+        "description": "verify unique constraint \"Customers_sap_customer_number_key\" exists on (sap_customer_number)",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
         "params": [
-          "Customer_sap_customer_number_key",
+          "Customers_sap_customer_number_key",
           "public",
-          "\"public\".\"Customer\"",
+          "\"public\".\"Customers\"",
           "u",
           "[\"sap_customer_number\"]"
         ]
@@ -407,95 +407,95 @@
     ]
   },
   {
-    "id": "unique.EdiType.EdiType_name_operation_key",
-    "label": "Add unique constraint on \"EdiType\" (name, operation)",
+    "id": "unique.EdiTypes.EdiTypes_record_type_operation_key",
+    "label": "Add unique constraint on \"EdiTypes\" (record_type, operation)",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "unique",
-        "name": "EdiType_name_operation_key",
-        "table": "EdiType"
+        "name": "EdiTypes_record_type_operation_key",
+        "table": "EdiTypes"
       }
     },
     "precheck": [
       {
-        "description": "ensure constraint \"EdiType_name_operation_key\" does not exist",
+        "description": "ensure constraint \"EdiTypes_record_type_operation_key\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "EdiType_name_operation_key",
+          "EdiTypes_record_type_operation_key",
           "public",
-          "\"public\".\"EdiType\""
+          "\"public\".\"EdiTypes\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "constraint \"EdiType_name_operation_key\" on \"EdiType\""
+          "object": "constraint \"EdiTypes_record_type_operation_key\" on \"EdiTypes\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add unique constraint \"EdiType_name_operation_key\"",
-        "sql": "ALTER TABLE \"public\".\"EdiType\" ADD CONSTRAINT \"EdiType_name_operation_key\" UNIQUE (\"name\", \"operation\")"
+        "description": "add unique constraint \"EdiTypes_record_type_operation_key\"",
+        "sql": "ALTER TABLE \"public\".\"EdiTypes\" ADD CONSTRAINT \"EdiTypes_record_type_operation_key\" UNIQUE (\"record_type\", \"operation\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify unique constraint \"EdiType_name_operation_key\" exists on (name, operation)",
+        "description": "verify unique constraint \"EdiTypes_record_type_operation_key\" exists on (record_type, operation)",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
         "params": [
-          "EdiType_name_operation_key",
+          "EdiTypes_record_type_operation_key",
           "public",
-          "\"public\".\"EdiType\"",
+          "\"public\".\"EdiTypes\"",
           "u",
-          "[\"name\",\"operation\"]"
+          "[\"record_type\",\"operation\"]"
         ]
       }
     ]
   },
   {
-    "id": "unique.Habilitation.Habilitation_customer_id_company_id_edi_type_id_key",
-    "label": "Add unique constraint on \"Habilitation\" (customer_id, company_id, edi_type_id)",
+    "id": "unique.Habilitations.Habilitations_customer_id_company_id_edi_type_id_key",
+    "label": "Add unique constraint on \"Habilitations\" (customer_id, company_id, edi_type_id)",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "unique",
-        "name": "Habilitation_customer_id_company_id_edi_type_id_key",
-        "table": "Habilitation"
+        "name": "Habilitations_customer_id_company_id_edi_type_id_key",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure constraint \"Habilitation_customer_id_company_id_edi_type_id_key\" does not exist",
+        "description": "ensure constraint \"Habilitations_customer_id_company_id_edi_type_id_key\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Habilitation_customer_id_company_id_edi_type_id_key",
+          "Habilitations_customer_id_company_id_edi_type_id_key",
           "public",
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "constraint \"Habilitation_customer_id_company_id_edi_type_id_key\" on \"Habilitation\""
+          "object": "constraint \"Habilitations_customer_id_company_id_edi_type_id_key\" on \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add unique constraint \"Habilitation_customer_id_company_id_edi_type_id_key\"",
-        "sql": "ALTER TABLE \"public\".\"Habilitation\" ADD CONSTRAINT \"Habilitation_customer_id_company_id_edi_type_id_key\" UNIQUE (\"customer_id\", \"company_id\", \"edi_type_id\")"
+        "description": "add unique constraint \"Habilitations_customer_id_company_id_edi_type_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"Habilitations\" ADD CONSTRAINT \"Habilitations_customer_id_company_id_edi_type_id_key\" UNIQUE (\"customer_id\", \"company_id\", \"edi_type_id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify unique constraint \"Habilitation_customer_id_company_id_edi_type_id_key\" exists on (customer_id, company_id, edi_type_id)",
+        "description": "verify unique constraint \"Habilitations_customer_id_company_id_edi_type_id_key\" exists on (customer_id, company_id, edi_type_id)",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
         "params": [
-          "Habilitation_customer_id_company_id_edi_type_id_key",
+          "Habilitations_customer_id_company_id_edi_type_id_key",
           "public",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "u",
           "[\"customer_id\",\"company_id\",\"edi_type_id\"]"
         ]
@@ -503,47 +503,47 @@
     ]
   },
   {
-    "id": "index.File.File_run_id_idx_61d39f90",
-    "label": "Create index \"File_run_id_idx_61d39f90\" on \"File\"",
+    "id": "index.Files.Files_run_id_idx_61d39f90",
+    "label": "Create index \"Files_run_id_idx_61d39f90\" on \"Files\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "File_run_id_idx_61d39f90",
-        "table": "File"
+        "name": "Files_run_id_idx_61d39f90",
+        "table": "Files"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"File_run_id_idx_61d39f90\" does not exist",
+        "description": "ensure index \"Files_run_id_idx_61d39f90\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"File_run_id_idx_61d39f90\""
+          "\"public\".\"Files_run_id_idx_61d39f90\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"File_run_id_idx_61d39f90\""
+          "object": "index \"Files_run_id_idx_61d39f90\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"File_run_id_idx_61d39f90\"",
-        "sql": "CREATE INDEX \"File_run_id_idx_61d39f90\" ON \"public\".\"File\" (\"run_id\")",
+        "description": "create index \"Files_run_id_idx_61d39f90\"",
+        "sql": "CREATE INDEX \"Files_run_id_idx_61d39f90\" ON \"public\".\"Files\" (\"run_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"File_run_id_idx_61d39f90\" exists on \"File\" with the planned definition",
+        "description": "verify index \"Files_run_id_idx_61d39f90\" exists on \"Files\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"File_run_id_idx_61d39f90\"",
+          "\"public\".\"Files_run_id_idx_61d39f90\"",
           "i",
           "I",
-          "\"public\".\"File\"",
+          "\"public\".\"Files\"",
           "btree",
           "[\"run_id\"]"
         ]
@@ -551,47 +551,47 @@
     ]
   },
   {
-    "id": "index.Habilitation.Habilitation_company_id_idx_1303a718",
-    "label": "Create index \"Habilitation_company_id_idx_1303a718\" on \"Habilitation\"",
+    "id": "index.Habilitations.Habilitations_company_id_idx_1303a718",
+    "label": "Create index \"Habilitations_company_id_idx_1303a718\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Habilitation_company_id_idx_1303a718",
-        "table": "Habilitation"
+        "name": "Habilitations_company_id_idx_1303a718",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Habilitation_company_id_idx_1303a718\" does not exist",
+        "description": "ensure index \"Habilitations_company_id_idx_1303a718\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_company_id_idx_1303a718\""
+          "\"public\".\"Habilitations_company_id_idx_1303a718\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Habilitation_company_id_idx_1303a718\""
+          "object": "index \"Habilitations_company_id_idx_1303a718\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Habilitation_company_id_idx_1303a718\"",
-        "sql": "CREATE INDEX \"Habilitation_company_id_idx_1303a718\" ON \"public\".\"Habilitation\" (\"company_id\")",
+        "description": "create index \"Habilitations_company_id_idx_1303a718\"",
+        "sql": "CREATE INDEX \"Habilitations_company_id_idx_1303a718\" ON \"public\".\"Habilitations\" (\"company_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Habilitation_company_id_idx_1303a718\" exists on \"Habilitation\" with the planned definition",
+        "description": "verify index \"Habilitations_company_id_idx_1303a718\" exists on \"Habilitations\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_company_id_idx_1303a718\"",
+          "\"public\".\"Habilitations_company_id_idx_1303a718\"",
           "i",
           "I",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "btree",
           "[\"company_id\"]"
         ]
@@ -599,47 +599,47 @@
     ]
   },
   {
-    "id": "index.Habilitation.Habilitation_customer_id_idx_e16dfa6b",
-    "label": "Create index \"Habilitation_customer_id_idx_e16dfa6b\" on \"Habilitation\"",
+    "id": "index.Habilitations.Habilitations_customer_id_idx_e16dfa6b",
+    "label": "Create index \"Habilitations_customer_id_idx_e16dfa6b\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Habilitation_customer_id_idx_e16dfa6b",
-        "table": "Habilitation"
+        "name": "Habilitations_customer_id_idx_e16dfa6b",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Habilitation_customer_id_idx_e16dfa6b\" does not exist",
+        "description": "ensure index \"Habilitations_customer_id_idx_e16dfa6b\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_customer_id_idx_e16dfa6b\""
+          "\"public\".\"Habilitations_customer_id_idx_e16dfa6b\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Habilitation_customer_id_idx_e16dfa6b\""
+          "object": "index \"Habilitations_customer_id_idx_e16dfa6b\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Habilitation_customer_id_idx_e16dfa6b\"",
-        "sql": "CREATE INDEX \"Habilitation_customer_id_idx_e16dfa6b\" ON \"public\".\"Habilitation\" (\"customer_id\")",
+        "description": "create index \"Habilitations_customer_id_idx_e16dfa6b\"",
+        "sql": "CREATE INDEX \"Habilitations_customer_id_idx_e16dfa6b\" ON \"public\".\"Habilitations\" (\"customer_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Habilitation_customer_id_idx_e16dfa6b\" exists on \"Habilitation\" with the planned definition",
+        "description": "verify index \"Habilitations_customer_id_idx_e16dfa6b\" exists on \"Habilitations\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_customer_id_idx_e16dfa6b\"",
+          "\"public\".\"Habilitations_customer_id_idx_e16dfa6b\"",
           "i",
           "I",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "btree",
           "[\"customer_id\"]"
         ]
@@ -647,47 +647,47 @@
     ]
   },
   {
-    "id": "index.Habilitation.Habilitation_edi_type_id_idx_9bc9a9ac",
-    "label": "Create index \"Habilitation_edi_type_id_idx_9bc9a9ac\" on \"Habilitation\"",
+    "id": "index.Habilitations.Habilitations_edi_type_id_idx_9bc9a9ac",
+    "label": "Create index \"Habilitations_edi_type_id_idx_9bc9a9ac\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Habilitation_edi_type_id_idx_9bc9a9ac",
-        "table": "Habilitation"
+        "name": "Habilitations_edi_type_id_idx_9bc9a9ac",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Habilitation_edi_type_id_idx_9bc9a9ac\" does not exist",
+        "description": "ensure index \"Habilitations_edi_type_id_idx_9bc9a9ac\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_edi_type_id_idx_9bc9a9ac\""
+          "\"public\".\"Habilitations_edi_type_id_idx_9bc9a9ac\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Habilitation_edi_type_id_idx_9bc9a9ac\""
+          "object": "index \"Habilitations_edi_type_id_idx_9bc9a9ac\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Habilitation_edi_type_id_idx_9bc9a9ac\"",
-        "sql": "CREATE INDEX \"Habilitation_edi_type_id_idx_9bc9a9ac\" ON \"public\".\"Habilitation\" (\"edi_type_id\")",
+        "description": "create index \"Habilitations_edi_type_id_idx_9bc9a9ac\"",
+        "sql": "CREATE INDEX \"Habilitations_edi_type_id_idx_9bc9a9ac\" ON \"public\".\"Habilitations\" (\"edi_type_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Habilitation_edi_type_id_idx_9bc9a9ac\" exists on \"Habilitation\" with the planned definition",
+        "description": "verify index \"Habilitations_edi_type_id_idx_9bc9a9ac\" exists on \"Habilitations\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_edi_type_id_idx_9bc9a9ac\"",
+          "\"public\".\"Habilitations_edi_type_id_idx_9bc9a9ac\"",
           "i",
           "I",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "btree",
           "[\"edi_type_id\"]"
         ]
@@ -695,47 +695,47 @@
     ]
   },
   {
-    "id": "index.Habilitation.Habilitation_last_run_id_idx_c969e924",
-    "label": "Create index \"Habilitation_last_run_id_idx_c969e924\" on \"Habilitation\"",
+    "id": "index.Habilitations.Habilitations_last_run_id_idx_c969e924",
+    "label": "Create index \"Habilitations_last_run_id_idx_c969e924\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Habilitation_last_run_id_idx_c969e924",
-        "table": "Habilitation"
+        "name": "Habilitations_last_run_id_idx_c969e924",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Habilitation_last_run_id_idx_c969e924\" does not exist",
+        "description": "ensure index \"Habilitations_last_run_id_idx_c969e924\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_last_run_id_idx_c969e924\""
+          "\"public\".\"Habilitations_last_run_id_idx_c969e924\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Habilitation_last_run_id_idx_c969e924\""
+          "object": "index \"Habilitations_last_run_id_idx_c969e924\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Habilitation_last_run_id_idx_c969e924\"",
-        "sql": "CREATE INDEX \"Habilitation_last_run_id_idx_c969e924\" ON \"public\".\"Habilitation\" (\"last_run_id\")",
+        "description": "create index \"Habilitations_last_run_id_idx_c969e924\"",
+        "sql": "CREATE INDEX \"Habilitations_last_run_id_idx_c969e924\" ON \"public\".\"Habilitations\" (\"last_run_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Habilitation_last_run_id_idx_c969e924\" exists on \"Habilitation\" with the planned definition",
+        "description": "verify index \"Habilitations_last_run_id_idx_c969e924\" exists on \"Habilitations\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Habilitation_last_run_id_idx_c969e924\"",
+          "\"public\".\"Habilitations_last_run_id_idx_c969e924\"",
           "i",
           "I",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "btree",
           "[\"last_run_id\"]"
         ]
@@ -743,47 +743,47 @@
     ]
   },
   {
-    "id": "index.Run.Run_company_id_idx_1303a718",
-    "label": "Create index \"Run_company_id_idx_1303a718\" on \"Run\"",
+    "id": "index.Runs.Runs_company_id_idx_1303a718",
+    "label": "Create index \"Runs_company_id_idx_1303a718\" on \"Runs\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Run_company_id_idx_1303a718",
-        "table": "Run"
+        "name": "Runs_company_id_idx_1303a718",
+        "table": "Runs"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Run_company_id_idx_1303a718\" does not exist",
+        "description": "ensure index \"Runs_company_id_idx_1303a718\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Run_company_id_idx_1303a718\""
+          "\"public\".\"Runs_company_id_idx_1303a718\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Run_company_id_idx_1303a718\""
+          "object": "index \"Runs_company_id_idx_1303a718\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Run_company_id_idx_1303a718\"",
-        "sql": "CREATE INDEX \"Run_company_id_idx_1303a718\" ON \"public\".\"Run\" (\"company_id\")",
+        "description": "create index \"Runs_company_id_idx_1303a718\"",
+        "sql": "CREATE INDEX \"Runs_company_id_idx_1303a718\" ON \"public\".\"Runs\" (\"company_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Run_company_id_idx_1303a718\" exists on \"Run\" with the planned definition",
+        "description": "verify index \"Runs_company_id_idx_1303a718\" exists on \"Runs\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Run_company_id_idx_1303a718\"",
+          "\"public\".\"Runs_company_id_idx_1303a718\"",
           "i",
           "I",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "btree",
           "[\"company_id\"]"
         ]
@@ -791,47 +791,47 @@
     ]
   },
   {
-    "id": "index.Run.Run_edi_type_id_idx_9bc9a9ac",
-    "label": "Create index \"Run_edi_type_id_idx_9bc9a9ac\" on \"Run\"",
+    "id": "index.Runs.Runs_edi_type_id_idx_9bc9a9ac",
+    "label": "Create index \"Runs_edi_type_id_idx_9bc9a9ac\" on \"Runs\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "index",
-        "name": "Run_edi_type_id_idx_9bc9a9ac",
-        "table": "Run"
+        "name": "Runs_edi_type_id_idx_9bc9a9ac",
+        "table": "Runs"
       }
     },
     "precheck": [
       {
-        "description": "ensure index \"Run_edi_type_id_idx_9bc9a9ac\" does not exist",
+        "description": "ensure index \"Runs_edi_type_id_idx_9bc9a9ac\" does not exist",
         "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
         "params": [
-          "\"public\".\"Run_edi_type_id_idx_9bc9a9ac\""
+          "\"public\".\"Runs_edi_type_id_idx_9bc9a9ac\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "index \"Run_edi_type_id_idx_9bc9a9ac\""
+          "object": "index \"Runs_edi_type_id_idx_9bc9a9ac\""
         }
       }
     ],
     "execute": [
       {
-        "description": "create index \"Run_edi_type_id_idx_9bc9a9ac\"",
-        "sql": "CREATE INDEX \"Run_edi_type_id_idx_9bc9a9ac\" ON \"public\".\"Run\" (\"edi_type_id\")",
+        "description": "create index \"Runs_edi_type_id_idx_9bc9a9ac\"",
+        "sql": "CREATE INDEX \"Runs_edi_type_id_idx_9bc9a9ac\" ON \"public\".\"Runs\" (\"edi_type_id\")",
         "params": []
       }
     ],
     "postcheck": [
       {
-        "description": "verify index \"Run_edi_type_id_idx_9bc9a9ac\" exists on \"Run\" with the planned definition",
+        "description": "verify index \"Runs_edi_type_id_idx_9bc9a9ac\" exists on \"Runs\" with the planned definition",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
         "params": [
-          "\"public\".\"Run_edi_type_id_idx_9bc9a9ac\"",
+          "\"public\".\"Runs_edi_type_id_idx_9bc9a9ac\"",
           "i",
           "I",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "btree",
           "[\"edi_type_id\"]"
         ]
@@ -839,50 +839,50 @@
     ]
   },
   {
-    "id": "foreignKey.File.File_run_id_fkey",
-    "label": "Add foreign key \"File_run_id_fkey\" on \"File\"",
+    "id": "foreignKey.Files.Files_run_id_fkey",
+    "label": "Add foreign key \"Files_run_id_fkey\" on \"Files\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "File_run_id_fkey",
-        "table": "File"
+        "name": "Files_run_id_fkey",
+        "table": "Files"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"File_run_id_fkey\" does not exist",
+        "description": "ensure FK \"Files_run_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "File_run_id_fkey",
+          "Files_run_id_fkey",
           "public",
-          "\"public\".\"File\""
+          "\"public\".\"Files\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"File_run_id_fkey\" on \"File\""
+          "object": "FK \"Files_run_id_fkey\" on \"Files\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"File_run_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"File\"\nADD CONSTRAINT \"File_run_id_fkey\"\nFOREIGN KEY (\"run_id\")\nREFERENCES \"public\".\"Run\" (\"id\")"
+        "description": "add FK \"Files_run_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Files\"\nADD CONSTRAINT \"Files_run_id_fkey\"\nFOREIGN KEY (\"run_id\")\nREFERENCES \"public\".\"Runs\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"File_run_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Files_run_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "File_run_id_fkey",
+          "Files_run_id_fkey",
           "public",
-          "\"public\".\"File\"",
+          "\"public\".\"Files\"",
           "f",
           "[\"run_id\"]",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "[\"id\"]",
           "a",
           "a"
@@ -891,50 +891,50 @@
     ]
   },
   {
-    "id": "foreignKey.Habilitation.Habilitation_customer_id_fkey",
-    "label": "Add foreign key \"Habilitation_customer_id_fkey\" on \"Habilitation\"",
+    "id": "foreignKey.Habilitations.Habilitations_customer_id_fkey",
+    "label": "Add foreign key \"Habilitations_customer_id_fkey\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Habilitation_customer_id_fkey",
-        "table": "Habilitation"
+        "name": "Habilitations_customer_id_fkey",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Habilitation_customer_id_fkey\" does not exist",
+        "description": "ensure FK \"Habilitations_customer_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Habilitation_customer_id_fkey",
+          "Habilitations_customer_id_fkey",
           "public",
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Habilitation_customer_id_fkey\" on \"Habilitation\""
+          "object": "FK \"Habilitations_customer_id_fkey\" on \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Habilitation_customer_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Habilitation\"\nADD CONSTRAINT \"Habilitation_customer_id_fkey\"\nFOREIGN KEY (\"customer_id\")\nREFERENCES \"public\".\"Customer\" (\"id\")"
+        "description": "add FK \"Habilitations_customer_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Habilitations\"\nADD CONSTRAINT \"Habilitations_customer_id_fkey\"\nFOREIGN KEY (\"customer_id\")\nREFERENCES \"public\".\"Customers\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Habilitation_customer_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Habilitations_customer_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Habilitation_customer_id_fkey",
+          "Habilitations_customer_id_fkey",
           "public",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "f",
           "[\"customer_id\"]",
-          "\"public\".\"Customer\"",
+          "\"public\".\"Customers\"",
           "[\"id\"]",
           "a",
           "a"
@@ -943,50 +943,50 @@
     ]
   },
   {
-    "id": "foreignKey.Habilitation.Habilitation_company_id_fkey",
-    "label": "Add foreign key \"Habilitation_company_id_fkey\" on \"Habilitation\"",
+    "id": "foreignKey.Habilitations.Habilitations_company_id_fkey",
+    "label": "Add foreign key \"Habilitations_company_id_fkey\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Habilitation_company_id_fkey",
-        "table": "Habilitation"
+        "name": "Habilitations_company_id_fkey",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Habilitation_company_id_fkey\" does not exist",
+        "description": "ensure FK \"Habilitations_company_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Habilitation_company_id_fkey",
+          "Habilitations_company_id_fkey",
           "public",
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Habilitation_company_id_fkey\" on \"Habilitation\""
+          "object": "FK \"Habilitations_company_id_fkey\" on \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Habilitation_company_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Habilitation\"\nADD CONSTRAINT \"Habilitation_company_id_fkey\"\nFOREIGN KEY (\"company_id\")\nREFERENCES \"public\".\"Company\" (\"id\")"
+        "description": "add FK \"Habilitations_company_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Habilitations\"\nADD CONSTRAINT \"Habilitations_company_id_fkey\"\nFOREIGN KEY (\"company_id\")\nREFERENCES \"public\".\"Companies\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Habilitation_company_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Habilitations_company_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Habilitation_company_id_fkey",
+          "Habilitations_company_id_fkey",
           "public",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "f",
           "[\"company_id\"]",
-          "\"public\".\"Company\"",
+          "\"public\".\"Companies\"",
           "[\"id\"]",
           "a",
           "a"
@@ -995,50 +995,50 @@
     ]
   },
   {
-    "id": "foreignKey.Habilitation.Habilitation_edi_type_id_fkey",
-    "label": "Add foreign key \"Habilitation_edi_type_id_fkey\" on \"Habilitation\"",
+    "id": "foreignKey.Habilitations.Habilitations_edi_type_id_fkey",
+    "label": "Add foreign key \"Habilitations_edi_type_id_fkey\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Habilitation_edi_type_id_fkey",
-        "table": "Habilitation"
+        "name": "Habilitations_edi_type_id_fkey",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Habilitation_edi_type_id_fkey\" does not exist",
+        "description": "ensure FK \"Habilitations_edi_type_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Habilitation_edi_type_id_fkey",
+          "Habilitations_edi_type_id_fkey",
           "public",
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Habilitation_edi_type_id_fkey\" on \"Habilitation\""
+          "object": "FK \"Habilitations_edi_type_id_fkey\" on \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Habilitation_edi_type_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Habilitation\"\nADD CONSTRAINT \"Habilitation_edi_type_id_fkey\"\nFOREIGN KEY (\"edi_type_id\")\nREFERENCES \"public\".\"EdiType\" (\"id\")"
+        "description": "add FK \"Habilitations_edi_type_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Habilitations\"\nADD CONSTRAINT \"Habilitations_edi_type_id_fkey\"\nFOREIGN KEY (\"edi_type_id\")\nREFERENCES \"public\".\"EdiTypes\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Habilitation_edi_type_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Habilitations_edi_type_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Habilitation_edi_type_id_fkey",
+          "Habilitations_edi_type_id_fkey",
           "public",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "f",
           "[\"edi_type_id\"]",
-          "\"public\".\"EdiType\"",
+          "\"public\".\"EdiTypes\"",
           "[\"id\"]",
           "a",
           "a"
@@ -1047,50 +1047,50 @@
     ]
   },
   {
-    "id": "foreignKey.Habilitation.Habilitation_last_run_id_fkey",
-    "label": "Add foreign key \"Habilitation_last_run_id_fkey\" on \"Habilitation\"",
+    "id": "foreignKey.Habilitations.Habilitations_last_run_id_fkey",
+    "label": "Add foreign key \"Habilitations_last_run_id_fkey\" on \"Habilitations\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Habilitation_last_run_id_fkey",
-        "table": "Habilitation"
+        "name": "Habilitations_last_run_id_fkey",
+        "table": "Habilitations"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Habilitation_last_run_id_fkey\" does not exist",
+        "description": "ensure FK \"Habilitations_last_run_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Habilitation_last_run_id_fkey",
+          "Habilitations_last_run_id_fkey",
           "public",
-          "\"public\".\"Habilitation\""
+          "\"public\".\"Habilitations\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Habilitation_last_run_id_fkey\" on \"Habilitation\""
+          "object": "FK \"Habilitations_last_run_id_fkey\" on \"Habilitations\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Habilitation_last_run_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Habilitation\"\nADD CONSTRAINT \"Habilitation_last_run_id_fkey\"\nFOREIGN KEY (\"last_run_id\")\nREFERENCES \"public\".\"Run\" (\"id\")"
+        "description": "add FK \"Habilitations_last_run_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Habilitations\"\nADD CONSTRAINT \"Habilitations_last_run_id_fkey\"\nFOREIGN KEY (\"last_run_id\")\nREFERENCES \"public\".\"Runs\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Habilitation_last_run_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Habilitations_last_run_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Habilitation_last_run_id_fkey",
+          "Habilitations_last_run_id_fkey",
           "public",
-          "\"public\".\"Habilitation\"",
+          "\"public\".\"Habilitations\"",
           "f",
           "[\"last_run_id\"]",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "[\"id\"]",
           "a",
           "a"
@@ -1099,50 +1099,50 @@
     ]
   },
   {
-    "id": "foreignKey.Run.Run_company_id_fkey",
-    "label": "Add foreign key \"Run_company_id_fkey\" on \"Run\"",
+    "id": "foreignKey.Runs.Runs_company_id_fkey",
+    "label": "Add foreign key \"Runs_company_id_fkey\" on \"Runs\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Run_company_id_fkey",
-        "table": "Run"
+        "name": "Runs_company_id_fkey",
+        "table": "Runs"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Run_company_id_fkey\" does not exist",
+        "description": "ensure FK \"Runs_company_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Run_company_id_fkey",
+          "Runs_company_id_fkey",
           "public",
-          "\"public\".\"Run\""
+          "\"public\".\"Runs\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Run_company_id_fkey\" on \"Run\""
+          "object": "FK \"Runs_company_id_fkey\" on \"Runs\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Run_company_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Run\"\nADD CONSTRAINT \"Run_company_id_fkey\"\nFOREIGN KEY (\"company_id\")\nREFERENCES \"public\".\"Company\" (\"id\")"
+        "description": "add FK \"Runs_company_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\"\nADD CONSTRAINT \"Runs_company_id_fkey\"\nFOREIGN KEY (\"company_id\")\nREFERENCES \"public\".\"Companies\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Run_company_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Runs_company_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Run_company_id_fkey",
+          "Runs_company_id_fkey",
           "public",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "f",
           "[\"company_id\"]",
-          "\"public\".\"Company\"",
+          "\"public\".\"Companies\"",
           "[\"id\"]",
           "a",
           "a"
@@ -1151,107 +1151,55 @@
     ]
   },
   {
-    "id": "foreignKey.Run.Run_edi_type_id_fkey",
-    "label": "Add foreign key \"Run_edi_type_id_fkey\" on \"Run\"",
+    "id": "foreignKey.Runs.Runs_edi_type_id_fkey",
+    "label": "Add foreign key \"Runs_edi_type_id_fkey\" on \"Runs\"",
     "operationClass": "additive",
     "target": {
       "id": "postgres",
       "details": {
         "schema": "public",
         "objectType": "foreignKey",
-        "name": "Run_edi_type_id_fkey",
-        "table": "Run"
+        "name": "Runs_edi_type_id_fkey",
+        "table": "Runs"
       }
     },
     "precheck": [
       {
-        "description": "ensure FK \"Run_edi_type_id_fkey\" does not exist",
+        "description": "ensure FK \"Runs_edi_type_id_fkey\" does not exist",
         "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
-          "Run_edi_type_id_fkey",
+          "Runs_edi_type_id_fkey",
           "public",
-          "\"public\".\"Run\""
+          "\"public\".\"Runs\""
         ],
         "expectation": {
           "expects": "absent",
-          "object": "FK \"Run_edi_type_id_fkey\" on \"Run\""
+          "object": "FK \"Runs_edi_type_id_fkey\" on \"Runs\""
         }
       }
     ],
     "execute": [
       {
-        "description": "add FK \"Run_edi_type_id_fkey\"",
-        "sql": "ALTER TABLE \"public\".\"Run\"\nADD CONSTRAINT \"Run_edi_type_id_fkey\"\nFOREIGN KEY (\"edi_type_id\")\nREFERENCES \"public\".\"EdiType\" (\"id\")"
+        "description": "add FK \"Runs_edi_type_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\"\nADD CONSTRAINT \"Runs_edi_type_id_fkey\"\nFOREIGN KEY (\"edi_type_id\")\nREFERENCES \"public\".\"EdiTypes\" (\"id\")"
       }
     ],
     "postcheck": [
       {
-        "description": "verify FK \"Run_edi_type_id_fkey\" exists with the planned columns, referenced table and actions",
+        "description": "verify FK \"Runs_edi_type_id_fkey\" exists with the planned columns, referenced table and actions",
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
         "params": [
-          "Run_edi_type_id_fkey",
+          "Runs_edi_type_id_fkey",
           "public",
-          "\"public\".\"Run\"",
+          "\"public\".\"Runs\"",
           "f",
           "[\"edi_type_id\"]",
-          "\"public\".\"EdiType\"",
+          "\"public\".\"EdiTypes\"",
           "[\"id\"]",
           "a",
           "a"
         ]
       }
     ]
-  },
-  {
-    "id": "data_migration.seed-companies",
-    "label": "Data transform: seed-companies",
-    "operationClass": "data",
-    "target": {
-      "id": "postgres"
-    },
-    "precheck": [],
-    "execute": [
-      {
-        "description": "Run seed-companies",
-        "sql": "INSERT INTO \"public\".\"Company\" (\"name\", \"slug\", \"division\", \"edi_company_code\", \"edi_company_code_type\", \"business_name\", \"address\", \"city\", \"province\", \"postal_code\", \"country\", \"court_of_law\", \"ccia\", \"share_capital\", \"raee_registration_number\", \"pile_registration_number\", \"id\") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17), ($18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34)",
-        "params": [
-          "Nital",
-          "nital",
-          "Z001",
-          "06047610016",
-          "ZZ",
-          "Nital S.p.A",
-          "Via Vittime di Piazza Fontana n. 54",
-          "Moncalieri",
-          "TO",
-          "10024",
-          "IT",
-          null,
-          "756023 del 28/1/1991",
-          "5.000.000 i.v.",
-          "IT08020000002546",
-          "IT09060P00000242",
-          "03b31011-c9b9-4bca-b477-dc34e8321edb",
-          "FOWA",
-          "fowa",
-          "Z002",
-          "01187480015",
-          "ZZ",
-          "Fowa S.p.A.",
-          "Via Vittime di Piazza Fontana n. 52/bis",
-          "Moncalieri",
-          "TO",
-          "10024",
-          "IT",
-          null,
-          "756023 del 28/1/1991",
-          "3.500.000 i.v.",
-          "IT08040000004702",
-          "IT09060P00000680",
-          "e39ebf7b-4898-40ec-b178-a2a4c3b1587f"
-        ]
-      }
-    ],
-    "postcheck": []
   }
 ]

@@ -23,26 +23,28 @@ export class FlowsQueue {
     schedulerId,
     jobName,
     delay,
+    jobData,
   }: {
     schedulerId: string;
     jobName: string;
     delay: number;
-  }): Promise<Job> {
+    jobData: Flow;
+  }): Promise<Job<Flow>> {
     const nextJob = await this.queue.upsertJobScheduler(
       schedulerId,
       {
         every: delay,
       },
-      { name: jobName, data: 'test dalla coda' },
+      { name: jobName, data: jobData },
     );
 
     return nextJob;
   }
 
-  async getRunningJobs(): Promise<Job[]> {
+  async getRunningJobs(): Promise<Job<Flow>[]> {
     return await this.queue.getJobs(['active']);
   }
-  async getQueuedJobs(): Promise<Job[]> {
+  async getQueuedJobs(): Promise<Job<Flow>[]> {
     return await this.queue.getJobs([
       'wait',
       'waiting',
@@ -51,7 +53,7 @@ export class FlowsQueue {
       'prioritized',
     ]);
   }
-  async getScheduledJobs(): Promise<Job[]> {
+  async getScheduledJobs(): Promise<Job<Flow>[]> {
     return await this.queue.getJobs(['delayed']);
   }
 }

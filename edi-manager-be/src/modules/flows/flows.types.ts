@@ -1,10 +1,37 @@
-export type FlowStatus = 'running' | 'scheduled' | 'queued';
+export type EdiOperation = 'download' | 'upload';
+export type EdiRecordType =
+  | 'ANPROD'
+  | 'DESADV'
+  | 'ORDERS'
+  | 'ORDRSP'
+  | 'PACLIS'
+  | 'SELLIN'
+  | 'INVSUP'
+  | 'ORDLIS'
+  | 'REMADV'
+  | 'INVRPT'
+  | 'SLSRPT'
+  | 'PRICAT'
+  | 'NOTACC'
+  | 'NOTADD'
+  | 'ORDPRP';
 
-export interface Flow<T> {
-  status: FlowStatus;
+export interface Flow {
+  id: string;
+  enabled: boolean;
+  interval: number;
+  ediRecordType: EdiRecordType;
+  operation: EdiOperation;
+  // TODO: add missing properties from contract when entites are created
+}
+
+export type FlowJobStatus = 'running' | 'scheduled' | 'queued';
+
+export interface FlowJob {
+  status: FlowJobStatus;
   nextRun: Date;
   nextRunIn: number;
   schedulerId?: string;
   name: string;
-  data: T;
+  data: Flow;
 }

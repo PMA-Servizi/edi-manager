@@ -5,20 +5,31 @@ enum EdiOperation {
   UPLOAD = 'upload'
 }
 
-model EdiType {
-  id        String(varchar) @id @onCreate(uuid(4))
-  name      String(text)
-  operation EdiOperation
-
-  @@unique([name, operation])
+enum EdiRecordType {
+  @@type('pg/text@1')
+  ANPROD = 'ANPROD'
+  DESADV = 'DESADV'
+  ORDERS = 'ORDERS'
+  ORDRSP = 'ORDRSP'
+  PACLIS = 'PACLIS'
+  SELLIN = 'SELLIN'
+  INVSUP = 'INVSUP'
+  ORDLIS = 'ORDLIS'
+  REMADV = 'REMADV'
+  INVRPT = 'INVRPT'
+  SLSRPT = 'SLSRPT'
+  PRICAT = 'PRICAT'
+  NOTACC = 'NOTACC'
+  NOTADD = 'NOTADD'
+  ORDPRP = 'ORDPRP'
 }
 
-model Customer {
-  id                  String(varchar) @id @onCreate(uuid(4))
-  name                String(text)
-  slug                String(varchar)
-  sap_customer_number String(varchar) @unique
-  catalog_id          Int4            @default(1)
+model Customers {
+  id                String(varchar) @id @onCreate(uuid(4))
+  name              String(text)
+  slug              String(varchar)
+  sapCustomerNumber String(varchar) @unique @map('sap_customer_number')
+  catalogId         Int4            @default(1) @map('catalog_id')
 }
 
 enum EdiCodeType {
@@ -27,24 +38,24 @@ enum EdiCodeType {
   CODICE_EAN_UCC = '14'
 }
 
-model Company {
-  id                       String(varchar) @id @onCreate(uuid(4))
-  name                     String(text)
-  slug                     String(varchar)
-  division                 String(varchar) @unique
-  edi_company_code         String(varchar)
-  edi_company_code_type   EdiCodeType
-  business_name            String(text)
-  address                  String(text)
-  city                     String(text)
-  province                 String(varchar)
-  postal_code              String(varchar)
-  country                  String(text)
-  court_of_law             String(text)?
-  ccia                     String(text)
-  share_capital            String(text)
-  raee_registration_number String(varchar)
-  pile_registration_number String(varchar)
+model Companies {
+  id                     String(varchar) @id @onCreate(uuid(4))
+  name                   String(text)
+  slug                   String(varchar)
+  division               String(varchar) @unique
+  ediCompanyCode         String(varchar) @map('edi_company_code')
+  ediCompanyCodeType     EdiCodeType     @map('edi_company_code_type')
+  businessName           String(text)    @map('business_name')
+  address                String(text)
+  city                   String(text)
+  province               String(varchar)
+  postalCode             String(varchar) @map('postal_code')
+  country                String(text)
+  courtOfLaw             String(text)?   @map('court_of_law')
+  ccia                   String(text)
+  shareCapital           String(text)    @map('share_capital')
+  raeeRegistrationNumber String(varchar) @map('raee_registration_number')
+  pileRegistrationNumber String(varchar) @map('pile_registration_number')
 }
 
 enum RunStatus {
@@ -54,38 +65,34 @@ enum RunStatus {
   FAILED = 'failed'
 }
 
-model Run {
-  id            String(varchar) @id @onCreate(uuid(4))
-  created_at    DateTime        @onCreate(now())
-  updated_at    DateTime        @onCreate(now()) @onUpdate(now())
-  status        RunStatus
-  error_message String(text)?
+model Runs {
+  id           String(varchar) @id @onCreate(uuid(4))
+  createdAt    DateTime        @onCreate(now()) @map('created_at')
+  updatedAt    DateTime        @onCreate(now()) @onUpdate(now()) @map('updated_at')
+  status       RunStatus
+  errorMessage String(text)?   @map('error_message')
 
-  company_id    String(varchar)
-  company       Company         @relation(fields: [company_id], references: [id])
-
-  edi_type_id   String(varchar)
-  edi_type      EdiType         @relation(fields: [edi_type_id], references: [id])
+  flowId    String(varchar) @map('flow_id')
+  flow      Flows       @relation(fields: [flowId], references: [id])
 }
 
-model Habilitation {
-  id          String(varchar)  @id @onCreate(uuid(4))
-  enabled     Boolean          @default(false)
-  interval    Int2
+model Flows {
+  id         String(varchar)  @id @onCreate(uuid(4))
+  enabled    Boolean          @default(false)
+  interval   Int2
+  ediRecordType  EdiRecordType  @map('edi_record_type')
+  operation EdiOperation
 
-  customer_id String(varchar)
-  customer    Customer         @relation(fields: [customer_id], references: [id])
+  customerId String(varchar)  @map('customer_id')
+  customer   Customers        @relation(fields: [customerId], references: [id])
 
-  company_id  String(varchar)
-  company     Company          @relation(fields: [company_id], references: [id])
+  companyId  String(varchar)  @map('company_id')
+  company    Companies        @relation(fields: [companyId], references: [id])
 
-  edi_type_id String(varchar)
-  edi_type    EdiType          @relation(fields: [edi_type_id], references: [id])
+  lastRunId  String(varchar)? @map('last_run_id')
+  lastRun    Runs?            @relation(fields: [lastRunId], references: [id])
 
-  last_run_id String(varchar)?
-  last_run    Run?             @relation(fields: [last_run_id], references: [id])
-
-  @@unique([customer_id, company_id, edi_type_id])
+  @@unique([customerId, companyId, ediRecordType, operation])
 }
 
 enum ProcessOutcome {
@@ -94,13 +101,13 @@ enum ProcessOutcome {
   FAIL = 'fail'
 }
 
-model File {
-  id            String(varchar) @id @onCreate(uuid(4))
-  created_at    DateTime        @onCreate(now())
-  filename      String(text)
-  status        ProcessOutcome
-  error_message String(text)?
+model Files {
+  id           String(varchar) @id @onCreate(uuid(4))
+  createdAt    DateTime        @onCreate(now()) @map('created_at')
+  filename     String(text)
+  status       ProcessOutcome
+  errorMessage String(text)?   @map('error_message')
 
-  run_id        String(varchar)
-  run           Run             @relation(fields: [run_id], references: [id])
+  runId        String(varchar) @map('run_id')
+  run          Runs            @relation(fields: [runId], references: [id])
 }
