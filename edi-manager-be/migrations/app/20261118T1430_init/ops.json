@@ -1201,5 +1201,57 @@
         ]
       }
     ]
+  },
+  {
+    "id": "data_migration.seed-companies",
+    "label": "Data transform: seed-companies",
+    "operationClass": "data",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Run seed-companies",
+        "sql": "INSERT INTO \"public\".\"Company\" (\"name\", \"slug\", \"division\", \"edi_company_code\", \"edi_company_code_type\", \"business_name\", \"address\", \"city\", \"province\", \"postal_code\", \"country\", \"court_of_law\", \"ccia\", \"share_capital\", \"raee_registration_number\", \"pile_registration_number\", \"id\") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17), ($18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34)",
+        "params": [
+          "Nital",
+          "nital",
+          "Z001",
+          "06047610016",
+          "ZZ",
+          "Nital S.p.A",
+          "Via Vittime di Piazza Fontana n. 54",
+          "Moncalieri",
+          "TO",
+          "10024",
+          "IT",
+          null,
+          "756023 del 28/1/1991",
+          "5.000.000 i.v.",
+          "IT08020000002546",
+          "IT09060P00000242",
+          "03b31011-c9b9-4bca-b477-dc34e8321edb",
+          "FOWA",
+          "fowa",
+          "Z002",
+          "01187480015",
+          "ZZ",
+          "Fowa S.p.A.",
+          "Via Vittime di Piazza Fontana n. 52/bis",
+          "Moncalieri",
+          "TO",
+          "10024",
+          "IT",
+          null,
+          "756023 del 28/1/1991",
+          "3.500.000 i.v.",
+          "IT08040000004702",
+          "IT09060P00000680",
+          "e39ebf7b-4898-40ec-b178-a2a4c3b1587f"
+        ]
+      }
+    ],
+    "postcheck": []
   }
 ]

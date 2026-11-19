@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node
 import type { Contract as End } from '../../snapshots/ea5d37eacbe5817e57192bc51d0d806a08b0d054ada75f891ac41fa20027953a/contract';
-import endContract from '../../snapshots/ea5d37eacbe5817e57192bc51d0d806a08b0d054ada75f891ac41fa20027953a/contract.json' with { type: 'json' };
+import endContractJson from '../../snapshots/ea5d37eacbe5817e57192bc51d0d806a08b0d054ada75f891ac41fa20027953a/contract.json' with { type: 'json' };
 import {
   Migration,
   MigrationCLI,
@@ -10,9 +10,31 @@ import {
   primaryKey,
   sql,
 } from '@prisma/orm-postgres/migration';
+import postgresAdapter from '@prisma/orm-postgres/adapter/runtime';
+import { sql as queryBuilder } from '@prisma/orm-postgres/builder/runtime';
+import {
+  createExecutionContext,
+  createSqlExecutionStack,
+} from '@prisma/orm-postgres/family-runtime';
+import postgresTarget, {
+  PostgresContractSerializer,
+} from '@prisma/orm-postgres/target/runtime';
+
+const endContract = new PostgresContractSerializer().deserializeContract<End>(
+  endContractJson,
+);
+const stack = createSqlExecutionStack({
+  target: postgresTarget,
+  adapter: postgresAdapter,
+});
+
+const db = queryBuilder<End>({
+  context: createExecutionContext({ contract: endContract, stack }),
+  rawCodecInferer: stack.adapter.rawCodecInferer,
+});
 
 export default class M extends Migration<never, End> {
-  override readonly endContractJson = endContract;
+  override readonly endContractJson = endContractJson;
 
   override get operations() {
     return [
@@ -21,11 +43,26 @@ export default class M extends Migration<never, End> {
         schema: 'public',
         table: 'Company',
         columns: [
-          col('address', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('business_name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('ccia', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('city', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('country', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('address', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('business_name', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('ccia', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('city', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('country', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('court_of_law', 'text', { codecRef: { codecId: 'pg/text@1' } }),
           col('division', 'character varying', {
             notNull: true,
@@ -39,8 +76,14 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'pg/varchar@1' },
           }),
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
-          col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
+          col('name', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('pile_registration_number', 'character varying', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
@@ -57,7 +100,10 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
           }),
-          col('share_capital', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('share_capital', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('slug', 'character varying', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
@@ -80,8 +126,14 @@ export default class M extends Migration<never, End> {
             default: lit(1),
             codecRef: { codecId: 'pg/int4@1' },
           }),
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
-          col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
+          col('name', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('sap_customer_number', 'character varying', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
@@ -97,9 +149,18 @@ export default class M extends Migration<never, End> {
         schema: 'public',
         table: 'EdiType',
         columns: [
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
-          col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('operation', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
+          col('name', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('operation', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
         ],
         constraints: [
           primaryKey(['id']),
@@ -115,20 +176,35 @@ export default class M extends Migration<never, End> {
         columns: [
           col('created_at', 'timestamptz(3)', {
             notNull: true,
-            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+            codecRef: {
+              codecId: 'pg/timestamptz-date@1',
+              typeParams: { precision: 3 },
+            },
           }),
           col('error_message', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('filename', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
+          col('filename', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
           col('run_id', 'character varying', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
           }),
-          col('status', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('status', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
         ],
         constraints: [
           primaryKey(['id']),
-          checkExpression('File_status_check_cf321638', sql`"status" IN ('success', 'fail')`),
+          checkExpression(
+            'File_status_check_cf321638',
+            sql`"status" IN ('success', 'fail')`,
+          ),
         ],
       }),
       this.createTable({
@@ -152,9 +228,17 @@ export default class M extends Migration<never, End> {
             default: lit(false),
             codecRef: { codecId: 'pg/bool@1' },
           }),
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
-          col('interval', 'int2', { notNull: true, codecRef: { codecId: 'pg/int2@1' } }),
-          col('last_run_id', 'character varying', { codecRef: { codecId: 'sql/varchar@1' } }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
+          col('interval', 'int2', {
+            notNull: true,
+            codecRef: { codecId: 'pg/int2@1' },
+          }),
+          col('last_run_id', 'character varying', {
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
         ],
         constraints: [primaryKey(['id'])],
       }),
@@ -168,18 +252,30 @@ export default class M extends Migration<never, End> {
           }),
           col('created_at', 'timestamptz(3)', {
             notNull: true,
-            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+            codecRef: {
+              codecId: 'pg/timestamptz-date@1',
+              typeParams: { precision: 3 },
+            },
           }),
           col('edi_type_id', 'character varying', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1' },
           }),
           col('error_message', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('id', 'character varying', { notNull: true, codecRef: { codecId: 'sql/varchar@1' } }),
-          col('status', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'character varying', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1' },
+          }),
+          col('status', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('updated_at', 'timestamptz(3)', {
             notNull: true,
-            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+            codecRef: {
+              codecId: 'pg/timestamptz-date@1',
+              typeParams: { precision: 3 },
+            },
           }),
         ],
         constraints: [
@@ -318,6 +414,47 @@ export default class M extends Migration<never, End> {
           columns: ['edi_type_id'],
           references: { schema: 'public', table: 'EdiType', columns: ['id'] },
         },
+      }),
+      this.dataTransform(endContract, 'seed-companies', {
+        run: () =>
+          db.public.Company.insert([
+            {
+              name: 'Nital',
+              slug: 'nital',
+              division: 'Z001',
+              edi_company_code: '06047610016',
+              edi_company_code_type: 'ZZ',
+              business_name: 'Nital S.p.A',
+              address: 'Via Vittime di Piazza Fontana n. 54',
+              city: 'Moncalieri',
+              province: 'TO',
+              postal_code: '10024',
+              country: 'IT',
+              court_of_law: null,
+              ccia: '756023 del 28/1/1991',
+              share_capital: '5.000.000 i.v.',
+              raee_registration_number: 'IT08020000002546',
+              pile_registration_number: 'IT09060P00000242',
+            },
+            {
+              name: 'FOWA',
+              slug: 'fowa',
+              division: 'Z002',
+              edi_company_code: '01187480015',
+              edi_company_code_type: 'ZZ',
+              business_name: 'Fowa S.p.A.',
+              address: 'Via Vittime di Piazza Fontana n. 52/bis',
+              city: 'Moncalieri',
+              province: 'TO',
+              postal_code: '10024',
+              country: 'IT',
+              court_of_law: null,
+              ccia: '756023 del 28/1/1991',
+              share_capital: '3.500.000 i.v.',
+              raee_registration_number: 'IT08040000004702',
+              pile_registration_number: 'IT09060P00000680',
+            },
+          ]),
       }),
     ];
   }
