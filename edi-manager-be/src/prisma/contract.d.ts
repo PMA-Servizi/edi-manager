@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'f75c64d831da013a825291843b59fd0b8f36290d0dd76b52478a76e8cedfc09f'>;
+  StorageHashBase<'c102d00f8c956c20a0027bd521c26252185b98f41a4bea8b580dc12fb3518b82'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -282,7 +282,7 @@ type FieldTypeOverrides = {
         readonly ediCompanyCodeType: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
       };
       readonly Files: {
-        readonly status: {
+        readonly outcome: {
           readonly output: 'success' | 'fail';
           readonly input: 'success' | 'fail';
         };
@@ -328,9 +328,9 @@ type FieldTypeOverrides = {
         };
       };
       readonly Runs: {
-        readonly status: {
-          readonly output: 'queued' | 'completed' | 'failed';
-          readonly input: 'queued' | 'completed' | 'failed';
+        readonly outcome: {
+          readonly output: 'success' | 'fail';
+          readonly input: 'success' | 'fail';
         };
       };
     };
@@ -358,7 +358,7 @@ type ColumnTypeOverrides = {
       readonly edi_company_code_type: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
     };
     readonly Files: {
-      readonly status: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
+      readonly outcome: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
     };
     readonly Flows: {
       readonly edi_record_type: {
@@ -401,10 +401,7 @@ type ColumnTypeOverrides = {
       };
     };
     readonly Runs: {
-      readonly status: {
-        readonly output: 'queued' | 'completed' | 'failed';
-        readonly input: 'queued' | 'completed' | 'failed';
-      };
+      readonly outcome: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
     };
   };
 };
@@ -457,8 +454,8 @@ export namespace Models {
     errorMessage: FieldOutputTypes['public']['Files']['errorMessage'];
     filename: FieldOutputTypes['public']['Files']['filename'];
     id: FieldOutputTypes['public']['Files']['id'];
+    outcome: FieldOutputTypes['public']['Files']['outcome'];
     runId: FieldOutputTypes['public']['Files']['runId'];
-    status: FieldOutputTypes['public']['Files']['status'];
     run: public_Runs;
     readonly [RelationKeys]?: 'run';
   };
@@ -481,7 +478,7 @@ export namespace Models {
     errorMessage: FieldOutputTypes['public']['Runs']['errorMessage'];
     flowId: FieldOutputTypes['public']['Runs']['flowId'];
     id: FieldOutputTypes['public']['Runs']['id'];
-    status: FieldOutputTypes['public']['Runs']['status'];
+    outcome: FieldOutputTypes['public']['Runs']['outcome'];
     updatedAt: FieldOutputTypes['public']['Runs']['updatedAt'];
     flow: public_Flows;
     readonly [RelationKeys]?: 'flow';
@@ -695,15 +692,15 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly run_id: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
+                readonly outcome: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly status: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
+                readonly run_id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
@@ -885,7 +882,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly status: {
+                readonly outcome: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -954,13 +951,13 @@ type ContractBase = Omit<
                 'ORDPRP',
               ];
             };
-            readonly ProcessOutcome: {
+            readonly FileOutcome: {
               readonly kind: 'valueSet';
               readonly values: readonly ['success', 'fail'];
             };
-            readonly RunStatus: {
+            readonly RunOutcome: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['queued', 'completed', 'failed'];
+              readonly values: readonly ['success', 'fail'];
             };
           };
         };
@@ -1137,13 +1134,13 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
+              readonly outcome: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly runId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
-              readonly status: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
             readonly relations: {
@@ -1165,8 +1162,8 @@ type ContractBase = Omit<
                 readonly errorMessage: { readonly column: 'error_message' };
                 readonly filename: { readonly column: 'filename' };
                 readonly id: { readonly column: 'id' };
+                readonly outcome: { readonly column: 'outcome' };
                 readonly runId: { readonly column: 'run_id' };
-                readonly status: { readonly column: 'status' };
               };
             };
           };
@@ -1277,7 +1274,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly status: {
+              readonly outcome: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1312,7 +1309,7 @@ type ContractBase = Omit<
                 readonly errorMessage: { readonly column: 'error_message' };
                 readonly flowId: { readonly column: 'flow_id' };
                 readonly id: { readonly column: 'id' };
-                readonly status: { readonly column: 'status' };
+                readonly outcome: { readonly column: 'outcome' };
                 readonly updatedAt: { readonly column: 'updated_at' };
               };
             };
@@ -1353,19 +1350,18 @@ type ContractBase = Omit<
               { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
             ];
           };
-          readonly ProcessOutcome: {
+          readonly FileOutcome: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
               { readonly name: 'SUCCCESS'; readonly value: 'success' },
               { readonly name: 'FAIL'; readonly value: 'fail' },
             ];
           };
-          readonly RunStatus: {
+          readonly RunOutcome: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
-              { readonly name: 'QUEUED'; readonly value: 'queued' },
-              { readonly name: 'COMPLETED'; readonly value: 'completed' },
-              { readonly name: 'FAILED'; readonly value: 'failed' },
+              { readonly name: 'SUCCCESS'; readonly value: 'success' },
+              { readonly name: 'FAIL'; readonly value: 'fail' },
             ];
           };
         };
@@ -1395,14 +1391,13 @@ type ContractBase = Omit<
             { readonly name: 'NOTADD'; readonly value: 'NOTADD' },
             { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
           ];
-          readonly ProcessOutcome: readonly [
+          readonly FileOutcome: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
           ];
-          readonly RunStatus: readonly [
-            { readonly name: 'QUEUED'; readonly value: 'queued' },
-            { readonly name: 'COMPLETED'; readonly value: 'completed' },
-            { readonly name: 'FAILED'; readonly value: 'failed' },
+          readonly RunOutcome: readonly [
+            { readonly name: 'SUCCCESS'; readonly value: 'success' },
+            { readonly name: 'FAIL'; readonly value: 'fail' },
           ];
         };
       };

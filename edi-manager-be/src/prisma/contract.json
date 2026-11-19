@@ -120,7 +120,7 @@
               }
             ]
           },
-          "ProcessOutcome": {
+          "FileOutcome": {
             "codecId": "pg/text@1",
             "members": [
               {
@@ -133,20 +133,16 @@
               }
             ]
           },
-          "RunStatus": {
+          "RunOutcome": {
             "codecId": "pg/text@1",
             "members": [
               {
-                "name": "QUEUED",
-                "value": "queued"
+                "name": "SUCCCESS",
+                "value": "success"
               },
               {
-                "name": "COMPLETED",
-                "value": "completed"
-              },
-              {
-                "name": "FAILED",
-                "value": "failed"
+                "name": "FAIL",
+                "value": "fail"
               }
             ]
           }
@@ -433,14 +429,7 @@
                   "kind": "scalar"
                 }
               },
-              "runId": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
-              },
-              "status": {
+              "outcome": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -448,9 +437,16 @@
                 },
                 "valueSet": {
                   "entityKind": "enum",
-                  "entityName": "ProcessOutcome",
+                  "entityName": "FileOutcome",
                   "namespaceId": "public",
                   "plane": "domain"
+                }
+              },
+              "runId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
                 }
               }
             },
@@ -486,11 +482,11 @@
                 "id": {
                   "column": "id"
                 },
+                "outcome": {
+                  "column": "outcome"
+                },
                 "runId": {
                   "column": "run_id"
-                },
-                "status": {
-                  "column": "status"
                 }
               },
               "namespaceId": "public",
@@ -682,7 +678,7 @@
                   "kind": "scalar"
                 }
               },
-              "status": {
+              "outcome": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -690,7 +686,7 @@
                 },
                 "valueSet": {
                   "entityKind": "enum",
-                  "entityName": "RunStatus",
+                  "entityName": "RunOutcome",
                   "namespaceId": "public",
                   "plane": "domain"
                 }
@@ -738,8 +734,8 @@
                 "id": {
                   "column": "id"
                 },
-                "status": {
-                  "column": "status"
+                "outcome": {
+                  "column": "outcome"
                 },
                 "updatedAt": {
                   "column": "updated_at"
@@ -924,9 +920,9 @@
             "Files": {
               "checks": [
                 {
-                  "expression": "\"status\" IN ('success', 'fail')",
-                  "name": "Files_status_check_cf321638",
-                  "prefix": "Files_status_check"
+                  "expression": "\"outcome\" IN ('success', 'fail')",
+                  "name": "Files_outcome_check_3f8f0072",
+                  "prefix": "Files_outcome_check"
                 }
               ],
               "columns": {
@@ -953,21 +949,21 @@
                   "dataType": "pg/varchar",
                   "nullable": false
                 },
-                "run_id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
-                "status": {
+                "outcome": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
                     "entityKind": "valueSet",
-                    "entityName": "ProcessOutcome",
+                    "entityName": "FileOutcome",
                     "namespaceId": "public",
                     "plane": "storage"
                   }
+                },
+                "run_id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
                 }
               },
               "foreignKeys": [
@@ -1183,9 +1179,9 @@
             "Runs": {
               "checks": [
                 {
-                  "expression": "\"status\" IN ('queued', 'completed', 'failed')",
-                  "name": "Runs_status_check_5e80b506",
-                  "prefix": "Runs_status_check"
+                  "expression": "\"outcome\" IN ('success', 'fail')",
+                  "name": "Runs_outcome_check_3f8f0072",
+                  "prefix": "Runs_outcome_check"
                 }
               ],
               "columns": {
@@ -1212,13 +1208,13 @@
                   "dataType": "pg/varchar",
                   "nullable": false
                 },
-                "status": {
+                "outcome": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
                     "entityKind": "valueSet",
-                    "entityName": "RunStatus",
+                    "entityName": "RunOutcome",
                     "namespaceId": "public",
                     "plane": "storage"
                   }
@@ -1306,19 +1302,18 @@
                 "ORDPRP"
               ]
             },
-            "ProcessOutcome": {
+            "FileOutcome": {
               "kind": "valueSet",
               "values": [
                 "success",
                 "fail"
               ]
             },
-            "RunStatus": {
+            "RunOutcome": {
               "kind": "valueSet",
               "values": [
-                "queued",
-                "completed",
-                "failed"
+                "success",
+                "fail"
               ]
             }
           }
@@ -1327,7 +1322,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "f75c64d831da013a825291843b59fd0b8f36290d0dd76b52478a76e8cedfc09f"
+    "storageHash": "c102d00f8c956c20a0027bd521c26252185b98f41a4bea8b580dc12fb3518b82"
   },
   "execution": {
     "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",

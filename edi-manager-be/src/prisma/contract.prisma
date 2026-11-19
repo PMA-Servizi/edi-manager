@@ -58,18 +58,17 @@ model Companies {
   pileRegistrationNumber String(varchar) @map('pile_registration_number')
 }
 
-enum RunStatus {
+enum RunOutcome {
   @@type("pg/text@1")
-  QUEUED = 'queued'
-  COMPLETED = 'completed'
-  FAILED = 'failed'
+  SUCCCESS = 'success'
+  FAIL = 'fail'
 }
 
 model Runs {
   id           String(varchar) @id @onCreate(uuid(4))
   createdAt    DateTime        @onCreate(now()) @map('created_at')
   updatedAt    DateTime        @onCreate(now()) @onUpdate(now()) @map('updated_at')
-  status       RunStatus
+  outcome      RunOutcome
   errorMessage String(text)?   @map('error_message')
 
   flowId       String(varchar) @map('flow_id')
@@ -95,7 +94,7 @@ model Flows {
   @@unique([customerId, companyId, ediRecordType, operation])
 }
 
-enum ProcessOutcome {
+enum FileOutcome {
   @@type("pg/text@1")
   SUCCCESS = 'success'
   FAIL = 'fail'
@@ -105,7 +104,7 @@ model Files {
   id           String(varchar) @id @onCreate(uuid(4))
   createdAt    DateTime        @onCreate(now()) @map('created_at')
   filename     String(text)
-  status       ProcessOutcome
+  outcome      FileOutcome
   errorMessage String(text)?   @map('error_message')
 
   runId        String(varchar) @map('run_id')

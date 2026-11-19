@@ -7,6 +7,15 @@ export class FlowsRepository {
   async getFlows(): Promise<Flow[]> {
     return await db.orm.public.Flows.include('company')
       .include('customer')
+      .include('lastRun', (lastRun) =>
+        lastRun.select(
+          'id',
+          'createdAt',
+          'updatedAt',
+          'outcome',
+          'errorMessage',
+        ),
+      )
       .all();
   }
 }

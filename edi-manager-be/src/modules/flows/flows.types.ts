@@ -1,5 +1,6 @@
 import { Company } from '../companies/companies.types.js';
 import { Customer } from '../customers/customers.types.js';
+import { PartialRun, Run } from '../runs/runs.types.js';
 
 export type EdiOperation = 'download' | 'upload';
 export type EdiRecordType =
@@ -27,7 +28,7 @@ export interface Flow {
   operation: EdiOperation;
   company: Company;
   customer: Customer;
-  // TODO: add missing properties from contract when entites are created
+  lastRun: PartialRun | null;
 }
 
 export type FlowJobStatus = 'running' | 'scheduled' | 'queued';
