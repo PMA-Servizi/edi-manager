@@ -448,7 +448,7 @@ export namespace Models {
     catalogId: FieldOutputTypes['public']['Customers']['catalogId'];
     id: FieldOutputTypes['public']['Customers']['id'];
     name: FieldOutputTypes['public']['Customers']['name'];
-    sapCustomerNumber: FieldOutputTypes['public']['Customers']['sapCustomerNumber'];
+    sapCustomerCode: FieldOutputTypes['public']['Customers']['sapCustomerCode'];
     slug: FieldOutputTypes['public']['Customers']['slug'];
     readonly [RelationKeys]?: never;
   };
@@ -1093,7 +1093,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly sapCustomerNumber: {
+              readonly sapCustomerCode: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
@@ -1110,7 +1110,7 @@ type ContractBase = Omit<
                 readonly catalogId: { readonly column: 'catalog_id' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
-                readonly sapCustomerNumber: { readonly column: 'sap_customer_number' };
+                readonly sapCustomerCode: { readonly column: 'sap_customer_number' };
                 readonly slug: { readonly column: 'slug' };
               };
             };

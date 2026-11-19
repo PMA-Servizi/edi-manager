@@ -25,11 +25,11 @@ enum EdiRecordType {
 }
 
 model Customers {
-  id                String(varchar) @id @onCreate(uuid(4))
-  name              String(text)
-  slug              String(varchar)
-  sapCustomerNumber String(varchar) @unique @map('sap_customer_number')
-  catalogId         Int4            @default(1) @map('catalog_id')
+  id              String(varchar) @id @onCreate(uuid(4))
+  name            String(text)
+  slug            String(varchar)
+  sapCustomerCode String(varchar) @unique @map('sap_customer_number')
+  catalogId       Int4            @default(1) @map('catalog_id')
 }
 
 enum EdiCodeType {
@@ -72,25 +72,25 @@ model Runs {
   status       RunStatus
   errorMessage String(text)?   @map('error_message')
 
-  flowId    String(varchar) @map('flow_id')
-  flow      Flows       @relation(fields: [flowId], references: [id])
+  flowId       String(varchar) @map('flow_id')
+  flow         Flows           @relation(fields: [flowId], references: [id])
 }
 
 model Flows {
-  id         String(varchar)  @id @onCreate(uuid(4))
-  enabled    Boolean          @default(false)
-  interval   Int2
-  ediRecordType  EdiRecordType  @map('edi_record_type')
-  operation EdiOperation
+  id            String(varchar)  @id @onCreate(uuid(4))
+  enabled       Boolean          @default(false)
+  interval      Int2
+  ediRecordType EdiRecordType    @map('edi_record_type')
+  operation     EdiOperation
 
-  customerId String(varchar)  @map('customer_id')
-  customer   Customers        @relation(fields: [customerId], references: [id])
+  customerId    String(varchar)  @map('customer_id')
+  customer      Customers        @relation(fields: [customerId], references: [id])
 
-  companyId  String(varchar)  @map('company_id')
-  company    Companies        @relation(fields: [companyId], references: [id])
+  companyId     String(varchar)  @map('company_id')
+  company       Companies        @relation(fields: [companyId], references: [id])
 
-  lastRunId  String(varchar)? @map('last_run_id')
-  lastRun    Runs?            @relation(fields: [lastRunId], references: [id])
+  lastRunId     String(varchar)? @map('last_run_id')
+  lastRun       Runs?            @relation(fields: [lastRunId], references: [id])
 
   @@unique([customerId, companyId, ediRecordType, operation])
 }

@@ -362,7 +362,7 @@
                   "kind": "scalar"
                 }
               },
-              "sapCustomerNumber": {
+              "sapCustomerCode": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -389,7 +389,7 @@
                 "name": {
                   "column": "name"
                 },
-                "sapCustomerNumber": {
+                "sapCustomerCode": {
                   "column": "sap_customer_number"
                 },
                 "slug": {
