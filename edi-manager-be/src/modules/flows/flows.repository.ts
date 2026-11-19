@@ -5,6 +5,6 @@ import { db } from '@/prisma/db.js';
 @Injectable()
 export class FlowsRepository {
   async getFlows(): Promise<Flow[]> {
-    return await db.orm.public.Flows.all();
+    return await db.orm.public.Flows.include('company').all();
   }
 }
