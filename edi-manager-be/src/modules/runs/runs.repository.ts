@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Run } from './runs.types.js';
+import { CreateRunBody, Run } from './runs.types.js';
 import { db } from '@/prisma/db.js';
 import { EntityNotFoundError } from '@/shared/errors.js';
 
@@ -25,5 +25,10 @@ export class RunsRepository {
         throw new EntityNotFoundError("Could not find the run's original flow");
       return { ...run, flow };
     });
+  }
+
+  async createRun(body: CreateRunBody): Promise<string> {
+    const newRun = await db.orm.public.Runs.create(body);
+    return newRun.id;
   }
 }

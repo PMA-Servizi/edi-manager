@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RunsRepository } from './runs.repository.js';
-import { Run } from './runs.types.js';
+import { CreateRunBody, Run } from './runs.types.js';
 
 @Injectable()
 export class RunsService {
@@ -8,5 +8,9 @@ export class RunsService {
 
   async getRuns(): Promise<Run[]> {
     return await this.runsRepository.getRuns();
+  }
+
+  async createRun(body: CreateRunBody): Promise<string> {
+    return await this.createRun(body);
   }
 }

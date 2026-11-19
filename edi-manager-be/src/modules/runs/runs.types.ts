@@ -18,3 +18,9 @@ export interface PartialRun {
   outcome: RunOutcome;
   errorMessage: string | null;
 }
+
+export interface CreateRunBody {
+  outcome: RunOutcome;
+  errorMessage?: string;
+  flowId: string;
+}

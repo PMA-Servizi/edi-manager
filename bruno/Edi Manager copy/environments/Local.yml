@@ -1,0 +1,12 @@
+name: Local
+variables:
+  - name: baseURL
+    value: http://localhost:8080
+    description: ""
+  - name: prefix
+    value: api
+    description: ""
+  - secret: true
+    name: password
+  - secret: true
+    name: username

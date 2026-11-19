@@ -4,6 +4,8 @@ import { Job } from 'bullmq';
 import { Flow, FlowJob } from './flows.types.js';
 import { FlowsMapper } from './flows.mapper.js';
 import { FlowsRepository } from './flows.repository.js';
+import { RunsService } from '../runs/runs.service.js';
+import { CreateRunBody } from '../runs/runs.types.js';
 
 @Injectable()
 export class FlowsService {
@@ -11,6 +13,7 @@ export class FlowsService {
     private readonly flowsQueue: FlowsQueue,
     private readonly flowsMapper: FlowsMapper,
     private readonly flowsRepository: FlowsRepository,
+    private readonly runsService: RunsService,
   ) {}
 
   async startFlows() {
@@ -26,12 +29,27 @@ export class FlowsService {
     }
   }
 
-  runFlowJob(flowJob: Job<Flow>) {
-    console.log(
-      'Just ran flow: ',
-      flowJob.data.ediRecordType,
-      flowJob.data.operation,
-    );
+  async runFlowJob(flowJob: Job<Flow>) {
+    try {
+      console.log(
+        'Just ran flow: ',
+        flowJob.data.ediRecordType,
+        flowJob.data.operation,
+      );
+
+      const newRunBody: CreateRunBody = {
+        flowId: flowJob.data.id,
+        outcome: 'success',
+      };
+      await this.runsService.createRun(newRunBody);
+    } catch {
+      const newRunBody: CreateRunBody = {
+        flowId: flowJob.data.id,
+        outcome: 'fail',
+        errorMessage: 'Errore durante la run!',
+      };
+      await this.runsService.createRun(newRunBody);
+    }
   }
 
   async getFlows(): Promise<Flow[]> {
