@@ -1,3 +1,5 @@
+import { Company } from '../companies/companies.types.js';
+
 export type EdiOperation = 'download' | 'upload';
 export type EdiRecordType =
   | 'ANPROD'
@@ -22,6 +24,7 @@ export interface Flow {
   interval: number;
   ediRecordType: EdiRecordType;
   operation: EdiOperation;
+  company: Company;
   // TODO: add missing properties from contract when entites are created
 }
 
