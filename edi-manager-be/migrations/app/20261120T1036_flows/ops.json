@@ -1,0 +1,1707 @@
+[
+  {
+    "id": "dropConstraint.Runs.Runs_company_id_fkey",
+    "label": "Drop constraint \"Runs_company_id_fkey\" on \"Runs\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Runs_company_id_fkey",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Runs_company_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_company_id_fkey",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Runs_company_id_fkey\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"Runs_company_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP CONSTRAINT \"Runs_company_id_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Runs_company_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_company_id_fkey",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Runs_company_id_fkey\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropConstraint.Runs.Runs_edi_type_id_fkey",
+    "label": "Drop constraint \"Runs_edi_type_id_fkey\" on \"Runs\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Runs_edi_type_id_fkey",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Runs_edi_type_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_edi_type_id_fkey",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Runs_edi_type_id_fkey\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"Runs_edi_type_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP CONSTRAINT \"Runs_edi_type_id_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Runs_edi_type_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_edi_type_id_fkey",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Runs_edi_type_id_fkey\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Companies.ccia",
+    "label": "Drop column \"ccia\" from \"Companies\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "ccia",
+        "table": "Companies"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"ccia\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "ccia"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"ccia\" on \"Companies\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"ccia\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" DROP COLUMN \"ccia\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"ccia\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "ccia"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"ccia\" on \"Companies\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Companies.slug",
+    "label": "Drop column \"slug\" from \"Companies\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "slug",
+        "table": "Companies"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"slug\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "slug"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"slug\" on \"Companies\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"slug\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" DROP COLUMN \"slug\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"slug\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "slug"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"slug\" on \"Companies\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Customers.slug",
+    "label": "Drop column \"slug\" from \"Customers\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "slug",
+        "table": "Customers"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"slug\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "slug"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"slug\" on \"Customers\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"slug\"",
+        "sql": "ALTER TABLE \"public\".\"Customers\" DROP COLUMN \"slug\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"slug\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "slug"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"slug\" on \"Customers\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropCheckConstraint.Files.Files_status_check_cf321638",
+    "label": "Drop check constraint \"Files_status_check_cf321638\" on \"Files\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Files_status_check_cf321638",
+        "table": "Files"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Files_status_check_cf321638\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Files_status_check_cf321638",
+          "public",
+          "\"public\".\"Files\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Files_status_check_cf321638\" on \"Files\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"Files_status_check_cf321638\"",
+        "sql": "ALTER TABLE \"public\".\"Files\" DROP CONSTRAINT \"Files_status_check_cf321638\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Files_status_check_cf321638\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Files_status_check_cf321638",
+          "public",
+          "\"public\".\"Files\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Files_status_check_cf321638\" on \"Files\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Files.status",
+    "label": "Drop column \"status\" from \"Files\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "status",
+        "table": "Files"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "status"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"status\" on \"Files\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"status\"",
+        "sql": "ALTER TABLE \"public\".\"Files\" DROP COLUMN \"status\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"status\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "status"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"status\" on \"Files\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropTable.Habilitations",
+    "label": "Drop table \"Habilitations\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Habilitations"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Habilitations\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Habilitations\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Habilitations\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop table \"Habilitations\"",
+        "sql": "DROP TABLE \"public\".\"Habilitations\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Habilitations\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Habilitations\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Habilitations\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropCheckConstraint.Runs.Runs_status_check_5e80b506",
+    "label": "Drop check constraint \"Runs_status_check_5e80b506\" on \"Runs\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Runs_status_check_5e80b506",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Runs_status_check_5e80b506\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_status_check_5e80b506",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Runs_status_check_5e80b506\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"Runs_status_check_5e80b506\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP CONSTRAINT \"Runs_status_check_5e80b506\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Runs_status_check_5e80b506\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_status_check_5e80b506",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Runs_status_check_5e80b506\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Runs.status",
+    "label": "Drop column \"status\" from \"Runs\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "status",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "status"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"status\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"status\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP COLUMN \"status\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"status\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "status"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"status\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropTable.EdiTypes",
+    "label": "Drop table \"EdiTypes\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "EdiTypes"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"EdiTypes\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EdiTypes\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"EdiTypes\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop table \"EdiTypes\"",
+        "sql": "DROP TABLE \"public\".\"EdiTypes\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"EdiTypes\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EdiTypes\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"EdiTypes\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropIndex.Runs.Runs_company_id_idx_1303a718",
+    "label": "Drop index \"Runs_company_id_idx_1303a718\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Runs_company_id_idx_1303a718",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Runs_company_id_idx_1303a718\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_company_id_idx_1303a718\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "index \"Runs_company_id_idx_1303a718\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop index \"Runs_company_id_idx_1303a718\"",
+        "sql": "DROP INDEX \"public\".\"Runs_company_id_idx_1303a718\"",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Runs_company_id_idx_1303a718\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_company_id_idx_1303a718\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Runs_company_id_idx_1303a718\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Runs.company_id",
+    "label": "Drop column \"company_id\" from \"Runs\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "company_id",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"company_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "company_id"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"company_id\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"company_id\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP COLUMN \"company_id\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"company_id\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "company_id"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"company_id\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropIndex.Runs.Runs_edi_type_id_idx_9bc9a9ac",
+    "label": "Drop index \"Runs_edi_type_id_idx_9bc9a9ac\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Runs_edi_type_id_idx_9bc9a9ac",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Runs_edi_type_id_idx_9bc9a9ac\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_edi_type_id_idx_9bc9a9ac\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "index \"Runs_edi_type_id_idx_9bc9a9ac\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop index \"Runs_edi_type_id_idx_9bc9a9ac\"",
+        "sql": "DROP INDEX \"public\".\"Runs_edi_type_id_idx_9bc9a9ac\"",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Runs_edi_type_id_idx_9bc9a9ac\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_edi_type_id_idx_9bc9a9ac\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Runs_edi_type_id_idx_9bc9a9ac\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.Runs.edi_type_id",
+    "label": "Drop column \"edi_type_id\" from \"Runs\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "edi_type_id",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"edi_type_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "edi_type_id"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"edi_type_id\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"edi_type_id\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" DROP COLUMN \"edi_type_id\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"edi_type_id\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "edi_type_id"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"edi_type_id\" on \"Runs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.Flows",
+    "label": "Create table \"Flows\"",
+    "summary": "Creates table \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Flows\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Flows\"",
+        "sql": "CREATE TABLE \"public\".\"Flows\" (\n  \"company_id\" character varying NOT NULL,\n  \"customer_id\" character varying NOT NULL,\n  \"edi_record_type\" text NOT NULL,\n  \"enabled\" bool DEFAULT false NOT NULL,\n  \"id\" character varying NOT NULL,\n  \"interval\" int2 NOT NULL,\n  \"last_run_id\" character varying,\n  \"operation\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Flows_edi_record_type_check_54584439\" CHECK (\"edi_record_type\" IN ('ANPROD', 'DESADV', 'ORDERS', 'ORDRSP', 'PACLIS', 'SELLIN', 'INVSUP', 'ORDLIS', 'REMADV', 'INVRPT', 'SLSRPT', 'PRICAT', 'NOTACC', 'NOTADD', 'ORDPRP')),\n  CONSTRAINT \"Flows_operation_check_48aa35a1\" CHECK (\"operation\" IN ('download', 'upload'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Flows\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"Flows\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Flows\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "column.Companies.cciaa",
+    "label": "Add column cciaa to Companies",
+    "summary": "Adds column cciaa to table Companies",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Companies"
+      }
+    },
+    "operationClass": "additive",
+    "precheck": [
+      {
+        "description": "ensure column \"cciaa\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "cciaa"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"cciaa\" on \"Companies\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"cciaa\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" ADD COLUMN \"cciaa\" text DEFAULT ('') NOT NULL"
+      },
+      {
+        "description": "drop temporary default from column \"cciaa\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" ALTER COLUMN \"cciaa\" DROP DEFAULT"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"cciaa\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "cciaa"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"cciaa\" on \"Companies\""
+        }
+      },
+      {
+        "description": "verify column \"cciaa\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "cciaa",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"cciaa\" has no default after temporary default removal",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"column_default\" IS NOT NULL)) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "cciaa"
+        ]
+      },
+      {
+        "description": "verify column \"cciaa\" has type \"text\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Companies",
+          "cciaa",
+          "text"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.Files.outcome",
+    "label": "Add column outcome to Files",
+    "summary": "Adds column outcome to table Files",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "outcome",
+        "table": "Files"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"outcome\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "outcome"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"outcome\" on \"Files\""
+        }
+      },
+      {
+        "description": "ensure table \"Files\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Files\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Files",
+            "column": "outcome",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"outcome\"",
+        "sql": "ALTER TABLE \"public\".\"Files\" ADD COLUMN \"outcome\" text NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"outcome\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "outcome"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"outcome\" on \"Files\""
+        }
+      },
+      {
+        "description": "verify column \"outcome\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "outcome",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"outcome\" has type \"text\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Files",
+          "outcome",
+          "text"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.Runs.flow_id",
+    "label": "Add column flow_id to Runs",
+    "summary": "Adds column flow_id to table Runs",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "flow_id",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"flow_id\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "flow_id"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"flow_id\" on \"Runs\""
+        }
+      },
+      {
+        "description": "ensure table \"Runs\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Runs\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Runs",
+            "column": "flow_id",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"flow_id\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" ADD COLUMN \"flow_id\" character varying NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"flow_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "flow_id"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"flow_id\" on \"Runs\""
+        }
+      },
+      {
+        "description": "verify column \"flow_id\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "flow_id",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"flow_id\" has type \"character varying\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "flow_id",
+          "character varying"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.Runs.outcome",
+    "label": "Add column outcome to Runs",
+    "summary": "Adds column outcome to table Runs",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "outcome",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"outcome\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "outcome"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"outcome\" on \"Runs\""
+        }
+      },
+      {
+        "description": "ensure table \"Runs\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Runs\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Runs",
+            "column": "outcome",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"outcome\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" ADD COLUMN \"outcome\" text NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"outcome\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "outcome"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"outcome\" on \"Runs\""
+        }
+      },
+      {
+        "description": "verify column \"outcome\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "outcome",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"outcome\" has type \"text\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Runs",
+          "outcome",
+          "text"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Companies.Companies_edi_company_code_edi_company_code_type_key",
+    "label": "Add unique constraint on \"Companies\" (edi_company_code, edi_company_code_type)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Companies_edi_company_code_edi_company_code_type_key",
+        "table": "Companies"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Companies_edi_company_code_edi_company_code_type_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Companies_edi_company_code_edi_company_code_type_key",
+          "public",
+          "\"public\".\"Companies\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Companies_edi_company_code_edi_company_code_type_key\" on \"Companies\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Companies_edi_company_code_edi_company_code_type_key\"",
+        "sql": "ALTER TABLE \"public\".\"Companies\" ADD CONSTRAINT \"Companies_edi_company_code_edi_company_code_type_key\" UNIQUE (\"edi_company_code\", \"edi_company_code_type\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify unique constraint \"Companies_edi_company_code_edi_company_code_type_key\" exists on (edi_company_code, edi_company_code_type)",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
+        "params": [
+          "Companies_edi_company_code_edi_company_code_type_key",
+          "public",
+          "\"public\".\"Companies\"",
+          "u",
+          "[\"edi_company_code\",\"edi_company_code_type\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Files.Files_outcome_check_3f8f0072",
+    "label": "Add check constraint \"Files_outcome_check_3f8f0072\" on \"Files\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Files_outcome_check_3f8f0072",
+        "table": "Files"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Files_outcome_check_3f8f0072\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Files_outcome_check_3f8f0072",
+          "public",
+          "\"public\".\"Files\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Files_outcome_check_3f8f0072\" on \"Files\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Files_outcome_check_3f8f0072\"",
+        "sql": "ALTER TABLE \"public\".\"Files\" ADD CONSTRAINT \"Files_outcome_check_3f8f0072\" CHECK (\"outcome\" IN ('success', 'fail'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify check constraint \"Files_outcome_check_3f8f0072\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4)) AS \"result\"",
+        "params": [
+          "Files_outcome_check_3f8f0072",
+          "public",
+          "\"public\".\"Files\"",
+          "c"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Flows.Flows_customer_id_company_id_edi_record_type_operation_key",
+    "label": "Add unique constraint on \"Flows\" (customer_id, company_id, edi_record_type, operation)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Flows_customer_id_company_id_edi_record_type_operation_key",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_key",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\" ADD CONSTRAINT \"Flows_customer_id_company_id_edi_record_type_operation_key\" UNIQUE (\"customer_id\", \"company_id\", \"edi_record_type\", \"operation\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify unique constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" exists on (customer_id, company_id, edi_record_type, operation)",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_key",
+          "public",
+          "\"public\".\"Flows\"",
+          "u",
+          "[\"customer_id\",\"company_id\",\"edi_record_type\",\"operation\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Runs.Runs_outcome_check_3f8f0072",
+    "label": "Add check constraint \"Runs_outcome_check_3f8f0072\" on \"Runs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Runs_outcome_check_3f8f0072",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Runs_outcome_check_3f8f0072\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_outcome_check_3f8f0072",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Runs_outcome_check_3f8f0072\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Runs_outcome_check_3f8f0072\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\" ADD CONSTRAINT \"Runs_outcome_check_3f8f0072\" CHECK (\"outcome\" IN ('success', 'fail'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify check constraint \"Runs_outcome_check_3f8f0072\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4)) AS \"result\"",
+        "params": [
+          "Runs_outcome_check_3f8f0072",
+          "public",
+          "\"public\".\"Runs\"",
+          "c"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Flows.Flows_company_id_idx_1303a718",
+    "label": "Create index \"Flows_company_id_idx_1303a718\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Flows_company_id_idx_1303a718",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Flows_company_id_idx_1303a718\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_company_id_idx_1303a718\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Flows_company_id_idx_1303a718\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Flows_company_id_idx_1303a718\"",
+        "sql": "CREATE INDEX \"Flows_company_id_idx_1303a718\" ON \"public\".\"Flows\" (\"company_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Flows_company_id_idx_1303a718\" exists on \"Flows\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_company_id_idx_1303a718\"",
+          "i",
+          "I",
+          "\"public\".\"Flows\"",
+          "btree",
+          "[\"company_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Flows.Flows_customer_id_idx_e16dfa6b",
+    "label": "Create index \"Flows_customer_id_idx_e16dfa6b\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Flows_customer_id_idx_e16dfa6b",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Flows_customer_id_idx_e16dfa6b\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_customer_id_idx_e16dfa6b\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Flows_customer_id_idx_e16dfa6b\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Flows_customer_id_idx_e16dfa6b\"",
+        "sql": "CREATE INDEX \"Flows_customer_id_idx_e16dfa6b\" ON \"public\".\"Flows\" (\"customer_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Flows_customer_id_idx_e16dfa6b\" exists on \"Flows\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_customer_id_idx_e16dfa6b\"",
+          "i",
+          "I",
+          "\"public\".\"Flows\"",
+          "btree",
+          "[\"customer_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Flows.Flows_last_run_id_idx_c969e924",
+    "label": "Create index \"Flows_last_run_id_idx_c969e924\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Flows_last_run_id_idx_c969e924",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Flows_last_run_id_idx_c969e924\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_last_run_id_idx_c969e924\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Flows_last_run_id_idx_c969e924\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Flows_last_run_id_idx_c969e924\"",
+        "sql": "CREATE INDEX \"Flows_last_run_id_idx_c969e924\" ON \"public\".\"Flows\" (\"last_run_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Flows_last_run_id_idx_c969e924\" exists on \"Flows\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"Flows_last_run_id_idx_c969e924\"",
+          "i",
+          "I",
+          "\"public\".\"Flows\"",
+          "btree",
+          "[\"last_run_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Runs.Runs_flow_id_idx_d9dab351",
+    "label": "Create index \"Runs_flow_id_idx_d9dab351\" on \"Runs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Runs_flow_id_idx_d9dab351",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Runs_flow_id_idx_d9dab351\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_flow_id_idx_d9dab351\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Runs_flow_id_idx_d9dab351\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Runs_flow_id_idx_d9dab351\"",
+        "sql": "CREATE INDEX \"Runs_flow_id_idx_d9dab351\" ON \"public\".\"Runs\" (\"flow_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Runs_flow_id_idx_d9dab351\" exists on \"Runs\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"Runs_flow_id_idx_d9dab351\"",
+          "i",
+          "I",
+          "\"public\".\"Runs\"",
+          "btree",
+          "[\"flow_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Flows.Flows_customer_id_fkey",
+    "label": "Add foreign key \"Flows_customer_id_fkey\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Flows_customer_id_fkey",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Flows_customer_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_customer_id_fkey",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"Flows_customer_id_fkey\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Flows_customer_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\"\nADD CONSTRAINT \"Flows_customer_id_fkey\"\nFOREIGN KEY (\"customer_id\")\nREFERENCES \"public\".\"Customers\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Flows_customer_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "Flows_customer_id_fkey",
+          "public",
+          "\"public\".\"Flows\"",
+          "f",
+          "[\"customer_id\"]",
+          "\"public\".\"Customers\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Flows.Flows_company_id_fkey",
+    "label": "Add foreign key \"Flows_company_id_fkey\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Flows_company_id_fkey",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Flows_company_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_company_id_fkey",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"Flows_company_id_fkey\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Flows_company_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\"\nADD CONSTRAINT \"Flows_company_id_fkey\"\nFOREIGN KEY (\"company_id\")\nREFERENCES \"public\".\"Companies\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Flows_company_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "Flows_company_id_fkey",
+          "public",
+          "\"public\".\"Flows\"",
+          "f",
+          "[\"company_id\"]",
+          "\"public\".\"Companies\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Flows.Flows_last_run_id_fkey",
+    "label": "Add foreign key \"Flows_last_run_id_fkey\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Flows_last_run_id_fkey",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Flows_last_run_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_last_run_id_fkey",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"Flows_last_run_id_fkey\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Flows_last_run_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\"\nADD CONSTRAINT \"Flows_last_run_id_fkey\"\nFOREIGN KEY (\"last_run_id\")\nREFERENCES \"public\".\"Runs\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Flows_last_run_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "Flows_last_run_id_fkey",
+          "public",
+          "\"public\".\"Flows\"",
+          "f",
+          "[\"last_run_id\"]",
+          "\"public\".\"Runs\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Runs.Runs_flow_id_fkey",
+    "label": "Add foreign key \"Runs_flow_id_fkey\" on \"Runs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Runs_flow_id_fkey",
+        "table": "Runs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Runs_flow_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Runs_flow_id_fkey",
+          "public",
+          "\"public\".\"Runs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"Runs_flow_id_fkey\" on \"Runs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Runs_flow_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Runs\"\nADD CONSTRAINT \"Runs_flow_id_fkey\"\nFOREIGN KEY (\"flow_id\")\nREFERENCES \"public\".\"Flows\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Runs_flow_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "Runs_flow_id_fkey",
+          "public",
+          "\"public\".\"Runs\"",
+          "f",
+          "[\"flow_id\"]",
+          "\"public\".\"Flows\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  }
+]

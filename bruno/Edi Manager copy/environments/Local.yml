@@ -2,11 +2,11 @@ name: Local
 variables:
   - name: baseURL
     value: http://localhost:8080
-    description: ""
   - name: prefix
     value: api
-    description: ""
   - secret: true
     name: password
+    description: ""
   - secret: true
     name: username
+    description: ""
