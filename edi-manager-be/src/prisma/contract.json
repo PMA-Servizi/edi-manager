@@ -267,13 +267,6 @@
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
-              },
-              "slug": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
               }
             },
             "relations": {},
@@ -326,9 +319,6 @@
                 },
                 "shareCapital": {
                   "column": "share_capital"
-                },
-                "slug": {
-                  "column": "slug"
                 }
               },
               "namespaceId": "public",
@@ -364,13 +354,6 @@
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
-              },
-              "slug": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar"
-                }
               }
             },
             "relations": {},
@@ -387,9 +370,6 @@
                 },
                 "sapCustomerCode": {
                   "column": "sap_customer_number"
-                },
-                "slug": {
-                  "column": "slug"
                 }
               },
               "namespaceId": "public",
@@ -848,11 +828,6 @@
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
-                },
-                "slug": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
                 }
               },
               "foreignKeys": [],
@@ -892,11 +867,6 @@
                   "nullable": false
                 },
                 "sap_customer_number": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
-                "slug": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
                   "nullable": false
@@ -1322,7 +1292,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "c102d00f8c956c20a0027bd521c26252185b98f41a4bea8b580dc12fb3518b82"
+    "storageHash": "01dfc972f6b58697d50088840131516780c18dcd6d1ea0fb9d2c66ce176a5299"
   },
   "execution": {
     "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",

@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'c102d00f8c956c20a0027bd521c26252185b98f41a4bea8b580dc12fb3518b82'>;
+  StorageHashBase<'01dfc972f6b58697d50088840131516780c18dcd6d1ea0fb9d2c66ce176a5299'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -438,7 +438,6 @@ export namespace Models {
     province: FieldOutputTypes['public']['Companies']['province'];
     raeeRegistrationNumber: FieldOutputTypes['public']['Companies']['raeeRegistrationNumber'];
     shareCapital: FieldOutputTypes['public']['Companies']['shareCapital'];
-    slug: FieldOutputTypes['public']['Companies']['slug'];
     readonly [RelationKeys]?: never;
   };
   export type public_Customers = {
@@ -446,7 +445,6 @@ export namespace Models {
     id: FieldOutputTypes['public']['Customers']['id'];
     name: FieldOutputTypes['public']['Customers']['name'];
     sapCustomerCode: FieldOutputTypes['public']['Customers']['sapCustomerCode'];
-    slug: FieldOutputTypes['public']['Customers']['slug'];
     readonly [RelationKeys]?: never;
   };
   export type public_Files = {
@@ -611,12 +609,6 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly slug: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [{ readonly columns: readonly ['division'] }];
@@ -648,12 +640,6 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
                 readonly sap_customer_number: {
-                  readonly dataType: 'pg/varchar';
-                  readonly codecId: 'sql/varchar@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly slug: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
@@ -1046,10 +1032,6 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly slug: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
             };
             readonly relations: Record<string, never>;
             readonly storage: {
@@ -1072,7 +1054,6 @@ type ContractBase = Omit<
                 readonly province: { readonly column: 'province' };
                 readonly raeeRegistrationNumber: { readonly column: 'raee_registration_number' };
                 readonly shareCapital: { readonly column: 'share_capital' };
-                readonly slug: { readonly column: 'slug' };
               };
             };
           };
@@ -1094,10 +1075,6 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly slug: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
-              };
             };
             readonly relations: Record<string, never>;
             readonly storage: {
@@ -1108,7 +1085,6 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly sapCustomerCode: { readonly column: 'sap_customer_number' };
-                readonly slug: { readonly column: 'slug' };
               };
             };
           };

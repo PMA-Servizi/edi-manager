@@ -6,7 +6,6 @@ export type EdiCompanyCodeType =
 export interface Company {
   id: string;
   name: string;
-  slug: string;
   division: string;
   ediCompanyCode: string;
   ediCompanyCodeType: EdiCompanyCodeType;

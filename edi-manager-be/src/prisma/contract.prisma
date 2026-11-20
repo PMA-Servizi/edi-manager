@@ -27,7 +27,6 @@ enum EdiRecordType {
 model Customers {
   id              String(varchar) @id @onCreate(uuid(4))
   name            String(text)
-  slug            String(varchar)
   sapCustomerCode String(varchar) @unique @map('sap_customer_number')
   catalogId       Int4            @default(1) @map('catalog_id')
 }
@@ -41,7 +40,6 @@ enum EdiCodeType {
 model Companies {
   id                     String(varchar) @id @onCreate(uuid(4))
   name                   String(text)
-  slug                   String(varchar)
   division               String(varchar) @unique
   ediCompanyCode         String(varchar) @map('edi_company_code')
   ediCompanyCodeType     EdiCodeType     @map('edi_company_code_type')

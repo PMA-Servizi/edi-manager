@@ -1,0 +1,23 @@
+info:
+  name: Create Customer
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseURL}}/{{prefix}}/customers"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Leroy Merlin",
+        "sapCustomerCode": "1234567890"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

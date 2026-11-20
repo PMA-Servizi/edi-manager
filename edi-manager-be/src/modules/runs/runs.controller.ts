@@ -12,10 +12,7 @@ export class RunsController {
       return this.runsService.getRuns();
     } catch (err) {
       if (err instanceof EntityNotFoundError)
-        throw new HttpException(
-          "Could not find the run's flow",
-          HttpStatus.NOT_FOUND,
-        );
+        throw new HttpException(err.message, HttpStatus.NOT_FOUND);
       throw err;
     }
   }

@@ -22,7 +22,9 @@ export class RunsRepository {
     ).all();
     return runs.map(({ flow, ...run }) => {
       if (!flow)
-        throw new EntityNotFoundError("Could not find the run's original flow");
+        throw new EntityNotFoundError(
+          `Could not find the run's original flow for run ${run.id}`,
+        );
       return { ...run, flow };
     });
   }
