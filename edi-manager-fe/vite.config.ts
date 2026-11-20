@@ -14,6 +14,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@backend': '/backend',
     },
+    dedupe: ['zod'],
   },
   server: {
     port: INTERNAL_FRONTEND_PORT,
