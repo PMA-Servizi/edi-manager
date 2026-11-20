@@ -50,10 +50,12 @@ model Companies {
   postalCode             String(varchar) @map('postal_code')
   country                String(text)
   courtOfLaw             String(text)?   @map('court_of_law')
-  ccia                   String(text)
+  cciaa                  String(text)
   shareCapital           String(text)    @map('share_capital')
   raeeRegistrationNumber String(varchar) @map('raee_registration_number')
   pileRegistrationNumber String(varchar) @map('pile_registration_number')
+
+  @@unique([ediCompanyCode, ediCompanyCodeType])
 }
 
 enum RunOutcome {

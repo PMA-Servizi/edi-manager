@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'01dfc972f6b58697d50088840131516780c18dcd6d1ea0fb9d2c66ce176a5299'>;
+  StorageHashBase<'28d8ca4a0b42f1dde23941b33eb2fa20a450767f8575d022964667dbb38339a7'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -424,7 +424,7 @@ export namespace Models {
   export type public_Companies = {
     address: FieldOutputTypes['public']['Companies']['address'];
     businessName: FieldOutputTypes['public']['Companies']['businessName'];
-    ccia: FieldOutputTypes['public']['Companies']['ccia'];
+    cciaa: FieldOutputTypes['public']['Companies']['cciaa'];
     city: FieldOutputTypes['public']['Companies']['city'];
     country: FieldOutputTypes['public']['Companies']['country'];
     courtOfLaw: FieldOutputTypes['public']['Companies']['courtOfLaw'];
@@ -525,7 +525,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly ccia: {
+                readonly cciaa: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -611,7 +611,10 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [{ readonly columns: readonly ['division'] }];
+              uniques: readonly [
+                { readonly columns: readonly ['division'] },
+                { readonly columns: readonly ['edi_company_code', 'edi_company_code_type'] },
+              ];
               indexes: readonly [];
               foreignKeys: readonly [];
             };
@@ -976,7 +979,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly ccia: {
+              readonly cciaa: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1040,7 +1043,7 @@ type ContractBase = Omit<
               readonly fields: {
                 readonly address: { readonly column: 'address' };
                 readonly businessName: { readonly column: 'business_name' };
-                readonly ccia: { readonly column: 'ccia' };
+                readonly cciaa: { readonly column: 'cciaa' };
                 readonly city: { readonly column: 'city' };
                 readonly country: { readonly column: 'country' };
                 readonly courtOfLaw: { readonly column: 'court_of_law' };

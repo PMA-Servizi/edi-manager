@@ -1,10 +1,24 @@
 import { db } from '@/prisma/db.js';
 import { Injectable } from '@nestjs/common';
-import { Company } from './companies.types.js';
+import { Company, CreateCompanyDto } from './companies.types.js';
+import { DbUniqueConflictError } from '@/shared/errors.js';
 
 @Injectable()
 export class CompaniesRepository {
   async getCompanies(): Promise<Company[]> {
     return await db.orm.public.Companies.all();
+  }
+
+  async createCompany(body: CreateCompanyDto): Promise<string> {
+    try {
+      const newCompany = await db.orm.public.Companies.create(body);
+      return newCompany.id;
+    } catch (err) {
+      const dbError = err as { sqlState?: string; constraint?: string };
+      if (dbError.sqlState === '23505') {
+        throw new DbUniqueConflictError(dbError.constraint);
+      }
+      throw err;
+    }
   }
 }

@@ -1,4 +1,6 @@
+import z from 'zod';
 import { ediCompanyCodeType } from './companies.constants.js';
+import { CreateCompanySchema } from './companies.schemas.js';
 
 export type EdiCompanyCodeType =
   (typeof ediCompanyCodeType)[keyof typeof ediCompanyCodeType];
@@ -16,8 +18,10 @@ export interface Company {
   postalCode: string;
   country: string;
   courtOfLaw: string | null;
-  ccia: string;
+  cciaa: string;
   shareCapital: string;
   raeeRegistrationNumber: string;
   pileRegistrationNumber: string;
 }
+
+export type CreateCompanyDto = z.infer<typeof CreateCompanySchema>;

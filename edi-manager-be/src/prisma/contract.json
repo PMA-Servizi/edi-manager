@@ -164,7 +164,7 @@
                   "kind": "scalar"
                 }
               },
-              "ccia": {
+              "cciaa": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -278,8 +278,8 @@
                 "businessName": {
                   "column": "business_name"
                 },
-                "ccia": {
-                  "column": "ccia"
+                "cciaa": {
+                  "column": "cciaa"
                 },
                 "city": {
                   "column": "city"
@@ -753,7 +753,7 @@
                   "dataType": "pg/text",
                   "nullable": false
                 },
-                "ccia": {
+                "cciaa": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
@@ -841,6 +841,12 @@
                 {
                   "columns": [
                     "division"
+                  ]
+                },
+                {
+                  "columns": [
+                    "edi_company_code",
+                    "edi_company_code_type"
                   ]
                 }
               ]
@@ -1292,7 +1298,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "01dfc972f6b58697d50088840131516780c18dcd6d1ea0fb9d2c66ce176a5299"
+    "storageHash": "28d8ca4a0b42f1dde23941b33eb2fa20a450767f8575d022964667dbb38339a7"
   },
   "execution": {
     "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",

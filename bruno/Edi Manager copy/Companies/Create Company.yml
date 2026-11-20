@@ -1,0 +1,36 @@
+info:
+  name: Create Company
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseURL}}/{{prefix}}/comapnies"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Nital",
+        "division": "Z001",
+        "ediCompanyCode": "06047610016",
+        "ediCompanyCodeType": "ZZ",
+        "businessName": "Nital S.p.A.",
+        "address": "Via Vittime di Piazza Fontana n. 54",
+        "city": "Moncalieri",
+        "province": "TO",
+        "postalCode": "10024",
+        "country": "IT",
+        "courtOfLaw": "",
+        "cciaa": "756023 del 28/1/1991",
+        "shareCapital": "5.000.000 i.v.",
+        "raeeRegistrationNumber": "IT08020000002546",
+        "pileRegistrationNumber": "IT09060P00000242"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
