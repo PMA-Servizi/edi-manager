@@ -1,1 +1,2 @@
-export const INTERNAL_PORT = 3000
+export const INTERNAL_FRONTEND_PORT = 3000
+export const INTERNAL_BACKEND_PORT = 4000

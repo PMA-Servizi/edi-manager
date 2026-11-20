@@ -1,3 +1,3 @@
 export const INTERNAL_REDIS_PORT = 6379;
-export const INTERNAL_PORT = 4000;
+export const INTERNAL_BACKEND_PORT = 4000;
 export const INTERNAL_DB_PORT = 5432;

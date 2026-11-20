@@ -9,6 +9,7 @@ services:
     volumes:
       - ./edi-manager-fe:/app
       - /app/node_modules
+      - ./edi-manager-be/src:/backend
     env_file:
       - .env
     expose:

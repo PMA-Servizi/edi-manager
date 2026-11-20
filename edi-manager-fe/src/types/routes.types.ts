@@ -1,1 +1,1 @@
-export type Routes = 'HOME'
+export type Route = 'HOME' | 'COMPANIES' | 'CUSTOMERS'
