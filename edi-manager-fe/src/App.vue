@@ -1,11 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { darkTheme, NConfigProvider, NGlobalStyle } from 'naive-ui'
+</script>
 
 <template>
-  <h1>You did it!!!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <NConfigProvider :theme="darkTheme" class="h-screen">
+    <RouterView />
+    <NGlobalStyle />
+  </NConfigProvider>
 </template>
-
-<style scoped></style>
