@@ -13,30 +13,65 @@ export const CreateCompanySchema = z.object({
     .string()
     .nonempty('Il codice EDI è obbligatorio')
     .max(20, 'Il codice EDI non può avere più di 35 caratteri'),
-  ediCompanyCodeType: z.enum(['ZZ', '14'], {
-    message: `Il tipo di codice EDI può assumere solo i seguenti valori: ZZ, 14`,
-  }),
+  ediCompanyCodeType: z
+    .enum(['ZZ', '14'], {
+      message: `Il tipo di codice EDI può assumere solo i seguenti valori: ZZ, 14`,
+    })
+    .nullable()
+    .transform((val, ctx) => {
+      if (!val) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Il codice EDI è obbligatorio',
+        });
+        return z.NEVER;
+      }
+      return val;
+    }),
   businessName: z
     .string()
     .nonempty('La ragione sociale è obbligatoria')
     .max(90, 'La ragione sociale non può avere più di 70 caratteri'),
   address: z
     .string()
-    .nonempty()
+    .nonempty("L'indirizzo è obbligatorio")
     .max(90, "L'indirizzo non può avere più di 70 caratteri"),
   city: z
     .string()
-    .nonempty()
+    .nonempty('La città è obbligatoria')
     .max(90, 'La città non può avere più di 35 caratteri'),
-  province: z.string().length(2, 'La provincia deve essere di 2 caratteri'),
+  province: z
+    .string()
+    .length(2, 'La provincia deve essere di 2 caratteri')
+    .nullable()
+    .transform((val, ctx) => {
+      if (!val) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Obbligatoria',
+        });
+        return z.NEVER;
+      }
+      return val;
+    }),
   postalCode: z
     .string()
     .regex(/^\d+$/, 'Il codice postale può contenere solo numeri')
     .length(5, 'Il codice postale deve avere 5 caratteri'),
   country: z
     .string()
-    .nonempty('La nazione è obbligatoria')
-    .max(3, 'La nazione non può avere più di 3 caratteri'),
+    .max(3, 'La nazione non può avere più di 3 caratteri')
+    .nullable()
+    .transform((val, ctx) => {
+      if (!val) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'La nazione è obbligatoria',
+        });
+        return z.NEVER;
+      }
+      return val;
+    }),
   courtOfLaw: z
     .string()
     .max(35, 'Il tribunale non può avere più di 35 caratteri')
@@ -52,18 +87,12 @@ export const CreateCompanySchema = z.object({
     .max(35, 'Il capitale sociale non può avere più di 35 caratteri'),
   raeeRegistrationNumber: z
     .string()
-    .nonempty('Il numero di registrazione RAEE è obbligatorio')
-    .max(
-      16,
-      'Il numero di registrazione RAEE non può avere più di 16 caratteri',
-    ),
+    .nonempty('Il numero RAEE è obbligatorio')
+    .max(16, 'Il numero RAEE non può avere più di 16 caratteri'),
   pileRegistrationNumber: z
     .string()
-    .nonempty(
-      'Il numero di iscrizione Resgistro Pile e Accumulatori è obbligatorio',
-    )
-    .max(
-      16,
-      'Il numero di iscrizione Resgistro Pile e Accumulatori non può avere più di 16 caratteri',
-    ),
+    .nonempty('Il numero RPeA è obbligatorio')
+    .max(16, 'Il numero RPeA non può avere più di 16 caratteri'),
 });
+
+export const UpdateCompanySchema = CreateCompanySchema.partial();

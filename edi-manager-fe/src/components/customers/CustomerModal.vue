@@ -2,7 +2,7 @@
 import { NButton, NInput, useMessage } from 'naive-ui'
 import BaseModal from '../shared/BaseModal.vue'
 import { Icon } from '@iconify/vue'
-import type { Customer } from '@backend/modules/customers/customers.types.ts'
+import type { CreateCustomerDto, Customer } from '@backend/modules/customers/customers.types.ts'
 import FormItem from '../shared/FormItem.vue'
 import { DefaultCustomerForm } from '@/constants/customers.constants.ts'
 import type { CustomerForm } from '@/types/customers.types.ts'
@@ -26,7 +26,10 @@ const emit = defineEmits<{
 const loading = ref<boolean>(false)
 const message = useMessage()
 
-const { defineField, handleSubmit, errors, resetForm, setValues } = useForm<CustomerForm>({
+const { defineField, handleSubmit, errors, resetForm, setValues } = useForm<
+  CustomerForm,
+  CreateCustomerDto
+>({
   initialValues: DefaultCustomerForm,
   validationSchema: toTypedSchema(CreateCustomerSchema),
 })

@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Company, CreateCompanyDto } from './companies.types.js';
+import {
+  Company,
+  CreateCompanyDto,
+  UpdateCompanyDto,
+} from './companies.types.js';
 import { CompaniesRepository } from './companies.repository.js';
 import {
   DbUniqueConflictError,
@@ -17,6 +21,19 @@ export class CompaniesService {
   async createCompany(body: CreateCompanyDto): Promise<string> {
     try {
       return await this.companiesRepository.createCompany(body);
+    } catch (err) {
+      if (err instanceof DbUniqueConflictError && err.constraint) {
+        throw new DuplicatedEntityError(
+          `Cliente duplicato: ${err.constraint} non è unico`,
+        );
+      }
+      throw err;
+    }
+  }
+
+  async updateCompany(id: string, body: UpdateCompanyDto): Promise<string> {
+    try {
+      return await this.companiesRepository.updateCompany(id, body);
     } catch (err) {
       if (err instanceof DbUniqueConflictError && err.constraint) {
         throw new DuplicatedEntityError(

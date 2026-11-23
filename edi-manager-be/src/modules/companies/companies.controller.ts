@@ -4,11 +4,20 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service.js';
-import { Company, type CreateCompanyDto } from './companies.types.js';
-import { CreateCompanySchema } from './companies.schemas.js';
+import {
+  Company,
+  type UpdateCompanyDto,
+  type CreateCompanyDto,
+} from './companies.types.js';
+import {
+  CreateCompanySchema,
+  UpdateCompanySchema,
+} from './companies.schemas.js';
 import { DuplicatedEntityError } from '@/shared/errors.js';
 
 @Controller('/companies')
@@ -26,6 +35,20 @@ export class CompaniesController {
   ): Promise<string> {
     try {
       return await this.companiesService.createCompany(body);
+    } catch (err) {
+      if (err instanceof DuplicatedEntityError)
+        throw new HttpException(err.message, HttpStatus.CONFLICT);
+      throw err;
+    }
+  }
+
+  @Patch('/:id')
+  async updateCompany(
+    @Param('id') id: string,
+    @Body({ schema: UpdateCompanySchema }) body: UpdateCompanyDto,
+  ): Promise<string> {
+    try {
+      return await this.companiesService.updateCompany(id, body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
         throw new HttpException(err.message, HttpStatus.CONFLICT);

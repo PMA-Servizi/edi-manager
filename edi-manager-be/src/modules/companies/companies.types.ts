@@ -1,6 +1,9 @@
 import z from 'zod';
 import { ediCompanyCodeType } from './companies.constants.js';
-import { CreateCompanySchema } from './companies.schemas.js';
+import {
+  CreateCompanySchema,
+  UpdateCompanySchema,
+} from './companies.schemas.js';
 
 export type EdiCompanyCodeType =
   (typeof ediCompanyCodeType)[keyof typeof ediCompanyCodeType];
@@ -24,4 +27,5 @@ export interface Company {
   pileRegistrationNumber: string;
 }
 
-export type CreateCompanyDto = z.infer<typeof CreateCompanySchema>;
+export type CreateCompanyDto = z.output<typeof CreateCompanySchema>;
+export type UpdateCompanyDto = z.output<typeof UpdateCompanySchema>;

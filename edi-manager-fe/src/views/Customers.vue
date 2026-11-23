@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CustomerCard from '@/components/customers/CustomerCard.vue'
 import CustomerModal from '@/components/customers/CustomerModal.vue'
+import DetailsLayout from '@/components/shared/DetailsLayout.vue'
 import LoadableList from '@/components/shared/LoadableList.vue'
 import { customersRepository } from '@/repositories/customers.repository'
 import type { Customer } from '@backend/modules/customers/customers.types'
@@ -33,17 +34,15 @@ const editCustomer = (customer: Customer) => {
 onMounted(loadCustomers)
 </script>
 <template>
-  <section class="w-full flex flex-col">
-    <header class="w-full flex justify-between items-center h-16 px-8">
-      <span class="font-bold text-xl">Clienti</span>
+  <DetailsLayout title="Clienti">
+    <template #header>
       <NButton @click="showCustomerModal = true" round type="primary">
         <template #icon>
           <Icon icon="lucide:plus" class="text-xl" />
         </template>
-        Aggiungi cliente
+        Crea cliente
       </NButton>
-    </header>
-    <NDivider class="my-0!" />
+    </template>
     <LoadableList emptyLabel="Nessun cliente trovato" :loading="loading" :items="customers">
       <div
         class="max-w-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full p-3 self-start"
@@ -62,5 +61,5 @@ onMounted(loadCustomers)
       @close="customerToEdit = undefined"
       :customer="customerToEdit"
     />
-  </section>
+  </DetailsLayout>
 </template>
