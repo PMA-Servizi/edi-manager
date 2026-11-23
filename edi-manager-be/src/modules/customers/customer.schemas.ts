@@ -10,3 +10,5 @@ export const CreateCustomerSchema = z.object({
     .min(1, 'Il codice non può essere vuoto')
     .max(20, 'Il codice non può avere più di 20 caratteri'),
 });
+
+export const UpdateCustomerSchema = CreateCustomerSchema.partial();

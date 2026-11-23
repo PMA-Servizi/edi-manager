@@ -1,5 +1,4 @@
 import z from 'zod';
-import { ediCompanyCodeType } from './companies.constants.js';
 
 export const CreateCompanySchema = z.object({
   name: z
@@ -14,10 +13,9 @@ export const CreateCompanySchema = z.object({
     .string()
     .nonempty('Il codice EDI è obbligatorio')
     .max(20, 'Il codice EDI non può avere più di 35 caratteri'),
-  ediCompanyCodeType: z.enum(
-    Object.values(ediCompanyCodeType),
-    `Il tipo di codice EDI può assumere solo i seguenti valori: ${Object.values(ediCompanyCodeType).join(', ')}`,
-  ),
+  ediCompanyCodeType: z.enum(['ZZ', '14'], {
+    message: `Il tipo di codice EDI può assumere solo i seguenti valori: ZZ, 14`,
+  }),
   businessName: z
     .string()
     .nonempty('La ragione sociale è obbligatoria')

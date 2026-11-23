@@ -15,7 +15,7 @@ const activeKey = ref<RouteName>('home')
 type SidebarOption = MenuOption & { key: RouteName }
 const sidebarOptions = ref<SidebarOption[]>([
   { label: 'Dashboard', key: 'home', icon: renderIcon('lucide:home') },
-  { label: 'Campagne', key: 'companies', icon: renderIcon('lucide:building') },
+  { label: 'Aziende', key: 'companies', icon: renderIcon('lucide:building') },
   { label: 'Clienti', key: 'customers', icon: renderIcon('lucide:circle-euro') },
 ])
 

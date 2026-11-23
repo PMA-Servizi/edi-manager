@@ -1,5 +1,8 @@
 import z from 'zod';
-import { CreateCustomerSchema } from './customer.schemas.js';
+import {
+  CreateCustomerSchema,
+  UpdateCustomerSchema,
+} from './customer.schemas.js';
 
 export interface Customer {
   id: string;
@@ -9,3 +12,4 @@ export interface Customer {
 }
 
 export type CreateCustomerDto = z.infer<typeof CreateCustomerSchema>;
+export type UpdateCustomerDto = z.infer<typeof UpdateCustomerSchema>;

@@ -3,6 +3,7 @@ import {
   darkTheme,
   NConfigProvider,
   NGlobalStyle,
+  NMessageProvider,
   NModalProvider,
   type GlobalThemeOverrides,
 } from 'naive-ui'
@@ -24,14 +25,16 @@ const themeOverrides: GlobalThemeOverrides = {
 
 <template>
   <NConfigProvider :theme="darkTheme" :theme-overrides="themeOverrides" class="h-screen">
-    <NModalProvider>
-      <Layout>
-        <template #sidebar>
-          <Sidebar />
-        </template>
-        <RouterView />
-      </Layout>
-      <NGlobalStyle />
-    </NModalProvider>
+    <NMessageProvider>
+      <NModalProvider>
+        <Layout>
+          <template #sidebar>
+            <Sidebar />
+          </template>
+          <RouterView />
+        </Layout>
+        <NGlobalStyle />
+      </NModalProvider>
+    </NMessageProvider>
   </NConfigProvider>
 </template>
