@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Flow } from './flows.types.js';
+import { CreateFlowDto, Flow } from './flows.types.js';
 import { db } from '@/prisma/db.js';
 
 @Injectable()
@@ -17,5 +17,10 @@ export class FlowsRepository {
         ),
       )
       .all();
+  }
+
+  async createFlow(body: CreateFlowDto): Promise<string> {
+    const newFlow = await db.orm.public.Flows.create(body);
+    return newFlow.id;
   }
 }

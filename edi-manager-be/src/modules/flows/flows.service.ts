@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { FlowsQueue } from './flows.queue.js';
 import { Job } from 'bullmq';
-import { Flow, FlowJob } from './flows.types.js';
+import { CreateFlowDto, Flow, FlowJob } from './flows.types.js';
 import { FlowsMapper } from './flows.mapper.js';
 import { FlowsRepository } from './flows.repository.js';
 import { RunsService } from '../runs/runs.service.js';
 import { CreateRunBody } from '../runs/runs.types.js';
+import {
+  DbUniqueConflictError,
+  DuplicatedEntityError,
+} from '@/shared/errors.js';
 
 @Injectable()
 export class FlowsService {
@@ -54,6 +58,19 @@ export class FlowsService {
 
   async getFlows(): Promise<Flow[]> {
     return await this.flowsRepository.getFlows();
+  }
+
+  async createFlow(body: CreateFlowDto): Promise<string> {
+    try {
+      return await this.flowsRepository.createFlow(body);
+    } catch (err) {
+      if (err instanceof DbUniqueConflictError && err.constraint) {
+        throw new DuplicatedEntityError(
+          `Flusso duplicato: ${err.constraint} non è unico`,
+        );
+      }
+      throw err;
+    }
   }
 
   async getFlowJobs(): Promise<FlowJob[]> {

@@ -1,6 +1,8 @@
+import z from 'zod';
 import { Company } from '../companies/companies.types.js';
 import { Customer } from '../customers/customers.types.js';
 import { PartialRun, Run } from '../runs/runs.types.js';
+import { CreateFlowSchema } from './flows.schemas.js';
 
 export type EdiOperation = 'download' | 'upload';
 export type EdiRecordType =
@@ -41,3 +43,5 @@ export interface FlowJob {
   name: string;
   data: Flow;
 }
+
+export type CreateFlowDto = z.output<typeof CreateFlowSchema>;
