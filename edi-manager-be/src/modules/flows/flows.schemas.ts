@@ -1,5 +1,12 @@
 import z from 'zod';
 
+export const union = z
+  .enum(['metel', 'ediel'], {
+    message: 'Sono consentiti solo i consorzi Ediel e Metel',
+  })
+  .nullable()
+  .refine((val) => !!val, 'Il consorzio è obbligatorio');
+
 export const flowInterval = z
   .number({ message: "L'intervallo è obbligatorio" })
   .min(60, "L'intervallo deve essere almeno 60")
@@ -28,6 +35,7 @@ export const flowEdiType = z
   )
   .nullable()
   .refine((val) => !!val, 'Il tipo di record è obbligatorio');
+
 export const ediOperation = z
   .enum(['upload', 'download'], {
     message: 'Valore non consentito',
@@ -41,6 +49,7 @@ export const CreateFlowSchema = z.object({
   operation: ediOperation,
   customerId: z.string().nonempty('Il cliente è obbligatorio'),
   companyId: z.string().nonempty("L'azienda è obbligatoria"),
+  union,
   // TODO: add last run
 });
 

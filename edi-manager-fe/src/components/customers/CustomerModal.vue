@@ -38,6 +38,7 @@ const [sapCustomerCode, sapCustomerCodeProps] = defineField<'sapCustomerCode'>(
   'sapCustomerCode',
   validateOnInputIfErrored,
 )
+const [gln, glnProps] = defineField<'gln'>('gln', validateOnInputIfErrored)
 
 const submit = handleSubmit(async (values) => {
   try {
@@ -70,6 +71,7 @@ const handleOpen = () => {
   setValues({
     name: props.customer.name,
     sapCustomerCode: props.customer.sapCustomerCode,
+    gln: props.customer.gln,
   })
 }
 </script>
@@ -93,6 +95,20 @@ const handleOpen = () => {
           showCount
           v-bind="nameProps"
           :status="!!errors.name ? 'error' : undefined"
+          :loading="loading"
+          :disabled="loading"
+        />
+      </FormItem>
+      <FormItem label="GLN" :error="errors.gln" required>
+        <NInput
+          type="text"
+          placeholder="GLN del cliente..."
+          v-model:value="gln"
+          minlength="1"
+          maxlength="35"
+          showCount
+          v-bind="glnProps"
+          :status="!!errors.gln ? 'error' : undefined"
           :loading="loading"
           :disabled="loading"
         />

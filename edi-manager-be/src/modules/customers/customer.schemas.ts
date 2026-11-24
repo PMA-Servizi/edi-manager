@@ -9,6 +9,10 @@ export const CreateCustomerSchema = z.object({
     .string()
     .min(1, 'Il codice non può essere vuoto')
     .max(20, 'Il codice non può avere più di 20 caratteri'),
+  gln: z
+    .string()
+    .min(1, 'Il GLN non può essere vuoto')
+    .max(35, 'Il GLN non può avere più di 35 caratteri'),
 });
 
 export const UpdateCustomerSchema = CreateCustomerSchema.partial();

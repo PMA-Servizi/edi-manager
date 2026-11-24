@@ -145,6 +145,19 @@
                 "value": "fail"
               }
             ]
+          },
+          "Union": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "METEL",
+                "value": "metel"
+              },
+              {
+                "name": "EDIEL",
+                "value": "ediel"
+              }
+            ]
           }
         },
         "models": {
@@ -334,6 +347,13 @@
                   "kind": "scalar"
                 }
               },
+              "gln": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              },
               "id": {
                 "nullable": false,
                 "type": {
@@ -361,6 +381,9 @@
               "fields": {
                 "catalogId": {
                   "column": "catalog_id"
+                },
+                "gln": {
+                  "column": "gln"
                 },
                 "id": {
                   "column": "id"
@@ -542,6 +565,19 @@
                   "namespaceId": "public",
                   "plane": "domain"
                 }
+              },
+              "union": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "Union",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
               }
             },
             "relations": {
@@ -619,6 +655,9 @@
                 },
                 "operation": {
                   "column": "operation"
+                },
+                "union": {
+                  "column": "union"
                 }
               },
               "namespaceId": "public",
@@ -862,6 +901,11 @@
                   },
                   "nullable": false
                 },
+                "gln": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
                 "id": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
@@ -889,6 +933,11 @@
                 {
                   "columns": [
                     "sap_customer_number"
+                  ]
+                },
+                {
+                  "columns": [
+                    "gln"
                   ]
                 }
               ]
@@ -991,6 +1040,11 @@
                   "expression": "\"operation\" IN ('download', 'upload')",
                   "name": "Flows_operation_check_48aa35a1",
                   "prefix": "Flows_operation_check"
+                },
+                {
+                  "expression": "\"union\" IN ('metel', 'ediel')",
+                  "name": "Flows_union_check_031441ca",
+                  "prefix": "Flows_union_check"
                 }
               ],
               "columns": {
@@ -1046,6 +1100,17 @@
                   "valueSet": {
                     "entityKind": "valueSet",
                     "entityName": "EdiOperation",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "union": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "Union",
                     "namespaceId": "public",
                     "plane": "storage"
                   }
@@ -1147,7 +1212,8 @@
                     "customer_id",
                     "company_id",
                     "edi_record_type",
-                    "operation"
+                    "operation",
+                    "union"
                   ]
                 }
               ]
@@ -1291,6 +1357,13 @@
                 "success",
                 "fail"
               ]
+            },
+            "Union": {
+              "kind": "valueSet",
+              "values": [
+                "metel",
+                "ediel"
+              ]
             }
           }
         },
@@ -1298,7 +1371,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "28d8ca4a0b42f1dde23941b33eb2fa20a450767f8575d022964667dbb38339a7"
+    "storageHash": "950265b2330f9529ab568d5b72539e16c8a72bceb2fb43c9c35de62b1f0e9609"
   },
   "execution": {
     "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",

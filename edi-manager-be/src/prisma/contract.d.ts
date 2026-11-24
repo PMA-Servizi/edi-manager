@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'28d8ca4a0b42f1dde23941b33eb2fa20a450767f8575d022964667dbb38339a7'>;
+  StorageHashBase<'950265b2330f9529ab568d5b72539e16c8a72bceb2fb43c9c35de62b1f0e9609'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -326,6 +326,7 @@ type FieldTypeOverrides = {
           readonly output: 'download' | 'upload';
           readonly input: 'download' | 'upload';
         };
+        readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
       };
       readonly Runs: {
         readonly outcome: {
@@ -399,6 +400,7 @@ type ColumnTypeOverrides = {
         readonly output: 'download' | 'upload';
         readonly input: 'download' | 'upload';
       };
+      readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
     };
     readonly Runs: {
       readonly outcome: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
@@ -442,6 +444,7 @@ export namespace Models {
   };
   export type public_Customers = {
     catalogId: FieldOutputTypes['public']['Customers']['catalogId'];
+    gln: FieldOutputTypes['public']['Customers']['gln'];
     id: FieldOutputTypes['public']['Customers']['id'];
     name: FieldOutputTypes['public']['Customers']['name'];
     sapCustomerCode: FieldOutputTypes['public']['Customers']['sapCustomerCode'];
@@ -466,6 +469,7 @@ export namespace Models {
     interval: FieldOutputTypes['public']['Flows']['interval'];
     lastRunId: FieldOutputTypes['public']['Flows']['lastRunId'];
     operation: FieldOutputTypes['public']['Flows']['operation'];
+    union: FieldOutputTypes['public']['Flows']['union'];
     company: public_Companies;
     customer: public_Customers;
     lastRun: public_Runs | null;
@@ -630,6 +634,12 @@ type ContractBase = Omit<
                   };
                   readonly many: false;
                 };
+                readonly gln: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
                 readonly id: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
@@ -650,7 +660,10 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [{ readonly columns: readonly ['sap_customer_number'] }];
+              uniques: readonly [
+                { readonly columns: readonly ['sap_customer_number'] },
+                { readonly columns: readonly ['gln'] },
+              ];
               indexes: readonly [];
               foreignKeys: readonly [];
             };
@@ -773,6 +786,12 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
+                readonly union: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [
@@ -782,6 +801,7 @@ type ContractBase = Omit<
                     'company_id',
                     'edi_record_type',
                     'operation',
+                    'union',
                   ];
                 },
               ];
@@ -948,6 +968,10 @@ type ContractBase = Omit<
               readonly kind: 'valueSet';
               readonly values: readonly ['success', 'fail'];
             };
+            readonly Union: {
+              readonly kind: 'valueSet';
+              readonly values: readonly ['metel', 'ediel'];
+            };
           };
         };
       };
@@ -1066,6 +1090,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
+              readonly gln: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
               readonly id: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
@@ -1085,6 +1113,7 @@ type ContractBase = Omit<
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly catalogId: { readonly column: 'catalog_id' };
+                readonly gln: { readonly column: 'gln' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly sapCustomerCode: { readonly column: 'sap_customer_number' };
@@ -1180,6 +1209,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly union: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
             };
             readonly relations: {
               readonly company: {
@@ -1228,6 +1261,7 @@ type ContractBase = Omit<
                 readonly interval: { readonly column: 'interval' };
                 readonly lastRunId: { readonly column: 'last_run_id' };
                 readonly operation: { readonly column: 'operation' };
+                readonly union: { readonly column: 'union' };
               };
             };
           };
@@ -1343,6 +1377,13 @@ type ContractBase = Omit<
               { readonly name: 'FAIL'; readonly value: 'fail' },
             ];
           };
+          readonly Union: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'METEL'; readonly value: 'metel' },
+              { readonly name: 'EDIEL'; readonly value: 'ediel' },
+            ];
+          };
         };
         readonly enumMemberTypes?: {
           readonly EdiCodeType: readonly [
@@ -1377,6 +1418,10 @@ type ContractBase = Omit<
           readonly RunOutcome: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
+          ];
+          readonly Union: readonly [
+            { readonly name: 'METEL'; readonly value: 'metel' },
+            { readonly name: 'EDIEL'; readonly value: 'ediel' },
           ];
         };
       };

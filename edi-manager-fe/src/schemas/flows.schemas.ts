@@ -1,6 +1,11 @@
 import type { Company } from '@backend/modules/companies/companies.types'
 import type { Customer } from '@backend/modules/customers/customers.types'
-import { ediOperation, flowEdiType, flowInterval } from '@backend/modules/flows/flows.schemas'
+import {
+  ediOperation,
+  flowEdiType,
+  flowInterval,
+  union,
+} from '@backend/modules/flows/flows.schemas'
 import { z } from 'zod'
 
 export const FlowFormSchema = z
@@ -12,7 +17,11 @@ export const FlowFormSchema = z
       .custom<Company>()
       .nullable()
       .refine((val) => !!val, "L'azienda è obbligatoria"),
-    customer: z.custom<Customer>().refine((val) => !!val, 'Il cliente è obbligatorio'),
+    customer: z
+      .custom<Customer>()
+      .nullable()
+      .refine((val) => !!val, 'Il cliente è obbligatorio'),
+    union,
   })
   .transform((form) => {
     return {
@@ -21,5 +30,6 @@ export const FlowFormSchema = z
       ediRecordType: form.ediRecordType,
       companyId: form.company.id,
       customerId: form.customer.id,
+      union: form.union,
     }
   })

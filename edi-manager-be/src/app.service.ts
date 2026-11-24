@@ -15,6 +15,7 @@ export class AppService implements OnApplicationBootstrap {
     this.logger.debug(
       `START_JOBS_ON_STARTUP: ${process.env.START_JOBS_ON_STARTUP}`,
     );
+    await this.flowsService.stopAllFlows();
     if (process.env.START_JOBS_ON_STARTUP === 'true') await this.startJobs();
   }
 

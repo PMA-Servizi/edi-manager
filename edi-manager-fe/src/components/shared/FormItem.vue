@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
 import { useThemeVars } from 'naive-ui'
 
 interface FormItemProps {
+  icon?: string
   label?: string
   error?: string
   required?: boolean
@@ -13,6 +15,12 @@ const themeVars = useThemeVars()
 <template>
   <div class="flex flex-col w-full relative gap-1">
     <div class="flex items-center gap-1">
+      <Icon
+        v-if="props.icon"
+        :icon="props.icon"
+        :style="{ color: themeVars.textColor3 }"
+        class="text-sm"
+      />
       <span v-if="props.label" :style="{ color: themeVars.textColor3 }">{{ props.label }}</span>
       <span v-if="props.required" class="font-bold" :style="{ color: themeVars.errorColor }"
         >*</span

@@ -6,6 +6,7 @@ export const DefaultFlowForm: FlowForm = {
   ediRecordType: null,
   company: null,
   customer: null,
+  union: null,
 }
 
 export const FlowOperations: { value: string; label: string }[] = [
@@ -35,4 +36,15 @@ export const EdiRecordTypes: { value: string; label: string }[] = [
   { value: 'NOTACC', label: 'NOTACC - Nota di credito' },
   { value: 'NOTADD', label: 'NOTADD - Nota di debito' },
   { value: 'ORDPRP', label: "ORDPRP - Proposta d'ordine" },
+]
+
+export const Unions: { value: string; label: string }[] = [
+  {
+    value: 'ediel',
+    label: 'Ediel',
+  },
+  {
+    value: 'metel',
+    label: 'Metel',
+  },
 ]

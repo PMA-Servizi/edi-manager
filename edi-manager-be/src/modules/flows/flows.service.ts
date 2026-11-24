@@ -26,31 +26,43 @@ export class FlowsService {
     private readonly runsService: RunsService,
   ) {}
 
+  async checkFlowValidity(flow: Flow): Promise<boolean> {
+    // TODO: check if there is implementation for specific flow
+    return true;
+  }
+
+  async stopAllFlows() {
+    await this.flowsQueue.stopAllJobs();
+  }
+
   async startFlows() {
     const flows = await this.flowsRepository.getFlows();
     for (const flow of flows) {
       if (!flow.enabled) continue;
+      if (!(await this.checkFlowValidity(flow))) continue;
       await this.startFlow(flow);
     }
   }
 
   async startFlow(flow: Flow) {
     await this.flowsQueue.upsertJob({
-      schedulerId: 'edi-scheduler',
       jobName: `${flow.ediRecordType}-${flow.operation}-${flow.company.id}-${flow.customer.id}`,
-      delay: flow.interval,
+      delay: flow.interval * 1000,
       jobData: flow,
     });
   }
 
   async runFlowJob(flowJob: Job<Flow>) {
     try {
+      // Add call to flow implementation
       console.log(
         'Just ran flow: ',
         flowJob.data.ediRecordType,
         flowJob.data.operation,
       );
+      return;
 
+      // TODO: add run after job completion
       const newRunBody: CreateRunBody = {
         flowId: flowJob.data.id,
         outcome: 'success',
@@ -102,7 +114,9 @@ export class FlowsService {
   async toggleFlow(id: string): Promise<boolean> {
     const flow = await this.flowsRepository.toggleFlow(id);
     if (!flow) throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
-    await this.startFlow(flow);
+    if (flow.enabled && (await this.checkFlowValidity(flow))) {
+      await this.startFlow(flow);
+    }
     return flow.enabled;
   }
 

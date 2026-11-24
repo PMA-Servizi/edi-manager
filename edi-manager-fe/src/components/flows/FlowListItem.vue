@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { EdiRecordTypes } from '@/constants/flows.constants'
 import type { Flow } from '@backend/modules/flows/flows.types'
-import { useThemeVars, NButton, NDivider } from 'naive-ui'
+import { useThemeVars, NButton, NDivider, useMessage } from 'naive-ui'
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import CompanyTag from '../companies/CompanyTag.vue'
 import CustomerTag from '../customers/CustomerTag.vue'
 import OperationTag from './OperationTag.vue'
+import { flowsRepository } from '@/repositories/flows.repository.ts'
+import UnionTag from '../shared/UnionTag.vue'
 
 const props = defineProps<{ flow: Flow }>()
 const emit = defineEmits<{
   (event: 'edit', flow: Flow): void
+  (event: 'toggled', flow: Flow): void
 }>()
 
 const hovered = ref<boolean>(false)
 const loading = ref<boolean>(false)
 
 const themeVars = useThemeVars()
+const message = useMessage()
 
 const recordTypeLabel = computed<string>(() => {
   return (
@@ -28,7 +32,15 @@ const recordTypeLabel = computed<string>(() => {
 const toggleFlow = async () => {
   try {
     loading.value = true
+    await flowsRepository.toggle(props.flow.id)
+    message.success(props.flow.enabled ? 'Flusso interrotto' : 'Flusso attivato')
+    emit('toggled', props.flow)
   } catch {
+    message.error(
+      props.flow.enabled
+        ? 'Errore nella disattivazione del flusso'
+        : "Errore nell'attivazione del flusso",
+    )
   } finally {
     loading.value = false
   }
@@ -51,6 +63,7 @@ const toggleFlow = async () => {
         <div class="flex gap-3 items-center">
           <CompanyTag :company="props.flow.company" />
           <CustomerTag :customer="props.flow.customer" />
+          <UnionTag :union="props.flow.union" />
         </div>
       </div>
       <NDivider vertical class="mx-0! h-12!" />
@@ -58,12 +71,24 @@ const toggleFlow = async () => {
       <span class="truncate">Ogni {{ props.flow.interval }} secondi</span>
     </div>
     <div class="flex gap-3 items-center">
-      <NButton v-if="hovered" @click="emit('edit', props.flow)" circle ghost size="small">
+      <NButton
+        v-if="hovered"
+        @click="emit('edit', props.flow)"
+        circle
+        ghost
+        size="small"
+        :disabled="loading"
+      >
         <template #icon>
           <Icon icon="lucide:edit-2" class="text-sm" />
         </template>
       </NButton>
-      <NButton :type="props.flow.enabled ? 'error' : 'success'">
+      <NButton
+        @click="toggleFlow"
+        :type="props.flow.enabled ? 'error' : 'success'"
+        :loading="loading"
+        :disabled="loading"
+      >
         <template #icon>
           <Icon :icon="props.flow.enabled ? 'lucide:pause' : 'lucide:play'" />
         </template>

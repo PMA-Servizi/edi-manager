@@ -31,6 +31,14 @@ const editFlow = (flow: Flow) => {
   showFlowModal.value = true
 }
 
+const toggleFlow = async (flow: Flow) => {
+  const targetFlow = flows.value.find((f) => f.id === flow.id)
+  if (!targetFlow) await loadFlows()
+  else {
+    targetFlow.enabled = !targetFlow.enabled
+  }
+}
+
 onMounted(loadFlows)
 </script>
 <template>
@@ -45,7 +53,13 @@ onMounted(loadFlows)
     </template>
     <LoadableList emptyLabel="Nessun flusso trovato" :loading="loading" :items="flows">
       <div class="w-full flex flex-col gap-3 p-3 self-start">
-        <FlowListItem v-for="flow in flows" :key="flow.id" :flow="flow" @edit="editFlow" />
+        <FlowListItem
+          v-for="flow in flows"
+          :key="flow.id"
+          :flow="flow"
+          @edit="editFlow"
+          @toggled="toggleFlow"
+        />
       </div>
     </LoadableList>
     <FlowModal

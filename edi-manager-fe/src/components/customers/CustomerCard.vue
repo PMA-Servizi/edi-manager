@@ -35,6 +35,7 @@ const themeVars = useThemeVars()
       </NButton>
     </div>
 
+    <LabeledData label="GLN" :value="props.customer.gln" />
     <LabeledData label="Codice su SAP" :value="props.customer.sapCustomerCode" />
   </div>
 </template>
