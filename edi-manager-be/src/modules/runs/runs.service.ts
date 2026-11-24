@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RunsRepository } from './runs.repository.js';
-import { CreateRunBody, Run } from './runs.types.js';
+import type { CreateRunBody, Run } from './runs.types.js';
 
 @Injectable()
 export class RunsService {

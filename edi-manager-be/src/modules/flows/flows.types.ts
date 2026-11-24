@@ -1,8 +1,7 @@
 import z from 'zod';
-import { Company } from '../companies/companies.types.js';
-import { Customer } from '../customers/customers.types.js';
-import { PartialRun, Run } from '../runs/runs.types.js';
-import { CreateFlowSchema } from './flows.schemas.js';
+import { CreateFlowSchema, UpdateFlowSchema } from './flows.schemas.js';
+import type { Company } from '../companies/companies.types.js';
+import type { Customer } from '../customers/customers.types.js';
 
 export type EdiOperation = 'download' | 'upload';
 export type EdiRecordType =
@@ -25,13 +24,14 @@ export type EdiRecordType =
 export interface Flow {
   id: string;
   enabled: boolean;
-  interval: number;
-  ediRecordType: EdiRecordType;
-  operation: EdiOperation;
   company: Company;
   customer: Customer;
-  lastRun: PartialRun | null;
+  operation: EdiOperation;
+  interval: number;
+  ediRecordType: EdiRecordType;
 }
+export type CreateFlowDto = z.output<typeof CreateFlowSchema>;
+export type UpdateFlowDto = z.output<typeof UpdateFlowSchema>;
 
 export type FlowJobStatus = 'running' | 'scheduled' | 'queued';
 
@@ -43,5 +43,3 @@ export interface FlowJob {
   name: string;
   data: Flow;
 }
-
-export type CreateFlowDto = z.output<typeof CreateFlowSchema>;

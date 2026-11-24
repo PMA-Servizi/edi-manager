@@ -1,4 +1,8 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  type OnModuleDestroy,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { FlowsService } from './flows.service.js';
 import { FlowsQueue } from './flows.queue.js';
 import { Worker } from 'bullmq';
@@ -20,7 +24,7 @@ export class FlowsWorker implements OnModuleInit, OnModuleDestroy {
     );
   }
 
-  onModuleDestroy() {
-    this.worker?.close();
+  async onModuleDestroy() {
+    await this.worker?.close();
   }
 }

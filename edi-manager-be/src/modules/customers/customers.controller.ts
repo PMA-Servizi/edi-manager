@@ -9,10 +9,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service.js';
-import {
-  type CreateCustomerDto,
+import type {
+  CreateCustomerDto,
   Customer,
-  type UpdateCustomerDto,
+  UpdateCustomerDto,
 } from './customers.types.js';
 import {
   CreateCustomerSchema,

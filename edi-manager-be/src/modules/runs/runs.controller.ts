@@ -1,6 +1,6 @@
 import { Controller, HttpException, HttpStatus } from '@nestjs/common';
 import { RunsService } from './runs.service.js';
-import { Run } from './runs.types.js';
+import { type Run } from './runs.types.js';
 import { EntityNotFoundError } from '@/shared/errors.js';
 
 @Controller('/runs')

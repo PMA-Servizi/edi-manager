@@ -1,7 +1,7 @@
 import { INTERNAL_REDIS_PORT } from '@/config/network.config.js';
 import { Injectable } from '@nestjs/common';
-import { ConnectionOptions, Job, Queue } from 'bullmq';
-import { Flow } from './flows.types.js';
+import { type ConnectionOptions, Job, Queue } from 'bullmq';
+import type { Flow } from './flows.types.js';
 
 @Injectable()
 export class FlowsQueue {

@@ -4,7 +4,7 @@ import { renderIcon } from '@/utils/icons.utils'
 import { type MenuOption, NDivider, NMenu, useThemeVars } from 'naive-ui'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Logo from './Logo.vue'
+import Logo from './AppLogo.vue'
 
 const router = useRouter()
 const route = useRoute()

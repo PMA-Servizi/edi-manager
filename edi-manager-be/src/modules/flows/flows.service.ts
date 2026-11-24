@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { FlowsQueue } from './flows.queue.js';
 import { Job } from 'bullmq';
-import { CreateFlowDto, Flow, FlowJob } from './flows.types.js';
+import type {
+  CreateFlowDto,
+  Flow,
+  FlowJob,
+  UpdateFlowDto,
+} from './flows.types.js';
 import { FlowsMapper } from './flows.mapper.js';
 import { FlowsRepository } from './flows.repository.js';
 import { RunsService } from '../runs/runs.service.js';
-import { CreateRunBody } from '../runs/runs.types.js';
+import { type CreateRunBody } from '../runs/runs.types.js';
 import {
   DbUniqueConflictError,
   DuplicatedEntityError,
@@ -24,7 +29,7 @@ export class FlowsService {
     const flows = await this.flowsRepository.getFlows();
     for (const flow of flows) {
       if (!flow.enabled) continue;
-      this.flowsQueue.upsertJob({
+      await this.flowsQueue.upsertJob({
         schedulerId: 'test-scheduler',
         jobName: 'log',
         delay: 5000,
@@ -63,6 +68,19 @@ export class FlowsService {
   async createFlow(body: CreateFlowDto): Promise<string> {
     try {
       return await this.flowsRepository.createFlow(body);
+    } catch (err) {
+      if (err instanceof DbUniqueConflictError && err.constraint) {
+        throw new DuplicatedEntityError(
+          `Flusso duplicato: ${err.constraint} non è unico`,
+        );
+      }
+      throw err;
+    }
+  }
+
+  async updateFlow(id: string, body: UpdateFlowDto): Promise<string> {
+    try {
+      return await this.flowsRepository.updateFlow(id, body);
     } catch (err) {
       if (err instanceof DbUniqueConflictError && err.constraint) {
         throw new DuplicatedEntityError(

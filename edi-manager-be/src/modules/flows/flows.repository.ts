@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFlowDto, Flow } from './flows.types.js';
+import type { CreateFlowDto, Flow, UpdateFlowDto } from './flows.types.js';
 import { db } from '@/prisma/db.js';
+import { DbUniqueConflictError } from '@/shared/errors.js';
 
 @Injectable()
 export class FlowsRepository {
@@ -20,7 +21,28 @@ export class FlowsRepository {
   }
 
   async createFlow(body: CreateFlowDto): Promise<string> {
-    const newFlow = await db.orm.public.Flows.create(body);
-    return newFlow.id;
+    try {
+      const newFlow = await db.orm.public.Flows.create(body);
+      return newFlow.id;
+    } catch (err) {
+      const dbError = err as { sqlState?: string; constraint?: string };
+      if (dbError.sqlState === '23505') {
+        throw new DbUniqueConflictError(dbError.constraint);
+      }
+      throw err;
+    }
+  }
+
+  async updateFlow(id: string, body: UpdateFlowDto): Promise<string> {
+    try {
+      await db.orm.public.Flows.where({ id }).update(body);
+      return id;
+    } catch (err) {
+      const dbError = err as { sqlState?: string; constraint?: string };
+      if (dbError.sqlState === '23505') {
+        throw new DbUniqueConflictError(dbError.constraint);
+      }
+      throw err;
+    }
   }
 }

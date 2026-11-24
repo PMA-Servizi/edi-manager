@@ -38,30 +38,42 @@ const { defineField, handleSubmit, errors, resetForm, setValues } = useForm<
   initialValues: DefaultCompanyForm,
   validationSchema: toTypedSchema(CreateCompanySchema),
 })
-const [name, nameProps] = defineField('name', validateOnInputIfErrored)
-const [division, divisionProps] = defineField('division', validateOnInputIfErrored)
-const [ediCompanyCode, ediCompanyCodeProps] = defineField(
+const [name, nameProps] = defineField<'name'>('name', validateOnInputIfErrored)
+const [division, divisionProps] = defineField<'division'>('division', validateOnInputIfErrored)
+const [ediCompanyCode, ediCompanyCodeProps] = defineField<'ediCompanyCode'>(
   'ediCompanyCode',
   validateOnInputIfErrored,
 )
-const [ediCompanyCodeType, ediCompanyCodeTypeProps] = defineField(
+const [ediCompanyCodeType, ediCompanyCodeTypeProps] = defineField<'ediCompanyCodeType'>(
   'ediCompanyCodeType',
   validateOnInputIfErrored,
 )
-const [businessName, businessNameProps] = defineField('businessName', validateOnInputIfErrored)
-const [address, addressProps] = defineField('address', validateOnInputIfErrored)
-const [city, cityProps] = defineField('city', validateOnInputIfErrored)
-const [province, provinceProps] = defineField('province', validateOnInputIfErrored)
-const [postalCode, postalCodeProps] = defineField('postalCode', validateOnInputIfErrored)
-const [country, countryProps] = defineField('country', validateOnInputIfErrored)
-const [courtOfLaw, courtOfLawProps] = defineField('courtOfLaw', validateOnInputIfErrored)
-const [cciaa, cciaaProps] = defineField('cciaa', validateOnInputIfErrored)
-const [shareCapital, shareCapitalProps] = defineField('shareCapital', validateOnInputIfErrored)
-const [raeeRegistrationNumber, raeeRegistrationNumberProps] = defineField(
+const [businessName, businessNameProps] = defineField<'businessName'>(
+  'businessName',
+  validateOnInputIfErrored,
+)
+const [address, addressProps] = defineField<'address'>('address', validateOnInputIfErrored)
+const [city, cityProps] = defineField<'city'>('city', validateOnInputIfErrored)
+const [province, provinceProps] = defineField<'province'>('province', validateOnInputIfErrored)
+const [postalCode, postalCodeProps] = defineField<'postalCode'>(
+  'postalCode',
+  validateOnInputIfErrored,
+)
+const [country, countryProps] = defineField<'country'>('country', validateOnInputIfErrored)
+const [courtOfLaw, courtOfLawProps] = defineField<'courtOfLaw'>(
+  'courtOfLaw',
+  validateOnInputIfErrored,
+)
+const [cciaa, cciaaProps] = defineField<'cciaa'>('cciaa', validateOnInputIfErrored)
+const [shareCapital, shareCapitalProps] = defineField<'shareCapital'>(
+  'shareCapital',
+  validateOnInputIfErrored,
+)
+const [raeeRegistrationNumber, raeeRegistrationNumberProps] = defineField<'raeeRegistrationNumber'>(
   'raeeRegistrationNumber',
   validateOnInputIfErrored,
 )
-const [pileRegistrationNumber, pileRegistrationNumberProps] = defineField(
+const [pileRegistrationNumber, pileRegistrationNumberProps] = defineField<'pileRegistrationNumber'>(
   'pileRegistrationNumber',
   validateOnInputIfErrored,
 )

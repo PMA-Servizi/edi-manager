@@ -1,7 +1,7 @@
 import type { InputBindsConfig, PublicPathState } from 'vee-validate'
 
-export const validateOnInputIfErrored = (
-  state: PublicPathState<string>,
+export const validateOnInputIfErrored = <T>(
+  state: PublicPathState<T>,
 ): Partial<InputBindsConfig> => {
   return {
     validateOnModelUpdate: state.errors.length > 0,

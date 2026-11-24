@@ -17,8 +17,8 @@ export interface Company {
   businessName: string;
   address: string;
   city: string;
-  province: string;
   postalCode: string;
+  province: string;
   country: string;
   courtOfLaw: string | null;
   cciaa: string;
@@ -26,6 +26,5 @@ export interface Company {
   raeeRegistrationNumber: string;
   pileRegistrationNumber: string;
 }
-
 export type CreateCompanyDto = z.output<typeof CreateCompanySchema>;
 export type UpdateCompanyDto = z.output<typeof UpdateCompanySchema>;

@@ -7,8 +7,8 @@ import {
   NModalProvider,
   type GlobalThemeOverrides,
 } from 'naive-ui'
-import Layout from './components/shared/Layout.vue'
-import Sidebar from './components/shared/Sidebar.vue'
+import AppLayout from './components/shared/AppLayout.vue'
+import AppSidebar from './components/shared/AppSidebar.vue'
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
@@ -27,12 +27,12 @@ const themeOverrides: GlobalThemeOverrides = {
   <NConfigProvider :theme="darkTheme" :theme-overrides="themeOverrides" class="h-screen">
     <NMessageProvider>
       <NModalProvider>
-        <Layout>
+        <AppLayout>
           <template #sidebar>
-            <Sidebar />
+            <AppSidebar />
           </template>
           <RouterView />
-        </Layout>
+        </AppLayout>
         <NGlobalStyle />
       </NModalProvider>
     </NMessageProvider>

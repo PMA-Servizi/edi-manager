@@ -9,10 +9,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service.js';
-import {
+import type {
   Company,
-  type UpdateCompanyDto,
-  type CreateCompanyDto,
+  UpdateCompanyDto,
+  CreateCompanyDto,
 } from './companies.types.js';
 import {
   CreateCompanySchema,

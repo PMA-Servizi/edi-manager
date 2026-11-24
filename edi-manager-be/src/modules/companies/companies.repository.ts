@@ -1,6 +1,6 @@
 import { db } from '@/prisma/db.js';
 import { Injectable } from '@nestjs/common';
-import {
+import type {
   Company,
   CreateCompanyDto,
   UpdateCompanyDto,

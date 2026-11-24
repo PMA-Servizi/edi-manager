@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRunBody, Run } from './runs.types.js';
+import type { CreateRunBody, Run } from './runs.types.js';
 import { db } from '@/prisma/db.js';
 import { EntityNotFoundError } from '@/shared/errors.js';
 

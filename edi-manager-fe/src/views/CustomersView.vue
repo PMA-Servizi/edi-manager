@@ -6,7 +6,7 @@ import LoadableList from '@/components/shared/LoadableList.vue'
 import { customersRepository } from '@/repositories/customers.repository'
 import type { Customer } from '@backend/modules/customers/customers.types'
 import { Icon } from '@iconify/vue'
-import { NButton, NDivider, useMessage } from 'naive-ui'
+import { NButton, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 
 const showCustomerModal = ref<boolean>(false)

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FlowListItem from '@/components/flows/FlowListItem.vue'
+import FlowModal from '@/components/flows/FlowModal.vue'
 import DetailsLayout from '@/components/shared/DetailsLayout.vue'
 import LoadableList from '@/components/shared/LoadableList.vue'
 import { flowsRepository } from '@/repositories/flows.repository'
@@ -42,15 +44,15 @@ onMounted(loadFlows)
       </NButton>
     </template>
     <LoadableList emptyLabel="Nessun flusso trovato" :loading="loading" :items="flows">
-      <div class="w-full flex flex-col gap-3 p-3">
-        <FlowCard v-for="flow in flows" :key="flow.id" :flow="flow" @edit="editFlow" />
+      <div class="w-full flex flex-col gap-3 p-3 self-start">
+        <FlowListItem v-for="flow in flows" :key="flow.id" :flow="flow" @edit="editFlow" />
       </div>
     </LoadableList>
     <FlowModal
       v-model:open="showFlowModal"
       @success="loadFlows"
       @close="flowToEdit = undefined"
-      :company="flowToEdit"
+      :flow="flowToEdit"
     />
   </DetailsLayout>
 </template>

@@ -1,4 +1,4 @@
-import { Flow } from '../flows/flows.types.js';
+import type { Flow } from '../flows/flows.types.js';
 
 export type RunOutcome = 'success' | 'fail';
 

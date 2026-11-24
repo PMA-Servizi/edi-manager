@@ -1,8 +1,8 @@
 import { api } from '@/services/api.service'
-import {
-  type CreateCustomerDto,
-  type Customer,
-  type UpdateCustomerDto,
+import type {
+  CreateCustomerDto,
+  Customer,
+  UpdateCustomerDto,
 } from '@backend/modules/customers/customers.types'
 
 class CustomersRepository {

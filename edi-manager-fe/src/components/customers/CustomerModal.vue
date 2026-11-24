@@ -33,8 +33,8 @@ const { defineField, handleSubmit, errors, resetForm, setValues } = useForm<
   initialValues: DefaultCustomerForm,
   validationSchema: toTypedSchema(CreateCustomerSchema),
 })
-const [name, nameProps] = defineField('name', validateOnInputIfErrored)
-const [sapCustomerCode, sapCustomerCodeProps] = defineField(
+const [name, nameProps] = defineField<'name'>('name', validateOnInputIfErrored)
+const [sapCustomerCode, sapCustomerCodeProps] = defineField<'sapCustomerCode'>(
   'sapCustomerCode',
   validateOnInputIfErrored,
 )

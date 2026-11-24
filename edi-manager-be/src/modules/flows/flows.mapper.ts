@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Flow, FlowJob, FlowJobStatus } from './flows.types.js';
+import type { Flow, FlowJob, FlowJobStatus } from './flows.types.js';
 import { Job } from 'bullmq';
 
 @Injectable()

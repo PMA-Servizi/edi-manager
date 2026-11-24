@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { NButton, NInput, useMessage } from 'naive-ui'
+import { NButton, NInputNumber, NSelect, useMessage } from 'naive-ui'
 import BaseModal from '../shared/BaseModal.vue'
 import { Icon } from '@iconify/vue'
-import type { CreateCustomerDto, Customer } from '@backend/modules/customers/customers.types.ts'
 import FormItem from '../shared/FormItem.vue'
-import { DefaultCustomerForm } from '@/constants/customers.constants.ts'
-import type { CustomerForm } from '@/types/customers.types.ts'
 import { useForm } from 'vee-validate'
-import { CreateCustomerSchema } from '@backend/modules/customers/customer.schemas.ts'
 import { toTypedSchema } from '@vee-validate/zod'
 import { validateOnInputIfErrored } from '@/utils/validation.utils.ts'
-import { customersRepository } from '@/repositories/customers.repository.ts'
 import { ref } from 'vue'
 import type { Flow } from '@backend/modules/flows/flows.types.ts'
+import type { FlowForm, FlowFormData } from '@/types/flows.types.ts'
+import { DefaultFlowForm, EdiRecordTypes, FlowOperations } from '@/constants/flows.constants.ts'
+import { flowsRepository } from '@/repositories/flows.repository.ts'
+import CompanySelect from '../companies/CompanySelect.vue'
+import CustomerSelect from '../customers/CustomerSelect.vue'
+import { FlowFormSchema } from '@/schemas/flows.schemas.ts'
 
 interface FlowModalProps {
   flow?: Flow
@@ -27,36 +28,38 @@ const emit = defineEmits<{
 const loading = ref<boolean>(false)
 const message = useMessage()
 
-// TODO
-const { defineField, handleSubmit, errors, resetForm, setValues } = useForm<
-  CustomerForm,
-  CreateCustomerDto
+const { defineField, handleSubmit, errors, resetForm, setValues, values } = useForm<
+  FlowForm,
+  FlowFormData
 >({
-  initialValues: DefaultCustomerForm,
-  validationSchema: toTypedSchema(CreateCustomerSchema),
+  initialValues: DefaultFlowForm,
+  validationSchema: toTypedSchema(FlowFormSchema),
 })
-const [name, nameProps] = defineField('name', validateOnInputIfErrored)
-const [sapCustomerCode, sapCustomerCodeProps] = defineField(
-  'sapCustomerCode',
+const [interval, intervalProps] = defineField<'interval'>('interval', validateOnInputIfErrored)
+const [operation, operationProps] = defineField<'operation'>('operation', validateOnInputIfErrored)
+const [ediRecordType, ediRecordTypeProps] = defineField<'ediRecordType'>(
+  'ediRecordType',
   validateOnInputIfErrored,
 )
+const [company, companyProps] = defineField<'company'>('company', validateOnInputIfErrored)
+const [customer, customerProps] = defineField<'customer'>('customer', validateOnInputIfErrored)
 
 const submit = handleSubmit(async (values) => {
   try {
     loading.value = true
-    if (props.customer) {
-      const newCustomerId = await customersRepository.update(props.customer.id, values)
-      message.success(`Cliente aggiornato`)
-      emit('success', newCustomerId)
+    if (props.flow) {
+      const newFlowId = await flowsRepository.update(props.flow.id, values)
+      message.success(`Flusso aggiornato`)
+      emit('success', newFlowId)
     } else {
-      const newCustomerId = await customersRepository.create(values)
-      message.success(`${values.name} creato`)
-      emit('success', newCustomerId)
+      const newFlowId = await flowsRepository.create(values)
+      message.success(`Flusso creato`)
+      emit('success', newFlowId)
     }
     open.value = false
   } catch {
-    if (props.customer) message.error('Errore nel salvataggio')
-    else message.error('Errore nella creazione del cliente')
+    if (props.flow) message.error('Errore nel salvataggio')
+    else message.error('Errore nella creazione del flusso')
   } finally {
     loading.value = false
   }
@@ -68,10 +71,13 @@ const handleClose = () => {
 }
 
 const handleOpen = () => {
-  if (!props.customer) return
+  if (!props.flow) return
   setValues({
-    name: props.customer.name,
-    sapCustomerCode: props.customer.sapCustomerCode,
+    interval: props.flow.interval,
+    operation: props.flow.operation,
+    ediRecordType: props.flow.ediRecordType,
+    company: props.flow.company,
+    customer: props.flow.customer,
   })
 }
 </script>
@@ -79,47 +85,67 @@ const handleOpen = () => {
 <template>
   <BaseModal
     v-model:open="open"
-    :title="props.customer ? 'Modifica cliente' : 'Crea cliente'"
+    :title="props.flow ? 'Modifica flusso' : 'Crea flusso'"
     @close="handleClose"
     @open="handleOpen"
     :closable="!loading"
   >
     <div class="flex flex-col gap-3">
-      <FormItem label="Nome" :error="errors.name" required>
-        <NInput
-          type="text"
-          placeholder="Nome del cliente..."
-          v-model:value="name"
-          minlength="3"
-          maxlength="50"
-          showCount
-          v-bind="nameProps"
-          :status="!!errors.name ? 'error' : undefined"
+      <FormItem label="Tipo di Record EDI" :error="errors.ediRecordType" required>
+        <NSelect
+          v-model:value="ediRecordType"
+          v-bind="ediRecordTypeProps"
+          :options="EdiRecordTypes"
+          filterable
+          :consistentMenuWidth="false"
+          placeholder="Tipo di record..."
+          :status="!!errors.ediRecordType ? 'error' : undefined"
           :loading="loading"
           :disabled="loading"
         />
       </FormItem>
-      <FormItem label="Codice SAP" :error="errors.sapCustomerCode" required>
-        <NInput
-          type="text"
-          placeholder="Codice SAP del cliente..."
-          v-model:value="sapCustomerCode"
-          minlength="1"
-          maxlength="20"
-          showCount
-          v-bind="sapCustomerCodeProps"
-          :status="!!errors.sapCustomerCode ? 'error' : undefined"
-          :loading="loading"
-          :disabled="loading"
-        />
-      </FormItem>
+      <div class="flex gap-3">
+        <FormItem label="Intervallo (in secondi)" :error="errors.interval" required class="flex-1">
+          <NInputNumber
+            placeholder="Intervallo..."
+            v-model:value="interval"
+            :min="60"
+            :max="10_000_000"
+            :showButton="false"
+            v-bind="intervalProps"
+            :status="!!errors.interval ? 'error' : undefined"
+            :loading="loading"
+            :disabled="loading"
+          />
+        </FormItem>
+        <FormItem label="Operazione" :error="errors.operation" required class="flex-1">
+          <NSelect
+            v-model:value="operation"
+            v-bind="operationProps"
+            :options="FlowOperations"
+            :consistentMenuWidth="false"
+            placeholder="Operazione..."
+            :status="!!errors.operation ? 'error' : undefined"
+            :loading="loading"
+            :disabled="loading"
+          />
+        </FormItem>
+      </div>
+      <div class="flex gap-3">
+        <FormItem label="Azienda" :error="errors.company" required class="flex-1">
+          <CompanySelect v-model="company" v-bind="companyProps" :invalid="!!errors.company" />
+        </FormItem>
+        <FormItem label="Cliente" :error="errors.customer" required class="flex-1">
+          <CustomerSelect v-model="customer" v-bind="customerProps" :invalid="!!errors.customer" />
+        </FormItem>
+      </div>
     </div>
     <template #footer>
       <div class="flex items-center w-full justify-between">
         <NButton @click="open = false" :disabled="loading">Annulla</NButton>
         <NButton @click="submit" type="primary" :loading="loading">
           <template #icon> <Icon icon="lucide:check" class="text-xl" /> </template>
-          {{ props.customer ? 'Salva' : 'Crea' }}
+          {{ props.flow ? 'Salva' : 'Crea' }}
         </NButton>
       </div>
     </template>

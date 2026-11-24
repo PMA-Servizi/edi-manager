@@ -1,79 +1,47 @@
 import z from 'zod';
 
+export const flowInterval = z
+  .number({ message: "L'intervallo è obbligatorio" })
+  .min(60, "L'intervallo deve essere almeno 60")
+  .max(10_000_000, "L'intervallo deve essere meno di 10 milioni");
+
+export const flowEdiType = z
+  .enum(
+    [
+      'ANPROD',
+      'DESADV',
+      'ORDERS',
+      'ORDRSP',
+      'PACLIS',
+      'SELLIN',
+      'INVSUP',
+      'ORDLIS',
+      'REMADV',
+      'INVRPT',
+      'SLSRPT',
+      'PRICAT',
+      'NOTACC',
+      'NOTADD',
+      'ORDPRP',
+    ],
+    { message: 'Valore non consentito' },
+  )
+  .nullable()
+  .refine((val) => !!val, 'Il tipo di record è obbligatorio');
+export const ediOperation = z
+  .enum(['upload', 'download'], {
+    message: 'Valore non consentito',
+  })
+  .nullable()
+  .refine((val) => !!val, "L'operazione è obbligatoria");
+
 export const CreateFlowSchema = z.object({
-  interval: z
-    .number()
-    .min(60, "L'intervallo deve essere almeno 60")
-    .max(10_000_000, "L'intervallo deve essere meno di 10 milioni"),
-  ediRecordType: z
-    .enum(
-      [
-        'ANPROD',
-        'DESADV',
-        'ORDERS',
-        'ORDRSP',
-        'PACLIS',
-        'SELLIN',
-        'INVSUP',
-        'ORDLIS',
-        'REMADV',
-        'INVRPT',
-        'SLSRPT',
-        'PRICAT',
-        'NOTACC',
-        'NOTADD',
-        'ORDPRP',
-      ],
-      { message: 'Valore non consentito' },
-    )
-    .nullable()
-    .transform((val, ctx) => {
-      if (!val) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Il tipo di record è obbligatorio',
-        });
-        return z.NEVER;
-      }
-      return val;
-    }),
-  operation: z
-    .enum(['upload', 'download'], { message: 'Valore non consentito' })
-    .nullable()
-    .transform((val, ctx) => {
-      if (!val) {
-        ctx.addIssue({
-          code: 'custom',
-          message: "L'operazione è obbligatoria",
-        });
-        return z.NEVER;
-      }
-      return val;
-    }),
-  customerId: z
-    .string()
-    .nullable()
-    .transform((val, ctx) => {
-      if (!val) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Il cliente è obbligatorio',
-        });
-        return z.NEVER;
-      }
-      return val;
-    }),
-  companyId: z
-    .string()
-    .nullable()
-    .transform((val, ctx) => {
-      if (!val) {
-        ctx.addIssue({
-          code: 'custom',
-          message: "L'azienda è obbligatoria",
-        });
-        return z.NEVER;
-      }
-      return val;
-    }),
+  interval: flowInterval,
+  ediRecordType: flowEdiType,
+  operation: ediOperation,
+  customerId: z.string().nonempty('Il cliente è obbligatorio'),
+  companyId: z.string().nonempty("L'azienda è obbligatoria"),
+  // TODO: add last run
 });
+
+export const UpdateFlowSchema = CreateFlowSchema.partial();

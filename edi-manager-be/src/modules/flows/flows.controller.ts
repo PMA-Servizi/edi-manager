@@ -4,11 +4,18 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { FlowsService } from './flows.service.js';
-import { type CreateFlowDto, Flow, FlowJob } from './flows.types.js';
-import { CreateFlowSchema } from './flows.schemas.js';
+import type {
+  CreateFlowDto,
+  Flow,
+  FlowJob,
+  UpdateFlowDto,
+} from './flows.types.js';
+import { CreateFlowSchema, UpdateFlowSchema } from './flows.schemas.js';
 import { DuplicatedEntityError } from '@/shared/errors.js';
 
 @Controller('/flows')
@@ -31,6 +38,20 @@ export class FlowsController {
   ): Promise<string> {
     try {
       return await this.flowsService.createFlow(body);
+    } catch (err) {
+      if (err instanceof DuplicatedEntityError)
+        throw new HttpException(err.message, HttpStatus.CONFLICT);
+      throw err;
+    }
+  }
+
+  @Patch('/:id')
+  async updateFlow(
+    @Param('id') id: string,
+    @Body({ schema: UpdateFlowSchema }) body: UpdateFlowDto,
+  ): Promise<string> {
+    try {
+      return await this.flowsService.updateFlow(id, body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
         throw new HttpException(err.message, HttpStatus.CONFLICT);

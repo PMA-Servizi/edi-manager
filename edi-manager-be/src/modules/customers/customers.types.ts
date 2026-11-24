@@ -10,6 +10,5 @@ export interface Customer {
   sapCustomerCode: string;
   catalogId: number;
 }
-
 export type CreateCustomerDto = z.infer<typeof CreateCustomerSchema>;
 export type UpdateCustomerDto = z.infer<typeof UpdateCustomerSchema>;
