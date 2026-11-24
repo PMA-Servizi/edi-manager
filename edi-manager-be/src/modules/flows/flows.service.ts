@@ -30,13 +30,17 @@ export class FlowsService {
     const flows = await this.flowsRepository.getFlows();
     for (const flow of flows) {
       if (!flow.enabled) continue;
-      await this.flowsQueue.upsertJob({
-        schedulerId: 'test-scheduler',
-        jobName: 'log',
-        delay: 5000,
-        jobData: flow,
-      });
+      await this.startFlow(flow);
     }
+  }
+
+  async startFlow(flow: Flow) {
+    await this.flowsQueue.upsertJob({
+      schedulerId: 'edi-scheduler',
+      jobName: `${flow.ediRecordType}-${flow.operation}-${flow.company.id}-${flow.customer.id}`,
+      delay: flow.interval,
+      jobData: flow,
+    });
   }
 
   async runFlowJob(flowJob: Job<Flow>) {
@@ -96,10 +100,10 @@ export class FlowsService {
   }
 
   async toggleFlow(id: string): Promise<boolean> {
-    const toggleResult = await this.flowsRepository.toggleFlow(id);
-    if (!toggleResult)
-      throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
-    return toggleResult;
+    const flow = await this.flowsRepository.toggleFlow(id);
+    if (!flow) throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
+    await this.startFlow(flow);
+    return flow.enabled;
   }
 
   async getFlowJobs(): Promise<FlowJob[]> {

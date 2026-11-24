@@ -16,5 +16,10 @@ class FlowsRepository {
     const response = await api.patch<string>(`/flows/${id}`, body)
     return response.data
   }
+
+  async toggle(id: string): Promise<boolean> {
+    const response = await api.post<boolean>(`/flows/${id}/toggle`)
+    return response.data
+  }
 }
 export const flowsRepository = new FlowsRepository()

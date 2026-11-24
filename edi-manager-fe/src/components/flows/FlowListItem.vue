@@ -14,6 +14,7 @@ const emit = defineEmits<{
 }>()
 
 const hovered = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
 const themeVars = useThemeVars()
 
@@ -23,6 +24,15 @@ const recordTypeLabel = computed<string>(() => {
     props.flow.ediRecordType
   )
 })
+
+const toggleFlow = async () => {
+  try {
+    loading.value = true
+  } catch {
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 <template>
   <div

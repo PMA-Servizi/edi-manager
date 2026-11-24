@@ -46,14 +46,18 @@ export class FlowsRepository {
     }
   }
 
-  async toggleFlow(id: string): Promise<boolean | null> {
+  async toggleFlow(id: string): Promise<Flow | null> {
     const targetFlow = await db.orm.public.Flows.where({ id }).first();
     if (!targetFlow) return null;
     const newEnabled = !targetFlow.enabled;
-    const updatedFlow = await db.orm.public.Flows.where({ id }).update({
-      enabled: newEnabled,
-    });
+    const updatedFlow = await db.orm.public.Flows.where({ id })
+      .include('company')
+      .include('customer')
+      .include('lastRun')
+      .update({
+        enabled: newEnabled,
+      });
     if (!updatedFlow) return null;
-    return newEnabled;
+    return updatedFlow;
   }
 }
