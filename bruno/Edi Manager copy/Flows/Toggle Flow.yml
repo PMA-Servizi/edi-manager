@@ -1,0 +1,20 @@
+info:
+  name: Toggle Flow
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseURL}}/{{prefix}}/flows/:id/toggle"
+  params:
+    - name: id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

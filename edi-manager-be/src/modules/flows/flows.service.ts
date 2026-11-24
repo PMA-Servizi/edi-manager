@@ -14,6 +14,7 @@ import { type CreateRunBody } from '../runs/runs.types.js';
 import {
   DbUniqueConflictError,
   DuplicatedEntityError,
+  EntityNotFoundError,
 } from '@/shared/errors.js';
 
 @Injectable()
@@ -80,7 +81,10 @@ export class FlowsService {
 
   async updateFlow(id: string, body: UpdateFlowDto): Promise<string> {
     try {
-      return await this.flowsRepository.updateFlow(id, body);
+      const flowId = await this.flowsRepository.updateFlow(id, body);
+      if (!flowId)
+        throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
+      return flowId;
     } catch (err) {
       if (err instanceof DbUniqueConflictError && err.constraint) {
         throw new DuplicatedEntityError(
@@ -89,6 +93,13 @@ export class FlowsService {
       }
       throw err;
     }
+  }
+
+  async toggleFlow(id: string): Promise<boolean> {
+    const toggleResult = await this.flowsRepository.toggleFlow(id);
+    if (!toggleResult)
+      throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
+    return toggleResult;
   }
 
   async getFlowJobs(): Promise<FlowJob[]> {

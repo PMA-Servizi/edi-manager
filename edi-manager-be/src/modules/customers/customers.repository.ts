@@ -26,10 +26,15 @@ export class CustomersRepository {
     }
   }
 
-  async updateCustomer(id: string, body: UpdateCustomerDto): Promise<string> {
+  async updateCustomer(
+    id: string,
+    body: UpdateCustomerDto,
+  ): Promise<string | null> {
     try {
-      await db.orm.public.Customers.where({ id }).update(body);
-      return id;
+      const updatedCustomer = await db.orm.public.Customers.where({
+        id,
+      }).update(body);
+      return updatedCustomer?.id ?? null;
     } catch (err) {
       const dbError = err as { sqlState?: string; constraint?: string };
       if (dbError.sqlState === '23505') {

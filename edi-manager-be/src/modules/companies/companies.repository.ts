@@ -26,10 +26,15 @@ export class CompaniesRepository {
     }
   }
 
-  async updateCompany(id: string, body: UpdateCompanyDto): Promise<string> {
+  async updateCompany(
+    id: string,
+    body: UpdateCompanyDto,
+  ): Promise<string | null> {
     try {
-      await db.orm.public.Companies.where({ id }).update(body);
-      return id;
+      const updatedCompany = await db.orm.public.Companies.where({ id }).update(
+        body,
+      );
+      return updatedCompany?.id ?? null;
     } catch (err) {
       const dbError = err as { sqlState?: string; constraint?: string };
       if (dbError.sqlState === '23505') {

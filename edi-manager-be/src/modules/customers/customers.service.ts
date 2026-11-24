@@ -8,6 +8,7 @@ import { CustomersRepository } from './customers.repository.js';
 import {
   DbUniqueConflictError,
   DuplicatedEntityError,
+  EntityNotFoundError,
 } from '@/shared/errors.js';
 
 @Injectable()
@@ -33,7 +34,13 @@ export class CustomersService {
 
   async updateCustomer(id: string, body: UpdateCustomerDto): Promise<string> {
     try {
-      return await this.customersRepository.updateCustomer(id, body);
+      const updatedCustomerId = await this.customersRepository.updateCustomer(
+        id,
+        body,
+      );
+      if (!updatedCustomerId)
+        throw new EntityNotFoundError(`Cliente non trovato con id ${id}`);
+      return updatedCustomerId;
     } catch (err) {
       if (err instanceof DbUniqueConflictError && err.constraint) {
         throw new DuplicatedEntityError(

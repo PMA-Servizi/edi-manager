@@ -8,6 +8,7 @@ import { CompaniesRepository } from './companies.repository.js';
 import {
   DbUniqueConflictError,
   DuplicatedEntityError,
+  EntityNotFoundError,
 } from '@/shared/errors.js';
 
 @Injectable()
@@ -33,7 +34,13 @@ export class CompaniesService {
 
   async updateCompany(id: string, body: UpdateCompanyDto): Promise<string> {
     try {
-      return await this.companiesRepository.updateCompany(id, body);
+      const updatedCompanyId = await this.companiesRepository.updateCompany(
+        id,
+        body,
+      );
+      if (!updatedCompanyId)
+        throw new EntityNotFoundError(`Azienda non trovata con id ${id}`);
+      return updatedCompanyId;
     } catch (err) {
       if (err instanceof DbUniqueConflictError && err.constraint) {
         throw new DuplicatedEntityError(

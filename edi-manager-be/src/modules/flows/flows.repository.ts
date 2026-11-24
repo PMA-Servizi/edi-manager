@@ -33,10 +33,10 @@ export class FlowsRepository {
     }
   }
 
-  async updateFlow(id: string, body: UpdateFlowDto): Promise<string> {
+  async updateFlow(id: string, body: UpdateFlowDto): Promise<string | null> {
     try {
-      await db.orm.public.Flows.where({ id }).update(body);
-      return id;
+      const updatedFlow = await db.orm.public.Flows.where({ id }).update(body);
+      return updatedFlow?.id ?? null;
     } catch (err) {
       const dbError = err as { sqlState?: string; constraint?: string };
       if (dbError.sqlState === '23505') {
@@ -44,5 +44,16 @@ export class FlowsRepository {
       }
       throw err;
     }
+  }
+
+  async toggleFlow(id: string): Promise<boolean | null> {
+    const targetFlow = await db.orm.public.Flows.where({ id }).first();
+    if (!targetFlow) return null;
+    const newEnabled = !targetFlow.enabled;
+    const updatedFlow = await db.orm.public.Flows.where({ id }).update({
+      enabled: newEnabled,
+    });
+    if (!updatedFlow) return null;
+    return newEnabled;
   }
 }

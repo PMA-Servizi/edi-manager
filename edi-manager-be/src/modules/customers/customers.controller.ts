@@ -18,7 +18,7 @@ import {
   CreateCustomerSchema,
   UpdateCustomerSchema,
 } from './customer.schemas.js';
-import { DuplicatedEntityError } from '@/shared/errors.js';
+import { DuplicatedEntityError, EntityNotFoundError } from '@/shared/errors.js';
 
 @Controller('/customers')
 export class CustomersController {
@@ -52,6 +52,8 @@ export class CustomersController {
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
         throw new HttpException(err.message, HttpStatus.CONFLICT);
+      if (err instanceof EntityNotFoundError)
+        throw new HttpException(err.message, HttpStatus.NOT_FOUND);
       throw err;
     }
   }
