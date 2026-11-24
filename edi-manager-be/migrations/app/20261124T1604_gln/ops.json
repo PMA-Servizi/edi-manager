@@ -1,0 +1,361 @@
+[
+  {
+    "id": "dropConstraint.Flows.Flows_customer_id_company_id_edi_record_type_operation_key",
+    "label": "Drop constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" on \"Flows\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Flows_customer_id_company_id_edi_record_type_operation_key",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_key",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\" DROP CONSTRAINT \"Flows_customer_id_company_id_edi_record_type_operation_key\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_key",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Flows_customer_id_company_id_edi_record_type_operation_key\" on \"Flows\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "column.Customers.gln",
+    "label": "Add column gln to Customers",
+    "summary": "Adds column gln to table Customers",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "gln",
+        "table": "Customers"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"gln\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "gln"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"gln\" on \"Customers\""
+        }
+      },
+      {
+        "description": "ensure table \"Customers\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Customers\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Customers",
+            "column": "gln",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"gln\"",
+        "sql": "ALTER TABLE \"public\".\"Customers\" ADD COLUMN \"gln\" character varying NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"gln\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "gln"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"gln\" on \"Customers\""
+        }
+      },
+      {
+        "description": "verify column \"gln\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "gln",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"gln\" has type \"character varying\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Customers",
+          "gln",
+          "character varying"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.Flows.union",
+    "label": "Add column union to Flows",
+    "summary": "Adds column union to table Flows",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "union",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"union\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Flows",
+          "union"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"union\" on \"Flows\""
+        }
+      },
+      {
+        "description": "ensure table \"Flows\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Flows\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Flows",
+            "column": "union",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"union\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\" ADD COLUMN \"union\" text NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"union\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Flows",
+          "union"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"union\" on \"Flows\""
+        }
+      },
+      {
+        "description": "verify column \"union\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Flows",
+          "union",
+          "NO"
+        ]
+      },
+      {
+        "description": "verify column \"union\" has type \"text\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "Flows",
+          "union",
+          "text"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Customers.Customers_gln_key",
+    "label": "Add unique constraint on \"Customers\" (gln)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Customers_gln_key",
+        "table": "Customers"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Customers_gln_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Customers_gln_key",
+          "public",
+          "\"public\".\"Customers\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Customers_gln_key\" on \"Customers\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Customers_gln_key\"",
+        "sql": "ALTER TABLE \"public\".\"Customers\" ADD CONSTRAINT \"Customers_gln_key\" UNIQUE (\"gln\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify unique constraint \"Customers_gln_key\" exists on (gln)",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
+        "params": [
+          "Customers_gln_key",
+          "public",
+          "\"public\".\"Customers\"",
+          "u",
+          "[\"gln\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Flows.Flows_union_check_031441ca",
+    "label": "Add check constraint \"Flows_union_check_031441ca\" on \"Flows\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Flows_union_check_031441ca",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Flows_union_check_031441ca\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_union_check_031441ca",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Flows_union_check_031441ca\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Flows_union_check_031441ca\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\" ADD CONSTRAINT \"Flows_union_check_031441ca\" CHECK (\"union\" IN ('metel', 'ediel'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify check constraint \"Flows_union_check_031441ca\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4)) AS \"result\"",
+        "params": [
+          "Flows_union_check_031441ca",
+          "public",
+          "\"public\".\"Flows\"",
+          "c"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Flows.Flows_customer_id_company_id_edi_record_type_operation_union_ke",
+    "label": "Add unique constraint on \"Flows\" (customer_id, company_id, edi_record_type, operation, union)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Flows_customer_id_company_id_edi_record_type_operation_union_ke",
+        "table": "Flows"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Flows_customer_id_company_id_edi_record_type_operation_union_ke\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_union_ke",
+          "public",
+          "\"public\".\"Flows\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Flows_customer_id_company_id_edi_record_type_operation_union_ke\" on \"Flows\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Flows_customer_id_company_id_edi_record_type_operation_union_ke\"",
+        "sql": "ALTER TABLE \"public\".\"Flows\" ADD CONSTRAINT \"Flows_customer_id_company_id_edi_record_type_operation_union_ke\" UNIQUE (\"customer_id\", \"company_id\", \"edi_record_type\", \"operation\", \"union\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify unique constraint \"Flows_customer_id_company_id_edi_record_type_operation_union_ke\" exists on (customer_id, company_id, edi_record_type, operation, union)",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb)) AS \"result\"",
+        "params": [
+          "Flows_customer_id_company_id_edi_record_type_operation_union_ke",
+          "public",
+          "\"public\".\"Flows\"",
+          "u",
+          "[\"customer_id\",\"company_id\",\"edi_record_type\",\"operation\",\"union\"]"
+        ]
+      }
+    ]
+  }
+]
