@@ -11,6 +11,6 @@ export class RunsService {
   }
 
   async createRun(body: CreateRunBody): Promise<string> {
-    return await this.createRun(body);
+    return await this.runsRepository.createRun(body);
   }
 }
