@@ -8,8 +8,11 @@ http:
   url: "{{baseURL}}/{{prefix}}/customers/:id"
   params:
     - name: id
-      value: ""
+      value: "567"
       type: path
+  body:
+    type: json
+    data: "{}"
   auth: inherit
 
 settings:

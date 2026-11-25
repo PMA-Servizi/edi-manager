@@ -23,10 +23,12 @@ export class CompaniesService {
     try {
       return await this.companiesRepository.createCompany(body);
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Cliente duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'COMPANIES',
+          message: `Azienda duplicata: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }
@@ -39,13 +41,18 @@ export class CompaniesService {
         body,
       );
       if (!updatedCompanyId)
-        throw new EntityNotFoundError(`Azienda non trovata con id ${id}`);
+        throw new EntityNotFoundError({
+          resource: 'COMPANIES',
+          message: `Azienda non trovata con id ${id}`,
+        });
       return updatedCompanyId;
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Cliente duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'COMPANIES',
+          message: `Azienda duplicata: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }

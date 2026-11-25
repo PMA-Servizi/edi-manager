@@ -23,10 +23,12 @@ export class CustomersService {
     try {
       return await this.customersRepository.createCustomer(body);
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Cliente duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'CUSTOMERS',
+          message: `Cliente duplicato: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }
@@ -39,13 +41,18 @@ export class CustomersService {
         body,
       );
       if (!updatedCustomerId)
-        throw new EntityNotFoundError(`Cliente non trovato con id ${id}`);
+        throw new EntityNotFoundError({
+          resource: 'CUSTOMERS',
+          message: `Cliente non trovato con id ${id}`,
+        });
       return updatedCustomerId;
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Cliente duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'CUSTOMERS',
+          message: `Cliente duplicato: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }

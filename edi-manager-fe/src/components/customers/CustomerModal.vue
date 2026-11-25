@@ -12,6 +12,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { validateOnInputIfErrored } from '@/utils/validation.utils.ts'
 import { customersRepository } from '@/repositories/customers.repository.ts'
 import { ref } from 'vue'
+import { handleCustomError, isCustomError } from '@/utils/errors.utils.ts'
 
 interface CustomerModalProps {
   customer?: Customer
@@ -53,8 +54,16 @@ const submit = handleSubmit(async (values) => {
       emit('success', newCustomerId)
     }
     open.value = false
-  } catch {
-    if (props.customer) message.error('Errore nel salvataggio')
+  } catch (err) {
+    if (isCustomError(err, 'DUPLICATED'))
+      handleCustomError({
+        err,
+        slug: 'DUPLICATED',
+        cb: (e) => {
+          message.error(e.message)
+        },
+      })
+    else if (props.customer) message.error('Errore nel salvataggio')
     else message.error('Errore nella creazione del cliente')
   } finally {
     loading.value = false

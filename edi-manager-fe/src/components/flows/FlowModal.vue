@@ -19,6 +19,7 @@ import { flowsRepository } from '@/repositories/flows.repository.ts'
 import CompanySelect from '../companies/CompanySelect.vue'
 import CustomerSelect from '../customers/CustomerSelect.vue'
 import { FlowFormSchema } from '@/schemas/flows.schemas.ts'
+import { handleCustomError, isCustomError } from '@/utils/errors.utils.ts'
 
 interface FlowModalProps {
   flow?: Flow
@@ -62,8 +63,16 @@ const submit = handleSubmit(async (values) => {
       emit('success', newFlowId)
     }
     open.value = false
-  } catch {
-    if (props.flow) message.error('Errore nel salvataggio')
+  } catch (err) {
+    if (isCustomError(err, 'DUPLICATED'))
+      handleCustomError({
+        err,
+        slug: 'DUPLICATED',
+        cb: (e) => {
+          message.error(`Flusso già esistente`)
+        },
+      })
+    else if (props.flow) message.error('Errore nel salvataggio')
     else message.error('Errore nella creazione del flusso')
   } finally {
     loading.value = false

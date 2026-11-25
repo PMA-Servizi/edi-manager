@@ -54,15 +54,13 @@ export class FlowsService {
 
   async runFlowJob(flowJob: Job<Flow>) {
     try {
-      // Add call to flow implementation
+      // TODO: Add call to flow implementation
       console.log(
         'Just ran flow: ',
         flowJob.data.ediRecordType,
         flowJob.data.operation,
       );
-      return;
 
-      // TODO: add run after job completion
       const newRunBody: CreateRunBody = {
         flowId: flowJob.data.id,
         outcome: 'success',
@@ -86,10 +84,12 @@ export class FlowsService {
     try {
       return await this.flowsRepository.createFlow(body);
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Flusso duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'FLOWS',
+          message: `Flusso duplicato: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }
@@ -99,13 +99,18 @@ export class FlowsService {
     try {
       const flowId = await this.flowsRepository.updateFlow(id, body);
       if (!flowId)
-        throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
+        throw new EntityNotFoundError({
+          resource: 'FLOWS',
+          message: `Flusso non trovato con id ${id}`,
+        });
       return flowId;
     } catch (err) {
-      if (err instanceof DbUniqueConflictError && err.constraint) {
-        throw new DuplicatedEntityError(
-          `Flusso duplicato: ${err.constraint} non è unico`,
-        );
+      if (err instanceof DbUniqueConflictError) {
+        throw new DuplicatedEntityError({
+          resource: 'FLOWS',
+          message: `Flusso duplicato: ${err.fields} non è unico`,
+          context: err.fields,
+        });
       }
       throw err;
     }
@@ -113,7 +118,11 @@ export class FlowsService {
 
   async toggleFlow(id: string): Promise<boolean> {
     const flow = await this.flowsRepository.toggleFlow(id);
-    if (!flow) throw new EntityNotFoundError(`Flusso non trovato con id ${id}`);
+    if (!flow)
+      throw new EntityNotFoundError({
+        resource: 'FLOWS',
+        message: `Flusso non trovato con id ${id}`,
+      });
     if (flow.enabled && (await this.checkFlowValidity(flow))) {
       await this.startFlow(flow);
     }

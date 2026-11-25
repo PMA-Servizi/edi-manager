@@ -2,6 +2,11 @@ import { Injectable } from '@nestjs/common';
 import type { CreateFlowDto, Flow, UpdateFlowDto } from './flows.types.js';
 import { db } from '@/prisma/db.js';
 import { DbUniqueConflictError } from '@/shared/errors.js';
+import {
+  isDuplicatedDbError,
+  isPostgresDbError,
+  parseDuplicatedDbErrorDetail,
+} from '@/utils/errors.utils.js';
 
 @Injectable()
 export class FlowsRepository {
@@ -25,9 +30,10 @@ export class FlowsRepository {
       const newFlow = await db.orm.public.Flows.create(body);
       return newFlow.id;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }
@@ -38,9 +44,10 @@ export class FlowsRepository {
       const updatedFlow = await db.orm.public.Flows.where({ id }).update(body);
       return updatedFlow?.id ?? null;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }

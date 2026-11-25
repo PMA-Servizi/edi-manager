@@ -17,6 +17,7 @@ import {
 } from '@/constants/companies.constants.ts'
 import { CreateCompanySchema } from '@backend/modules/companies/companies.schemas.ts'
 import { companiesRepository } from '@/repositories/companies.repository.ts'
+import { handleCustomError, isCustomError } from '@/utils/errors.utils.ts'
 
 interface CompanyModalProps {
   company?: Company
@@ -91,8 +92,16 @@ const submit = handleSubmit(async (values) => {
       emit('success', newCompanyId)
     }
     open.value = false
-  } catch {
-    if (props.company) message.error('Errore nel salvataggio')
+  } catch (err) {
+    if (isCustomError(err, 'DUPLICATED'))
+      handleCustomError({
+        err,
+        slug: 'DUPLICATED',
+        cb: (e) => {
+          message.error(e.message)
+        },
+      })
+    else if (props.company) message.error('Errore nel salvataggio')
     else message.error("Errore nella creazione dell'azienda")
   } finally {
     loading.value = false

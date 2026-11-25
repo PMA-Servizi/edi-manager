@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CustomersService } from './customers.service.js';
 import type {
   CreateCustomerDto,
@@ -19,6 +10,7 @@ import {
   UpdateCustomerSchema,
 } from './customer.schemas.js';
 import { DuplicatedEntityError, EntityNotFoundError } from '@/shared/errors.js';
+import { DuplicatedException, NotFoundException } from '@/shared/exceptions.js';
 
 @Controller('/customers')
 export class CustomersController {
@@ -37,7 +29,7 @@ export class CustomersController {
       return await this.customersService.createCustomer(body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
-        throw new HttpException(err.message, HttpStatus.CONFLICT);
+        throw new DuplicatedException(err.error);
       throw err;
     }
   }
@@ -51,9 +43,9 @@ export class CustomersController {
       return await this.customersService.updateCustomer(id, body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
-        throw new HttpException(err.message, HttpStatus.CONFLICT);
+        throw new DuplicatedException(err.error);
       if (err instanceof EntityNotFoundError)
-        throw new HttpException(err.message, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(err.error);
       throw err;
     }
   }

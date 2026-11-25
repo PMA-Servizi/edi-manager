@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { FlowsService } from './flows.service.js';
 import type {
   CreateFlowDto,
@@ -17,6 +8,7 @@ import type {
 } from './flows.types.js';
 import { CreateFlowSchema, UpdateFlowSchema } from './flows.schemas.js';
 import { DuplicatedEntityError, EntityNotFoundError } from '@/shared/errors.js';
+import { DuplicatedException, NotFoundException } from '@/shared/exceptions.js';
 
 @Controller('/flows')
 export class FlowsController {
@@ -40,7 +32,7 @@ export class FlowsController {
       return await this.flowsService.createFlow(body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
-        throw new HttpException(err.message, HttpStatus.CONFLICT);
+        throw new DuplicatedException(err.error);
       throw err;
     }
   }
@@ -54,9 +46,9 @@ export class FlowsController {
       return await this.flowsService.updateFlow(id, body);
     } catch (err) {
       if (err instanceof DuplicatedEntityError)
-        throw new HttpException(err.message, HttpStatus.CONFLICT);
+        throw new DuplicatedException(err.error);
       if (err instanceof EntityNotFoundError)
-        throw new HttpException(err.message, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(err.error);
       throw err;
     }
   }
@@ -67,7 +59,7 @@ export class FlowsController {
       return await this.flowsService.toggleFlow(id);
     } catch (err) {
       if (err instanceof EntityNotFoundError)
-        throw new HttpException(err.message, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(err.error);
       throw err;
     }
   }

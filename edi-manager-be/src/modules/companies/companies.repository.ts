@@ -6,6 +6,11 @@ import type {
   UpdateCompanyDto,
 } from './companies.types.js';
 import { DbUniqueConflictError } from '@/shared/errors.js';
+import {
+  isDuplicatedDbError,
+  isPostgresDbError,
+  parseDuplicatedDbErrorDetail,
+} from '@/utils/errors.utils.js';
 
 @Injectable()
 export class CompaniesRepository {
@@ -18,9 +23,10 @@ export class CompaniesRepository {
       const newCompany = await db.orm.public.Companies.create(body);
       return newCompany.id;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }
@@ -36,9 +42,10 @@ export class CompaniesRepository {
       );
       return updatedCompany?.id ?? null;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }

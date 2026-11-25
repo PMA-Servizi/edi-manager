@@ -6,6 +6,11 @@ import type {
 } from './customers.types.js';
 import { db } from '@/prisma/db.js';
 import { DbUniqueConflictError } from '@/shared/errors.js';
+import {
+  isDuplicatedDbError,
+  isPostgresDbError,
+  parseDuplicatedDbErrorDetail,
+} from '@/utils/errors.utils.js';
 
 @Injectable()
 export class CustomersRepository {
@@ -18,9 +23,10 @@ export class CustomersRepository {
       const newCustomer = await db.orm.public.Customers.create(body);
       return newCustomer.id;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }
@@ -36,9 +42,10 @@ export class CustomersRepository {
       }).update(body);
       return updatedCustomer?.id ?? null;
     } catch (err) {
-      const dbError = err as { sqlState?: string; constraint?: string };
-      if (dbError.sqlState === '23505') {
-        throw new DbUniqueConflictError(dbError.constraint);
+      if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
+        throw new DbUniqueConflictError(
+          parseDuplicatedDbErrorDetail(err.detail),
+        );
       }
       throw err;
     }
