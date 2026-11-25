@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { RunsService } from './runs.service.js';
 import { type Run } from './runs.types.js';
 import { EntityNotFoundError } from '@/shared/errors.js';
@@ -8,6 +8,7 @@ import { NotFoundException } from '@/shared/exceptions.js';
 export class RunsController {
   constructor(private readonly runsService: RunsService) {}
 
+  @Get()
   async getRuns(): Promise<Run[]> {
     try {
       return this.runsService.getRuns();

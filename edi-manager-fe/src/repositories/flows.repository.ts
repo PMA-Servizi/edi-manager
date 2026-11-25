@@ -1,5 +1,10 @@
 import { api } from '@/services/api.service'
-import type { CreateFlowDto, Flow, UpdateFlowDto } from '@backend/modules/flows/flows.types'
+import type {
+  CreateFlowDto,
+  Flow,
+  FlowJob,
+  UpdateFlowDto,
+} from '@backend/modules/flows/flows.types'
 
 class FlowsRepository {
   async getAll(): Promise<Flow[]> {
@@ -19,6 +24,11 @@ class FlowsRepository {
 
   async toggle(id: string): Promise<boolean> {
     const response = await api.post<boolean>(`/flows/${id}/toggle`)
+    return response.data
+  }
+
+  async getAllJobs(): Promise<FlowJob[]> {
+    const response = await api.get<FlowJob[]>('/flows/jobs')
     return response.data
   }
 }
