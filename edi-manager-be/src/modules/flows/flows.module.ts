@@ -6,6 +6,7 @@ import { FlowsWorker } from './flows.worker.js';
 import { FlowsMapper } from './flows.mapper.js';
 import { FlowsRepository } from './flows.repository.js';
 import { RunsModule } from '../runs/runs.module.js';
+import { RunnersModule } from '../runners/runners.module.js';
 
 @Module({
   controllers: [FlowsController],
@@ -17,6 +18,6 @@ import { RunsModule } from '../runs/runs.module.js';
     FlowsRepository,
   ],
   exports: [FlowsService],
-  imports: [RunsModule],
+  imports: [RunsModule, RunnersModule],
 })
 export class FlowsModule {}

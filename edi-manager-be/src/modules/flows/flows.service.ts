@@ -16,6 +16,7 @@ import {
   EntityNotFoundError,
   FlowExecutionError,
 } from '@/shared/errors.js';
+import type { RunnersService } from '../runners/runnsers.service.js';
 
 // TODO: add socket messages for FE
 // TODO: add SMTP server and email for most important errors
@@ -27,22 +28,19 @@ export class FlowsService {
     private readonly flowsMapper: FlowsMapper,
     private readonly flowsRepository: FlowsRepository,
     private readonly runsService: RunsService,
+    private readonly runnersService: RunnersService,
   ) {}
-
-  async checkFlowValidity(flow: Flow): Promise<boolean> {
-    // TODO: check if there is implementation for specific flow
-    return true;
-  }
 
   async stopAllFlows() {
     await this.flowsQueue.stopAllJobs();
   }
 
-  async startFlows() {
+  async startAllFlows() {
     const flows = await this.flowsRepository.getFlows();
     for (const flow of flows) {
-      if (!flow.enabled) continue;
-      if (!(await this.checkFlowValidity(flow))) continue;
+      const flowIsImplemented =
+        await this.runnersService.checkFlowImplementation(flow);
+      if (!flow.enabled || !flowIsImplemented) continue;
       await this.startFlow(flow);
     }
   }
@@ -60,12 +58,7 @@ export class FlowsService {
 
   async runFlowJob(flowJob: Job<Flow>) {
     try {
-      // TODO: Add call to flow implementation
-      console.log(
-        'Just ran flow: ',
-        flowJob.data.ediRecordType,
-        flowJob.data.operation,
-      );
+      await this.runnersService.runFlow(flowJob.data);
 
       const runId = await this.runsService.createRun({
         flowId: flowJob.data.id,
@@ -114,6 +107,7 @@ export class FlowsService {
           resource: 'FLOWS',
           message: `Flusso non trovato con id ${id}`,
         });
+
       return flowId;
     } catch (err) {
       if (err instanceof DbUniqueConflictError) {
@@ -134,11 +128,13 @@ export class FlowsService {
         resource: 'FLOWS',
         message: `Flusso non trovato con id ${id}`,
       });
-    if (flow.enabled && (await this.checkFlowValidity(flow))) {
-      await this.startFlow(flow);
-    } else {
-      await this.stopFlow(flow);
-    }
+
+    const flowIsImplemented =
+      await this.runnersService.checkFlowImplementation(flow);
+
+    if (flow.enabled && flowIsImplemented) await this.startFlow(flow);
+    else await this.stopFlow(flow);
+
     return flow.enabled;
   }
 

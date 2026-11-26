@@ -21,6 +21,6 @@ export class AppService implements OnApplicationBootstrap {
 
   async startJobs() {
     this.logger.debug('Starting all jobs...');
-    await this.flowsService.startFlows();
+    await this.flowsService.startAllFlows();
   }
 }
