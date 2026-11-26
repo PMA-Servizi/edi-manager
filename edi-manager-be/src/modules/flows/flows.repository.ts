@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { CreateFlowDto, Flow, UpdateFlowDto } from './flows.types.js';
 import { db } from '@/prisma/db.js';
-import { DbUniqueConflictError } from '@/shared/errors.js';
+import { DbUniqueConflictError, EntityNotFoundError } from '@/shared/errors.js';
 import {
   isDuplicatedDbError,
   isPostgresDbError,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class FlowsRepository {
   async getFlows(): Promise<Flow[]> {
-    return await db.orm.public.Flows.include('company')
+    const flows = await db.orm.public.Flows.include('company')
       .include('customer')
       .include('lastRun', (lastRun) =>
         lastRun.select(
@@ -23,6 +23,14 @@ export class FlowsRepository {
         ),
       )
       .all();
+    return flows.map((flow) => {
+      if (flow.lastRunId && !flow.lastRun)
+        throw new EntityNotFoundError({
+          resource: 'RUNS',
+          message: `Ultima esecuzione con id ${flow.lastRunId} non trovata per il flow con id ${flow.id}`,
+        });
+      return flow;
+    });
   }
 
   async createFlow(body: CreateFlowDto): Promise<string> {
@@ -53,18 +61,46 @@ export class FlowsRepository {
     }
   }
 
-  async toggleFlow(id: string): Promise<Flow | null> {
+  async toggleFlow(id: string): Promise<Flow> {
     const targetFlow = await db.orm.public.Flows.where({ id }).first();
-    if (!targetFlow) return null;
+    if (!targetFlow)
+      throw new EntityNotFoundError({
+        resource: 'FLOWS',
+        message: `Flow non trovato con id ${id}`,
+      });
     const newEnabled = !targetFlow.enabled;
     const updatedFlow = await db.orm.public.Flows.where({ id })
       .include('company')
       .include('customer')
-      .include('lastRun')
+      .include('lastRun', (lastRun) =>
+        lastRun.select(
+          'id',
+          'createdAt',
+          'updatedAt',
+          'outcome',
+          'errorMessage',
+        ),
+      )
       .update({
         enabled: newEnabled,
       });
-    if (!updatedFlow) return null;
-    return updatedFlow;
+    if (!updatedFlow)
+      throw new EntityNotFoundError({
+        resource: 'RUNS',
+        message: `Flow non trovato con id ${id}`,
+      });
+    const lastRun = updatedFlow.lastRun;
+    if (updatedFlow.lastRunId && !lastRun)
+      throw new EntityNotFoundError({
+        resource: 'FLOWS',
+        message: `Ultima esecuzione con id ${updatedFlow.lastRunId} non trovata per il flow con id ${id}`,
+      });
+    return { ...updatedFlow, lastRun };
+  }
+
+  async setFlowLastRun(flow: Flow, runId: string) {
+    await db.orm.public.Flows.where({ id: flow.id }).update({
+      lastRunId: runId,
+    });
   }
 }

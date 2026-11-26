@@ -26,7 +26,13 @@ export class RunsRepository {
           resource: 'RUNS',
           message: `Could not find the run's original flow for run ${run.id}`,
         });
-      return { ...run, flow };
+      const lastRun = flow.lastRun;
+      if (!lastRun)
+        throw new EntityNotFoundError({
+          resource: 'RUNS',
+          message: `Could not find the run's original flow for run ${run.id}`,
+        });
+      return { ...run, flow: { ...flow, lastRun } };
     });
   }
 

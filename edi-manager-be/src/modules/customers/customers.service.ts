@@ -26,7 +26,7 @@ export class CustomersService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'CUSTOMERS',
-          message: `Cliente duplicato: ${err.fields} non è unico`,
+          message: `Cliente duplicato: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }
@@ -50,7 +50,7 @@ export class CustomersService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'CUSTOMERS',
-          message: `Cliente duplicato: ${err.fields} non è unico`,
+          message: `Cliente duplicato: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }

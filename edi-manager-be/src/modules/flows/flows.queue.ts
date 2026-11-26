@@ -6,7 +6,6 @@ import type { Flow } from './flows.types.js';
 @Injectable()
 export class FlowsQueue {
   readonly queueId = 'flows-queue';
-  readonly schedulerId = 'edi-scheduler';
   private readonly queue: Queue;
   readonly connectionOptions: ConnectionOptions = {
     host: 'redis',
@@ -21,20 +20,18 @@ export class FlowsQueue {
   }
 
   async upsertJob({
-    jobName,
     delay,
-    jobData,
+    flow,
   }: {
-    jobName: string;
     delay: number;
-    jobData: Flow;
+    flow: Flow;
   }): Promise<Job<Flow>> {
     const nextJob = await this.queue.upsertJobScheduler(
-      this.schedulerId,
+      flow.id,
       {
         every: delay,
       },
-      { name: jobName, data: jobData },
+      { data: flow },
     );
 
     return nextJob;
@@ -56,6 +53,14 @@ export class FlowsQueue {
     return await this.queue.getJobs(['delayed']);
   }
   async stopAllJobs() {
-    await this.queue.removeJobScheduler(this.schedulerId);
+    const schedulers = await this.queue.getJobSchedulers(0, -1);
+    for (const scheduler of schedulers) {
+      await this.queue.removeJobScheduler(scheduler.key);
+    }
+    await this.queue.drain(true);
+  }
+
+  async stopFlowJob(flow: Flow) {
+    await this.queue.removeJobScheduler(flow.id);
   }
 }

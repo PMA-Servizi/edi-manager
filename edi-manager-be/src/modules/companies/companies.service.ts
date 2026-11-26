@@ -26,7 +26,7 @@ export class CompaniesService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'COMPANIES',
-          message: `Azienda duplicata: ${err.fields} non è unico`,
+          message: `Azienda duplicata: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }
@@ -50,7 +50,7 @@ export class CompaniesService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'COMPANIES',
-          message: `Azienda duplicata: ${err.fields} non è unico`,
+          message: `Azienda duplicata: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }

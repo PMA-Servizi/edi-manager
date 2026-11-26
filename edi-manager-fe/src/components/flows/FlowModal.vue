@@ -68,7 +68,7 @@ const submit = handleSubmit(async (values) => {
       handleCustomError({
         err,
         slug: 'DUPLICATED',
-        cb: (e) => {
+        cb: () => {
           message.error(`Flusso già esistente`)
         },
       })

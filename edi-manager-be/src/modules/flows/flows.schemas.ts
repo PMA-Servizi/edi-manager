@@ -50,7 +50,6 @@ export const CreateFlowSchema = z.object({
   customerId: z.string().nonempty('Il cliente è obbligatorio'),
   companyId: z.string().nonempty("L'azienda è obbligatoria"),
   union,
-  // TODO: add last run
 });
 
 export const UpdateFlowSchema = CreateFlowSchema.partial();

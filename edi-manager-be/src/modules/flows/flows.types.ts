@@ -2,6 +2,7 @@ import z from 'zod';
 import { CreateFlowSchema, UpdateFlowSchema } from './flows.schemas.js';
 import type { Company } from '../companies/companies.types.js';
 import type { Customer } from '../customers/customers.types.js';
+import type { PartialRun } from '../runs/runs.types.js';
 
 export type Union = 'metel' | 'ediel';
 export type EdiOperation = 'download' | 'upload';
@@ -31,6 +32,7 @@ export interface Flow {
   interval: number;
   ediRecordType: EdiRecordType;
   union: Union;
+  lastRun: PartialRun | null;
 }
 export type CreateFlowDto = z.output<typeof CreateFlowSchema>;
 export type UpdateFlowDto = z.output<typeof UpdateFlowSchema>;

@@ -16,13 +16,7 @@ export type RunDto = Omit<Run, 'createdAt' | 'updatedAt'> & {
   updatedAt: string;
 };
 
-export interface PartialRun {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  outcome: RunOutcome;
-  errorMessage: string | null;
-}
+export type PartialRun = Omit<Run, 'flow'>;
 
 export interface CreateRunBody {
   outcome: RunOutcome;

@@ -17,6 +17,9 @@ import {
   EntityNotFoundError,
 } from '@/shared/errors.js';
 
+// TODO: add socket messages for FE
+// TODO: add SMTP server and email for most important errors
+
 @Injectable()
 export class FlowsService {
   constructor(
@@ -46,10 +49,13 @@ export class FlowsService {
 
   async startFlow(flow: Flow) {
     await this.flowsQueue.upsertJob({
-      jobName: `${flow.ediRecordType}-${flow.operation}-${flow.company.id}-${flow.customer.id}`,
       delay: flow.interval * 1000,
-      jobData: flow,
+      flow,
     });
+  }
+
+  async stopFlow(flow: Flow) {
+    await this.flowsQueue.stopFlowJob(flow);
   }
 
   async runFlowJob(flowJob: Job<Flow>) {
@@ -65,14 +71,16 @@ export class FlowsService {
         flowId: flowJob.data.id,
         outcome: 'success',
       };
-      await this.runsService.createRun(newRunBody);
+      const runId = await this.runsService.createRun(newRunBody);
+      await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
     } catch {
       const newRunBody: CreateRunBody = {
         flowId: flowJob.data.id,
         outcome: 'fail',
         errorMessage: 'Errore durante la run!',
       };
-      await this.runsService.createRun(newRunBody);
+      const runId = await this.runsService.createRun(newRunBody);
+      await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
     }
   }
 
@@ -87,7 +95,7 @@ export class FlowsService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'FLOWS',
-          message: `Flusso duplicato: ${err.fields} non è unico`,
+          message: `Flusso duplicato: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }
@@ -108,7 +116,7 @@ export class FlowsService {
       if (err instanceof DbUniqueConflictError) {
         throw new DuplicatedEntityError({
           resource: 'FLOWS',
-          message: `Flusso duplicato: ${err.fields} non è unico`,
+          message: `Flusso duplicato: ${err.fields.join(', ')} non è unico`,
           context: err.fields,
         });
       }
@@ -125,6 +133,8 @@ export class FlowsService {
       });
     if (flow.enabled && (await this.checkFlowValidity(flow))) {
       await this.startFlow(flow);
+    } else {
+      await this.stopFlow(flow);
     }
     return flow.enabled;
   }
