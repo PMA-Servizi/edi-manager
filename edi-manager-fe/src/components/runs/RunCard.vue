@@ -26,7 +26,6 @@ const themeVars = useThemeVars()
     </div>
     <div class="grid grid-cols-2 gap-1.5">
       <LabeledData label="Operazione" :value="getOperationLabel(props.run.flow)" />
-      <LabeledData label="Cliente" :value="props.run.flow.customer.name" />
       <LabeledData label="Azienda" :value="props.run.flow.company.name" />
       <LabeledData label="Consorzio" :value="getUnionLabel(props.run.flow)" />
     </div>

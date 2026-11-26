@@ -16,6 +16,10 @@
       "model": "Files",
       "namespace": "public"
     },
+    "FlowCustomers": {
+      "model": "FlowCustomers",
+      "namespace": "public"
+    },
     "Flows": {
       "model": "Flows",
       "namespace": "public"
@@ -496,16 +500,73 @@
               "table": "Files"
             }
           },
-          "Flows": {
+          "FlowCustomers": {
             "fields": {
-              "companyId": {
+              "customerId": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
                   "kind": "scalar"
                 }
               },
-              "customerId": {
+              "flowId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "customer": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "customerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Customers",
+                  "namespace": "public"
+                }
+              },
+              "flow": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "flowId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Flows",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "customerId": {
+                  "column": "customerId"
+                },
+                "flowId": {
+                  "column": "flowId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "FlowCustomers"
+            }
+          },
+          "Flows": {
+            "fields": {
+              "companyId": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -597,14 +658,26 @@
                   "namespace": "public"
                 }
               },
-              "customer": {
-                "cardinality": "N:1",
-                "nullable": false,
+              "customers": {
+                "cardinality": "N:M",
                 "on": {
                   "localFields": [
-                    "customerId"
+                    "id"
                   ],
                   "targetFields": [
+                    "flowId"
+                  ]
+                },
+                "through": {
+                  "childColumns": [
+                    "customerId"
+                  ],
+                  "namespaceId": "public",
+                  "parentColumns": [
+                    "flowId"
+                  ],
+                  "table": "FlowCustomers",
+                  "targetColumns": [
                     "id"
                   ]
                 },
@@ -634,9 +707,6 @@
               "fields": {
                 "companyId": {
                   "column": "company_id"
-                },
-                "customerId": {
-                  "column": "customer_id"
                 },
                 "ediRecordType": {
                   "column": "edi_record_type"
@@ -1029,6 +1099,85 @@
               },
               "uniques": []
             },
+            "FlowCustomers": {
+              "columns": {
+                "customerId": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
+                "flowId": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "FlowCustomers_flowId_idx_ff668f3c"
+                  },
+                  "source": {
+                    "columns": [
+                      "flowId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "FlowCustomers"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Flows"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "FlowCustomers_customerId_idx_b2a8a46c"
+                  },
+                  "source": {
+                    "columns": [
+                      "customerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "FlowCustomers"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Customers"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "customerId"
+                  ],
+                  "name": "FlowCustomers_customerId_idx_b2a8a46c",
+                  "prefix": "FlowCustomers_customerId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "flowId"
+                  ],
+                  "name": "FlowCustomers_flowId_idx_ff668f3c",
+                  "prefix": "FlowCustomers_flowId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "flowId",
+                  "customerId"
+                ]
+              },
+              "uniques": []
+            },
             "Flows": {
               "checks": [
                 {
@@ -1049,11 +1198,6 @@
               ],
               "columns": {
                 "company_id": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false
-                },
-                "customer_id": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
                   "nullable": false
@@ -1119,25 +1263,6 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "Flows_customer_id_idx_e16dfa6b"
-                  },
-                  "source": {
-                    "columns": [
-                      "customer_id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Flows"
-                  },
-                  "target": {
-                    "columns": [
-                      "id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Customers"
-                  }
-                },
-                {
-                  "index": {
                     "name": "Flows_company_id_idx_1303a718"
                   },
                   "source": {
@@ -1186,14 +1311,6 @@
                 },
                 {
                   "columns": [
-                    "customer_id"
-                  ],
-                  "name": "Flows_customer_id_idx_e16dfa6b",
-                  "prefix": "Flows_customer_id_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
                     "last_run_id"
                   ],
                   "name": "Flows_last_run_id_idx_c969e924",
@@ -1209,7 +1326,6 @@
               "uniques": [
                 {
                   "columns": [
-                    "customer_id",
                     "company_id",
                     "edi_record_type",
                     "operation",
@@ -1371,7 +1487,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "950265b2330f9529ab568d5b72539e16c8a72bceb2fb43c9c35de62b1f0e9609"
+    "storageHash": "8b11a299517ae52e3485dab5cdbdf1f03a952dadddb12610f58245030ea543a1"
   },
   "execution": {
     "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",

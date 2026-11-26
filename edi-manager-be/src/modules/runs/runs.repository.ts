@@ -8,7 +8,7 @@ export class RunsRepository {
   async getRuns(): Promise<Run[]> {
     const runs = await db.orm.public.Runs.include('flow', (flow) =>
       flow
-        .include('customer')
+        .include('customers')
         .include('company')
         .include('lastRun', (lastRun) =>
           lastRun.select(

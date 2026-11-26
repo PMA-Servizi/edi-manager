@@ -47,7 +47,6 @@ export const CreateFlowSchema = z.object({
   interval: flowInterval,
   ediRecordType: flowEdiType,
   operation: ediOperation,
-  customerId: z.string().nonempty('Il cliente è obbligatorio'),
   companyId: z.string().nonempty("L'azienda è obbligatoria"),
   union,
 });

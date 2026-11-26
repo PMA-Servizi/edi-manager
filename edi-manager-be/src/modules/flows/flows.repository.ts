@@ -12,7 +12,7 @@ import {
 export class FlowsRepository {
   async getFlows(): Promise<Flow[]> {
     const flows = await db.orm.public.Flows.include('company')
-      .include('customer')
+      .include('customers')
       .include('lastRun', (lastRun) =>
         lastRun.select(
           'id',
@@ -71,7 +71,7 @@ export class FlowsRepository {
     const newEnabled = !targetFlow.enabled;
     const updatedFlow = await db.orm.public.Flows.where({ id })
       .include('company')
-      .include('customer')
+      .include('customers')
       .include('lastRun', (lastRun) =>
         lastRun.select(
           'id',

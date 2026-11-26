@@ -27,7 +27,7 @@ export interface Flow {
   id: string;
   enabled: boolean;
   company: Company;
-  customer: Customer;
+  customers: Customer[];
   operation: EdiOperation;
   interval: number;
   ediRecordType: EdiRecordType;

@@ -90,16 +90,15 @@ model Flows {
   operation     EdiOperation
   union         Union
 
-  customerId    String(varchar)  @map('customer_id')
-  customer      Customers        @relation(fields: [customerId], references: [id])
-
   companyId     String(varchar)  @map('company_id')
   company       Companies        @relation(fields: [companyId], references: [id])
 
   lastRunId     String(varchar)? @map('last_run_id')
   lastRun       Runs?            @relation(fields: [lastRunId], references: [id])
 
-  @@unique([customerId, companyId, ediRecordType, operation, union])
+  customers     Customers[]
+
+  @@unique([companyId, ediRecordType, operation, union])
 }
 
 enum FileOutcome {
@@ -117,4 +116,14 @@ model Files {
 
   runId        String(varchar) @map('run_id')
   run          Runs            @relation(fields: [runId], references: [id])
+}
+
+model FlowCustomers {
+  flowId     String(varchar)
+  flow       Flows           @relation(fields: [flowId], references: [id])
+
+  customerId String(varchar)
+  customer   Customers       @relation(fields: [customerId], references: [id])
+
+  @@id([flowId, customerId])
 }

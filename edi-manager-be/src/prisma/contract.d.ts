@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'950265b2330f9529ab568d5b72539e16c8a72bceb2fb43c9c35de62b1f0e9609'>;
+  StorageHashBase<'8b11a299517ae52e3485dab5cdbdf1f03a952dadddb12610f58245030ea543a1'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -460,9 +460,15 @@ export namespace Models {
     run: public_Runs;
     readonly [RelationKeys]?: 'run';
   };
+  export type public_FlowCustomers = {
+    customerId: FieldOutputTypes['public']['FlowCustomers']['customerId'];
+    flowId: FieldOutputTypes['public']['FlowCustomers']['flowId'];
+    customer: public_Customers;
+    flow: public_Flows;
+    readonly [RelationKeys]?: 'customer' | 'flow';
+  };
   export type public_Flows = {
     companyId: FieldOutputTypes['public']['Flows']['companyId'];
-    customerId: FieldOutputTypes['public']['Flows']['customerId'];
     ediRecordType: FieldOutputTypes['public']['Flows']['ediRecordType'];
     enabled: FieldOutputTypes['public']['Flows']['enabled'];
     id: FieldOutputTypes['public']['Flows']['id'];
@@ -471,9 +477,9 @@ export namespace Models {
     operation: FieldOutputTypes['public']['Flows']['operation'];
     union: FieldOutputTypes['public']['Flows']['union'];
     company: public_Companies;
-    customer: public_Customers;
+    customers: public_Customers[];
     lastRun: public_Runs | null;
-    readonly [RelationKeys]?: 'company' | 'customer' | 'lastRun';
+    readonly [RelationKeys]?: 'company' | 'customers' | 'lastRun';
   };
   export type public_Runs = {
     createdAt: FieldOutputTypes['public']['Runs']['createdAt'];
@@ -492,6 +498,7 @@ export declare const models: {
     Companies: Models.public_Companies;
     Customers: Models.public_Customers;
     Files: Models.public_Files;
+    FlowCustomers: Models.public_FlowCustomers;
     Flows: Models.public_Flows;
     Runs: Models.public_Runs;
   };
@@ -732,15 +739,67 @@ type ContractBase = Omit<
                 },
               ];
             };
-            readonly Flows: {
+            readonly FlowCustomers: {
               columns: {
-                readonly company_id: {
+                readonly customerId: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly customer_id: {
+                readonly flowId: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['flowId', 'customerId'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'FlowCustomers_customerId_idx_b2a8a46c';
+                  readonly prefix: 'FlowCustomers_customerId_idx';
+                  readonly columns: readonly ['customerId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'FlowCustomers_flowId_idx_ff668f3c';
+                  readonly prefix: 'FlowCustomers_flowId_idx';
+                  readonly columns: readonly ['flowId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'FlowCustomers';
+                    readonly columns: readonly ['flowId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Flows';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'FlowCustomers';
+                    readonly columns: readonly ['customerId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Customers';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+            readonly Flows: {
+              columns: {
+                readonly company_id: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
@@ -797,7 +856,6 @@ type ContractBase = Omit<
               uniques: readonly [
                 {
                   readonly columns: readonly [
-                    'customer_id',
                     'company_id',
                     'edi_record_type',
                     'operation',
@@ -813,12 +871,6 @@ type ContractBase = Omit<
                   readonly unique: false;
                 },
                 {
-                  readonly name: 'Flows_customer_id_idx_e16dfa6b';
-                  readonly prefix: 'Flows_customer_id_idx';
-                  readonly columns: readonly ['customer_id'];
-                  readonly unique: false;
-                },
-                {
                   readonly name: 'Flows_last_run_id_idx_c969e924';
                   readonly prefix: 'Flows_last_run_id_idx';
                   readonly columns: readonly ['last_run_id'];
@@ -826,18 +878,6 @@ type ContractBase = Omit<
                 },
               ];
               foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Flows';
-                    readonly columns: readonly ['customer_id'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Customers';
-                    readonly columns: readonly ['id'];
-                  };
-                },
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
@@ -986,6 +1026,10 @@ type ContractBase = Omit<
     readonly Companies: { readonly namespace: 'public' & NamespaceId; readonly model: 'Companies' };
     readonly Customers: { readonly namespace: 'public' & NamespaceId; readonly model: 'Customers' };
     readonly Files: { readonly namespace: 'public' & NamespaceId; readonly model: 'Files' };
+    readonly FlowCustomers: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'FlowCustomers';
+    };
     readonly Flows: { readonly namespace: 'public' & NamespaceId; readonly model: 'Flows' };
     readonly Runs: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
   };
@@ -1175,13 +1219,55 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly Flows: {
+          readonly FlowCustomers: {
             readonly fields: {
-              readonly companyId: {
+              readonly customerId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly customerId: {
+              readonly flowId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+            };
+            readonly relations: {
+              readonly customer: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Customers';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['customerId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly flow: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Flows';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['flowId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'FlowCustomers';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly customerId: { readonly column: 'customerId' };
+                readonly flowId: { readonly column: 'flowId' };
+              };
+            };
+          };
+          readonly Flows: {
+            readonly fields: {
+              readonly companyId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
@@ -1227,16 +1313,22 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['id'];
                 };
               };
-              readonly customer: {
+              readonly customers: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
                   readonly model: 'Customers';
                 };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
+                readonly cardinality: 'N:M';
                 readonly on: {
-                  readonly localFields: readonly ['customerId'];
-                  readonly targetFields: readonly ['id'];
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['flowId'];
+                };
+                readonly through: {
+                  readonly table: 'FlowCustomers';
+                  readonly namespaceId: 'public';
+                  readonly parentColumns: readonly ['flowId'];
+                  readonly childColumns: readonly ['customerId'];
+                  readonly targetColumns: readonly ['id'];
                 };
               };
               readonly lastRun: {
@@ -1254,7 +1346,6 @@ type ContractBase = Omit<
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly companyId: { readonly column: 'company_id' };
-                readonly customerId: { readonly column: 'customer_id' };
                 readonly ediRecordType: { readonly column: 'edi_record_type' };
                 readonly enabled: { readonly column: 'enabled' };
                 readonly id: { readonly column: 'id' };

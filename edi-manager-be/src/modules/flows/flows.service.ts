@@ -10,7 +10,6 @@ import type {
 import { FlowsMapper } from './flows.mapper.js';
 import { FlowsRepository } from './flows.repository.js';
 import { RunsService } from '../runs/runs.service.js';
-import { type CreateRunBody } from '../runs/runs.types.js';
 import {
   DbUniqueConflictError,
   DuplicatedEntityError,

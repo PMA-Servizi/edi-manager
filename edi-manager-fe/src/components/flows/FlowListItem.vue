@@ -62,7 +62,6 @@ const toggleFlow = async () => {
         <span class="text-lg font-semibold truncate">{{ recordTypeLabel }}</span>
         <div class="flex gap-3 items-center">
           <CompanyTag :company="props.flow.company" />
-          <CustomerTag :customer="props.flow.customer" />
           <UnionTag :union="props.flow.union" />
         </div>
       </div>

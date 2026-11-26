@@ -17,7 +17,6 @@ import {
 } from '@/constants/flows.constants.ts'
 import { flowsRepository } from '@/repositories/flows.repository.ts'
 import CompanySelect from '../companies/CompanySelect.vue'
-import CustomerSelect from '../customers/CustomerSelect.vue'
 import { FlowFormSchema } from '@/schemas/flows.schemas.ts'
 import { handleCustomError, isCustomError } from '@/utils/errors.utils.ts'
 
@@ -48,7 +47,6 @@ const [ediRecordType, ediRecordTypeProps] = defineField<'ediRecordType'>(
   validateOnInputIfErrored,
 )
 const [company, companyProps] = defineField<'company'>('company', validateOnInputIfErrored)
-const [customer, customerProps] = defineField<'customer'>('customer', validateOnInputIfErrored)
 
 const submit = handleSubmit(async (values) => {
   try {
@@ -91,7 +89,6 @@ const handleOpen = () => {
     operation: props.flow.operation,
     ediRecordType: props.flow.ediRecordType,
     company: props.flow.company,
-    customer: props.flow.customer,
     union: props.flow.union,
   })
 }
@@ -163,15 +160,6 @@ const handleOpen = () => {
           icon="lucide:building"
         >
           <CompanySelect v-model="company" v-bind="companyProps" :invalid="!!errors.company" />
-        </FormItem>
-        <FormItem
-          label="Cliente"
-          :error="errors.customer"
-          required
-          class="flex-1"
-          icon="lucide:circle-euro"
-        >
-          <CustomerSelect v-model="customer" v-bind="customerProps" :invalid="!!errors.customer" />
         </FormItem>
       </div>
       <FormItem
