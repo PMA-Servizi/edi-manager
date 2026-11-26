@@ -17,6 +17,7 @@ export const FlowFormSchema = z
       .custom<Company>()
       .nullable()
       .refine((val) => !!val, "L'azienda è obbligatoria"),
+    customers: z.array(z.custom<Customer>()),
     union,
   })
   .transform((form) => {
@@ -25,6 +26,7 @@ export const FlowFormSchema = z
       operation: form.operation,
       ediRecordType: form.ediRecordType,
       companyId: form.company.id,
+      customerIds: form.customers.map((customer) => customer.id),
       union: form.union,
     }
   })

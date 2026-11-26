@@ -5,7 +5,7 @@ export const DefaultFlowForm: FlowForm = {
   operation: null,
   ediRecordType: null,
   company: null,
-  customer: null,
+  customers: [],
   union: null,
 }
 

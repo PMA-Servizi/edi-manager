@@ -35,7 +35,12 @@ export class FlowsRepository {
 
   async createFlow(body: CreateFlowDto): Promise<string> {
     try {
-      const newFlow = await db.orm.public.Flows.create(body);
+      const { customerIds, ...flow } = body;
+      const newFlow = await db.orm.public.Flows.create({
+        ...flow,
+        customers: (customer) =>
+          customer.connect(customerIds.map((id) => ({ id }))),
+      });
       return newFlow.id;
     } catch (err) {
       if (isPostgresDbError(err) && isDuplicatedDbError(err)) {
@@ -49,7 +54,19 @@ export class FlowsRepository {
 
   async updateFlow(id: string, body: UpdateFlowDto): Promise<string | null> {
     try {
-      const updatedFlow = await db.orm.public.Flows.where({ id }).update(body);
+      const { customerIds, ...flow } = body;
+      const updatedFlow = await db.transaction(async (tx) => {
+        if (customerIds) {
+          await tx.orm.public.FlowCustomers.where({ flowId: id }).deleteAll();
+          return await tx.orm.public.Flows.where({ id }).update({
+            ...flow,
+            customers: (customer) =>
+              customer.connect(customerIds.map((id) => ({ id }))),
+          });
+        } else {
+          return await tx.orm.public.Flows.where({ id }).update(flow);
+        }
+      });
       return updatedFlow?.id ?? null;
     } catch (err) {
       if (isPostgresDbError(err) && isDuplicatedDbError(err)) {

@@ -19,6 +19,7 @@ import { flowsRepository } from '@/repositories/flows.repository.ts'
 import CompanySelect from '../companies/CompanySelect.vue'
 import { FlowFormSchema } from '@/schemas/flows.schemas.ts'
 import { handleCustomError, isCustomError } from '@/utils/errors.utils.ts'
+import CustomerMultiSelect from '../customers/CustomerMultiSelect.vue'
 
 interface FlowModalProps {
   flow?: Flow
@@ -47,6 +48,7 @@ const [ediRecordType, ediRecordTypeProps] = defineField<'ediRecordType'>(
   validateOnInputIfErrored,
 )
 const [company, companyProps] = defineField<'company'>('company', validateOnInputIfErrored)
+const [customers, customersProps] = defineField<'customers'>('customers', validateOnInputIfErrored)
 
 const submit = handleSubmit(async (values) => {
   try {
@@ -90,6 +92,7 @@ const handleOpen = () => {
     ediRecordType: props.flow.ediRecordType,
     company: props.flow.company,
     union: props.flow.union,
+    customers: props.flow.customers,
   })
 }
 </script>
@@ -117,8 +120,6 @@ const handleOpen = () => {
             :disabled="loading"
           />
         </FormItem>
-      </div>
-      <div class="flex gap-3">
         <FormItem
           label="Consorzio"
           :error="errors.union"
@@ -137,6 +138,8 @@ const handleOpen = () => {
             :disabled="loading"
           />
         </FormItem>
+      </div>
+      <div class="flex gap-3">
         <FormItem label="Operazione" :error="errors.operation" required class="flex-1">
           <NSelect
             v-model:value="operation"
@@ -149,9 +152,6 @@ const handleOpen = () => {
             :disabled="loading"
           />
         </FormItem>
-      </div>
-
-      <div class="flex gap-3">
         <FormItem
           label="Azienda"
           :error="errors.company"
@@ -178,6 +178,18 @@ const handleOpen = () => {
           :status="!!errors.interval ? 'error' : undefined"
           :loading="loading"
           :disabled="loading"
+        />
+      </FormItem>
+      <FormItem
+        label="Clienti abilitati"
+        :error="errors.customers"
+        class="flex-1"
+        icon="lucide:building"
+      >
+        <CustomerMultiSelect
+          v-model="customers"
+          v-bind="customersProps"
+          :invalid="!!errors.customers"
         />
       </FormItem>
     </div>

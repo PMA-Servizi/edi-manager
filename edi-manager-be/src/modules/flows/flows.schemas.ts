@@ -48,6 +48,7 @@ export const CreateFlowSchema = z.object({
   ediRecordType: flowEdiType,
   operation: ediOperation,
   companyId: z.string().nonempty("L'azienda è obbligatoria"),
+  customerIds: z.array(z.string()),
   union,
 });
 

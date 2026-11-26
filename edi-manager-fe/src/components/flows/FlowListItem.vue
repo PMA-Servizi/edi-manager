@@ -5,10 +5,10 @@ import { useThemeVars, NButton, NDivider, useMessage } from 'naive-ui'
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import CompanyTag from '../companies/CompanyTag.vue'
-import CustomerTag from '../customers/CustomerTag.vue'
 import OperationTag from './OperationTag.vue'
 import { flowsRepository } from '@/repositories/flows.repository.ts'
 import UnionTag from '../shared/UnionTag.vue'
+import CustomersTag from '../customers/CustomersTag.vue'
 
 const props = defineProps<{ flow: Flow }>()
 const emit = defineEmits<{
@@ -62,6 +62,7 @@ const toggleFlow = async () => {
         <span class="text-lg font-semibold truncate">{{ recordTypeLabel }}</span>
         <div class="flex gap-3 items-center">
           <CompanyTag :company="props.flow.company" />
+          <CustomersTag :customers="props.flow.customers" />
           <UnionTag :union="props.flow.union" />
         </div>
       </div>

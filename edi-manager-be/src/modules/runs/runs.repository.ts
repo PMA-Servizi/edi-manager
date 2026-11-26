@@ -19,7 +19,9 @@ export class RunsRepository {
             'errorMessage',
           ),
         ),
-    ).all();
+    )
+      .orderBy((run) => run.createdAt.desc())
+      .all();
     return runs.map(({ flow, ...run }) => {
       if (!flow)
         throw new EntityNotFoundError({
@@ -27,7 +29,7 @@ export class RunsRepository {
           message: `Could not find the run's original flow for run ${run.id}`,
         });
       const lastRun = flow.lastRun;
-      if (!lastRun)
+      if (!lastRun && flow.lastRunId)
         throw new EntityNotFoundError({
           resource: 'RUNS',
           message: `Could not find the run's original flow for run ${run.id}`,
