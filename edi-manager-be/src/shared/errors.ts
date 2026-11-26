@@ -29,3 +29,7 @@ export class DuplicatedEntityError extends BaseError {
 export class DbUniqueConflictError {
   constructor(readonly fields: string[]) {}
 }
+
+export class FlowExecutionError {
+  constructor(readonly message: string) {}
+}

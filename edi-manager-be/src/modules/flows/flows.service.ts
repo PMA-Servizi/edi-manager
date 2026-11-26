@@ -15,6 +15,7 @@ import {
   DbUniqueConflictError,
   DuplicatedEntityError,
   EntityNotFoundError,
+  FlowExecutionError,
 } from '@/shared/errors.js';
 
 // TODO: add socket messages for FE
@@ -67,19 +68,22 @@ export class FlowsService {
         flowJob.data.operation,
       );
 
-      const newRunBody: CreateRunBody = {
+      const runId = await this.runsService.createRun({
         flowId: flowJob.data.id,
         outcome: 'success',
-      };
-      const runId = await this.runsService.createRun(newRunBody);
+      });
       await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
-    } catch {
-      const newRunBody: CreateRunBody = {
+    } catch (err) {
+      const errorMessage =
+        err instanceof FlowExecutionError
+          ? err.message
+          : `Errore durante l'esecuzione del flow ${flowJob.data.id}`;
+
+      const runId = await this.runsService.createRun({
         flowId: flowJob.data.id,
         outcome: 'fail',
-        errorMessage: 'Errore durante la run!',
-      };
-      const runId = await this.runsService.createRun(newRunBody);
+        errorMessage: errorMessage,
+      });
       await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
     }
   }
