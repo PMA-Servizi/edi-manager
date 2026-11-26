@@ -3,12 +3,14 @@ import CompaniesView from '@/views/CompaniesView.vue'
 import CustomersView from '@/views/CustomersView.vue'
 import FlowsView from '@/views/FlowsView.vue'
 import HomeView from '@/views/HomeView.vue'
+import RunsView from '@/views/RunsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: RoutesConfig.HOME.path, name: RoutesConfig.HOME.name, component: HomeView },
+    { path: RoutesConfig.RUNS.path, name: RoutesConfig.RUNS.name, component: RunsView },
     { path: RoutesConfig.FLOWS.path, name: RoutesConfig.FLOWS.name, component: FlowsView },
     {
       path: RoutesConfig.COMPANIES.path,

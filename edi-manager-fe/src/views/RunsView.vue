@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import LoadableList from '../shared/LoadableList.vue'
-import type { Run } from '@backend/modules/runs/runs.types.ts'
-import { runsRepository } from '@/repositories/runs.repository.ts'
+import RunCard from '@/components/runs/RunCard.vue'
+import DetailsLayout from '@/components/shared/DetailsLayout.vue'
+import LoadableList from '@/components/shared/LoadableList.vue'
+import { runsRepository } from '@/repositories/runs.repository'
+import type { RunDto } from '@backend/modules/runs/runs.types'
 import { useMessage } from 'naive-ui'
-import RunCard from './RunCard.vue'
+import { onMounted, ref } from 'vue'
 
 const message = useMessage()
 const loading = ref<boolean>(false)
-const runs = ref<Run[]>([])
+const runs = ref<RunDto[]>([])
 
 const loadRuns = async () => {
   try {
@@ -24,15 +25,13 @@ const loadRuns = async () => {
 onMounted(loadRuns)
 </script>
 <template>
-  <div class="flex flex-col flex-1 gap-3">
-    <div class="flex flex-col">
-      <span class="font-bold text-lg">Runs</span>
-      <span>Dettagli di quali flussi hanno girato</span>
-    </div>
+  <DetailsLayout title="Esecuzioni">
     <LoadableList emptyLabel="Nessuna esecuzione trovata" :loading="loading" :items="runs">
-      <div class="flex flex-col gap-3 w-full self-start">
+      <div
+        class="p-3 max-w-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full self-start"
+      >
         <RunCard v-for="run in runs" :key="run.id" :run="run" />
       </div>
     </LoadableList>
-  </div>
+  </DetailsLayout>
 </template>

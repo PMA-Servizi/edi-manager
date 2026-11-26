@@ -1,9 +1,9 @@
 import { api } from '@/services/api.service'
-import type { Run } from '@backend/modules/runs/runs.types'
+import type { RunDto } from '@backend/modules/runs/runs.types'
 
 class RunsRepository {
-  async getAll(): Promise<Run[]> {
-    const response = await api.get<Run[]>('/runs')
+  async getAll(): Promise<RunDto[]> {
+    const response = await api.get<RunDto[]>('/runs')
     return response.data
   }
 }

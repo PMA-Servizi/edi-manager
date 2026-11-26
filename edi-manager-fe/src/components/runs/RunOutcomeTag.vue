@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Run } from '@backend/modules/runs/runs.types'
+import type { RunDto } from '@backend/modules/runs/runs.types'
 import { Icon } from '@iconify/vue'
 import { NTag } from 'naive-ui'
 import { computed } from 'vue'
 
-const props = defineProps<{ run: Run }>()
+const props = defineProps<{ run: RunDto }>()
 
 const tagLabel = computed<string>(() => {
   return props.run.outcome === 'success' ? 'Completata' : 'Fallita'

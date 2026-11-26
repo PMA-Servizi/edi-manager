@@ -10,6 +10,8 @@ const props = defineProps<{ title: string }>()
       <slot name="header" />
     </header>
     <NDivider class="my-0!" />
-    <slot />
+    <div class="flex-1 overflow-y-auto">
+      <slot />
+    </div>
   </section>
 </template>

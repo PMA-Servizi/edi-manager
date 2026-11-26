@@ -5,4 +5,5 @@ export const RoutesConfig = {
   FLOWS: { path: '/flows', name: 'flows' },
   COMPANIES: { path: '/companies', name: 'companies' },
   CUSTOMERS: { path: '/customers', name: 'customers' },
+  RUNS: { path: '/runs', name: 'runs' },
 } as const satisfies Record<Route, { path: string; name: string }>

@@ -11,6 +11,11 @@ export interface Run {
   errorMessage: string | null;
 }
 
+export type RunDto = Omit<Run, 'createdAt' | 'updatedAt'> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
 export interface PartialRun {
   id: string;
   createdAt: Date;

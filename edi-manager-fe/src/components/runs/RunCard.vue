@@ -1,18 +1,46 @@
 <script setup lang="ts">
-import type { Run } from '@backend/modules/runs/runs.types'
+import type { RunDto } from '@backend/modules/runs/runs.types'
 import { useThemeVars } from 'naive-ui'
 import RunOutcomeTag from './RunOutcomeTag.vue'
+import LabeledData from '../shared/LabeledData.vue'
+import { getOperationLabel, getUnionLabel } from '@/utils/flows.utils.ts'
+import { formateDateTime } from '@/utils/dates.utils.ts'
 
-const props = defineProps<{ run: Run }>()
+const props = defineProps<{ run: RunDto }>()
 
 const themeVars = useThemeVars()
 </script>
 <template>
   <div
-    class="w-full p-4 flex justify-between items-center"
-    :style="{ backgroundColor: themeVars.actionColor, borderRadius: themeVars.borderRadius }"
+    class="run-card w-full p-4 flex flex-col cursor-pointer"
+    :style="{
+      borderRadius: themeVars.borderRadius,
+      outlineColor: themeVars.primaryColorHover,
+    }"
   >
-    {{ props.run.flow.ediRecordType }}
-    <RunOutcomeTag :run="props.run" />
+    <div class="flex gap-3 justify-between">
+      <span class="font-bold text-lg mb-3">
+        {{ props.run.flow.ediRecordType }}
+      </span>
+      <RunOutcomeTag :run="props.run" />
+    </div>
+    <div class="grid grid-cols-2 gap-1.5">
+      <LabeledData label="Operazione" :value="getOperationLabel(props.run.flow)" />
+      <LabeledData label="Cliente" :value="props.run.flow.customer.name" />
+      <LabeledData label="Azienda" :value="props.run.flow.company.name" />
+      <LabeledData label="Consorzio" :value="getUnionLabel(props.run.flow)" />
+    </div>
+    <span class="mt-3 font-semibold" :style="{ color: themeVars.textColor3 }">{{
+      formateDateTime(props.run.createdAt)
+    }}</span>
   </div>
 </template>
+
+<style scoped>
+.run-card {
+  background-color: v-bind('themeVars.actionColor');
+  &:hover {
+    background-color: v-bind('themeVars.hoverColor');
+  }
+}
+</style>
