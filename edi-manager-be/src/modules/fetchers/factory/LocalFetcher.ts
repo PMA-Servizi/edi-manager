@@ -12,13 +12,15 @@ export class LocalFetcher
   extends Fetcher
   implements IFetcher<LocalFetcherConfig>
 {
+  readonly baseLocalPath: string = '/app';
+
   constructor(readonly config: LocalFetcherConfig) {
-    // TODO: capire se cartelle con nome azienda forse è meglio ricavarle in altro modo. Path da inserire? Campo a parte?
     super();
   }
 
   async fetchFiles(flow: Flow) {
     const files: TextFile[] = [];
+    // TODO: capire se cartelle con nome azienda forse è meglio ricavarle in altro modo. Path da inserire? Campo a parte?
     const directoryPath = `${this.baseLocalPath}/${this.config.basePath}/${flow.company.name}/${flow.ediRecordType}`;
 
     readdir(directoryPath, (err, filenames) => {
