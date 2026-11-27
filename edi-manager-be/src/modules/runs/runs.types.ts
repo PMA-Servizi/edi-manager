@@ -1,12 +1,12 @@
 import type { Flow } from '../flows/flows.types.js';
 
-export type RunOutcome = 'success' | 'fail';
+export type RunStatus = 'success' | 'fail' | 'processing';
 
 export interface Run {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-  outcome: RunOutcome;
+  status: RunStatus;
   flow: Flow;
   errorMessage: string | null;
 }
@@ -19,7 +19,8 @@ export type RunDto = Omit<Run, 'createdAt' | 'updatedAt'> & {
 export type PartialRun = Omit<Run, 'flow'>;
 
 export interface CreateRunBody {
-  outcome: RunOutcome;
+  status?: RunStatus;
   errorMessage?: string;
   flowId: string;
 }
+export type UpdateRunBody = Partial<CreateRunBody>;

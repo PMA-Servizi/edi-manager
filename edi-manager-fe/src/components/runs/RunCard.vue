@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RunDto } from '@backend/modules/runs/runs.types'
 import { useThemeVars } from 'naive-ui'
-import RunOutcomeTag from './RunOutcomeTag.vue'
+import RunStatusTag from './RunStatusTag.vue'
 import LabeledData from '../shared/LabeledData.vue'
 import { getOperationLabel, getUnionLabel } from '@/utils/flows.utils.ts'
 import { formateDateTime } from '@/utils/dates.utils.ts'
@@ -22,7 +22,7 @@ const themeVars = useThemeVars()
       <span class="font-bold text-lg mb-3">
         {{ props.run.flow.ediRecordType }}
       </span>
-      <RunOutcomeTag :run="props.run" />
+      <RunStatusTag :run="props.run" />
     </div>
     <div class="grid grid-cols-2 gap-1.5">
       <LabeledData label="Operazione" :value="getOperationLabel(props.run.flow)" />

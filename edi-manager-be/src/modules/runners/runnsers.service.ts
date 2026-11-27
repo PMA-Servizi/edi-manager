@@ -25,12 +25,16 @@ export class RunnersService {
   async runDownloadFlow(flow: Flow) {
     console.log('Running flow: ', flow.id, ' - RUNNER');
     const files = await this.fetchersService.getFetcher(flow).fetchFiles(flow);
-    console.log(files);
-
-    // TODO
-    // loop over files
-    // for each file divide in messages and parse them
-    // for each parsedMessage update PidocDB
+    console.log('Files data: ', files);
+    for (const file of files) {
+      // TODO
+      // salva processing file su db, ottieni id del file a db
+      // ottieni messaggi
+      // salva messaggi a DB collegandoli al file
+      // loop su ogni messaggio
+      // parse del messaggio
+      // carica dati parsati su DB
+    }
   }
 
   async runUploadFlow(flow: Flow) {

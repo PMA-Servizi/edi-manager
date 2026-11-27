@@ -1,5 +1,4 @@
 import type { Flow } from '../flows/flows.types.js';
-import type { Fetcher } from './factory/Fetcher.js';
 
 export interface FetcherConfigMap {
   LOCAL: LocalFetcherConfig;
@@ -16,6 +15,7 @@ export interface LocalFetcherConfig {
 export interface TextFile {
   content: string;
   filename: string;
+  source: keyof FetcherConfigMap;
 }
 
 export interface IFetcher<T> {

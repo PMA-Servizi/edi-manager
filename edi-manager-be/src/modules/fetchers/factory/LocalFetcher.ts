@@ -5,8 +5,8 @@ import type {
   TextFile,
 } from '../fetchers.types.js';
 import { Fetcher } from './Fetcher.js';
-import { readdir, readFile } from 'fs';
 import { FlowExecutionError } from '@/shared/errors.js';
+import { readFile, readdir } from 'fs/promises';
 
 export class LocalFetcher
   extends Fetcher
@@ -18,27 +18,39 @@ export class LocalFetcher
     super();
   }
 
-  async fetchFiles(flow: Flow) {
+  async fetchFiles(flow: Flow): Promise<TextFile[]> {
     const files: TextFile[] = [];
+
     // TODO: capire se cartelle con nome azienda forse è meglio ricavarle in altro modo. Path da inserire? Campo a parte?
     const directoryPath = `${this.baseLocalPath}/${this.config.basePath}/${flow.company.name}/${flow.ediRecordType}`;
 
-    readdir(directoryPath, (err, filenames) => {
-      console.log('Found filenames: ', filenames.join(', '));
-      if (err) throw new FlowExecutionError(err.message);
-      for (const filename of filenames) {
+    let filenames: string[] = [];
+    try {
+      filenames = await readdir(directoryPath);
+    } catch {
+      throw new FlowExecutionError(
+        `Errore nella lettura della directory ${directoryPath}`,
+      );
+    }
+    console.log('Found filenames: ', filenames.join(', '));
+
+    for (const filename of filenames) {
+      try {
         console.log('Reading ', filename);
-        readFile(`${directoryPath}/${filename}`, 'utf8', (err, data) => {
-          if (err) throw new FlowExecutionError(err.message);
-          const newFile: TextFile = {
-            filename,
-            content: data,
-          };
-          console.log('File content: ', data);
-          files.push(newFile);
-        });
+        const data = await readFile(`${directoryPath}/${filename}`, 'utf8');
+        const newFile: TextFile = {
+          filename,
+          content: data,
+          source: 'LOCAL',
+        };
+        console.log('File content: ', data);
+        files.push(newFile);
+      } catch {
+        throw new FlowExecutionError(
+          `Errore nella lettura del file ${filename} dentro a ${directoryPath}`,
+        );
       }
-    });
+    }
 
     return files;
   }

@@ -61,26 +61,22 @@ export class FlowsService {
   }
 
   async runFlowJob(flowJob: Job<Flow>) {
-    console.log('Running flow: ', flowJob.data.id, ' - FLOWS');
+    const runId = await this.runsService.createRun({
+      flowId: flowJob.data.id,
+    });
     try {
       await this.runnersService.runFlow(flowJob.data);
 
-      const runId = await this.runsService.createRun({
-        flowId: flowJob.data.id,
-        outcome: 'success',
-      });
       await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
+
+      await this.runsService.updateRun(runId, { status: 'success' });
     } catch (err) {
       const errorMessage =
         err instanceof FlowExecutionError
           ? err.message
           : `Errore durante l'esecuzione del flow ${flowJob.data.id}`;
 
-      const runId = await this.runsService.createRun({
-        flowId: flowJob.data.id,
-        outcome: 'fail',
-        errorMessage: errorMessage,
-      });
+      await this.runsService.updateRun(runId, { status: 'fail', errorMessage });
       await this.flowsRepository.setFlowLastRun(flowJob.data, runId);
     }
   }

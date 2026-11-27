@@ -4,15 +4,15 @@ import type {
   FetcherConfig,
   LocalFetcherConfig,
 } from '@/modules/fetchers/fetchers.types.js';
-import type { Flow, Union } from '@/modules/flows/flows.types.js';
+import type { Union } from '@/modules/flows/flows.types.js';
 
 export const EDIEL_CONFIG: LocalFetcherConfig = {
   source: 'LOCAL',
-  basePath: '/files',
+  basePath: '/files/ediel',
 };
 export const METEL_CONFIG: LocalFetcherConfig = {
   source: 'LOCAL',
-  basePath: '/files',
+  basePath: '/files/metel',
 };
 
 export const FETCHERS_CONFIG: Record<

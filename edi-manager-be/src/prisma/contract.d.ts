@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'8b11a299517ae52e3485dab5cdbdf1f03a952dadddb12610f58245030ea543a1'>;
+  StorageHashBase<'cce2abe116c4cb3d9cf2c60bf8e0bb7abffa71d4d0eaa0231856cb605c776452'>;
 export type ExecutionHash =
   ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
 export type ProfileHash =
@@ -283,9 +283,10 @@ type FieldTypeOverrides = {
       };
       readonly Files: {
         readonly outcome: {
-          readonly output: 'success' | 'fail';
-          readonly input: 'success' | 'fail';
+          readonly output: 'success' | 'fail' | 'processing';
+          readonly input: 'success' | 'fail' | 'processing';
         };
+        readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
       };
       readonly Flows: {
         readonly ediRecordType: {
@@ -329,9 +330,9 @@ type FieldTypeOverrides = {
         readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
       };
       readonly Runs: {
-        readonly outcome: {
-          readonly output: 'success' | 'fail';
-          readonly input: 'success' | 'fail';
+        readonly status: {
+          readonly output: 'success' | 'fail' | 'processing';
+          readonly input: 'success' | 'fail' | 'processing';
         };
       };
     };
@@ -359,7 +360,11 @@ type ColumnTypeOverrides = {
       readonly edi_company_code_type: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
     };
     readonly Files: {
-      readonly outcome: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
+      readonly outcome: {
+        readonly output: 'success' | 'fail' | 'processing';
+        readonly input: 'success' | 'fail' | 'processing';
+      };
+      readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
     };
     readonly Flows: {
       readonly edi_record_type: {
@@ -403,7 +408,10 @@ type ColumnTypeOverrides = {
       readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
     };
     readonly Runs: {
-      readonly outcome: { readonly output: 'success' | 'fail'; readonly input: 'success' | 'fail' };
+      readonly status: {
+        readonly output: 'success' | 'fail' | 'processing';
+        readonly input: 'success' | 'fail' | 'processing';
+      };
     };
   };
 };
@@ -457,6 +465,7 @@ export namespace Models {
     id: FieldOutputTypes['public']['Files']['id'];
     outcome: FieldOutputTypes['public']['Files']['outcome'];
     runId: FieldOutputTypes['public']['Files']['runId'];
+    source: FieldOutputTypes['public']['Files']['source'];
     run: public_Runs;
     readonly [RelationKeys]?: 'run';
   };
@@ -486,7 +495,7 @@ export namespace Models {
     errorMessage: FieldOutputTypes['public']['Runs']['errorMessage'];
     flowId: FieldOutputTypes['public']['Runs']['flowId'];
     id: FieldOutputTypes['public']['Runs']['id'];
-    outcome: FieldOutputTypes['public']['Runs']['outcome'];
+    status: FieldOutputTypes['public']['Runs']['status'];
     updatedAt: FieldOutputTypes['public']['Runs']['updatedAt'];
     flow: public_Flows;
     readonly [RelationKeys]?: 'flow';
@@ -705,11 +714,21 @@ type ContractBase = Omit<
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'processing'>;
+                  };
                   readonly many: false;
                 };
                 readonly run_id: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly source: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'pg/varchar@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
@@ -931,10 +950,14 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly outcome: {
+                readonly status: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'processing'>;
+                  };
                   readonly many: false;
                 };
                 readonly updated_at: {
@@ -1002,11 +1025,12 @@ type ContractBase = Omit<
             };
             readonly FileOutcome: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['success', 'fail'];
+              readonly values: readonly ['success', 'fail', 'processing'];
             };
-            readonly RunOutcome: {
+            readonly FileSource: { readonly kind: 'valueSet'; readonly values: readonly ['LOCAL'] };
+            readonly RunStatus: {
               readonly kind: 'valueSet';
-              readonly values: readonly ['success', 'fail'];
+              readonly values: readonly ['success', 'fail', 'processing'];
             };
             readonly Union: {
               readonly kind: 'valueSet';
@@ -1194,6 +1218,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
+              readonly source: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/varchar@1' };
+              };
             };
             readonly relations: {
               readonly run: {
@@ -1216,6 +1244,7 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly outcome: { readonly column: 'outcome' };
                 readonly runId: { readonly column: 'run_id' };
+                readonly source: { readonly column: 'source' };
               };
             };
           };
@@ -1378,7 +1407,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly outcome: {
+              readonly status: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1413,7 +1442,7 @@ type ContractBase = Omit<
                 readonly errorMessage: { readonly column: 'error_message' };
                 readonly flowId: { readonly column: 'flow_id' };
                 readonly id: { readonly column: 'id' };
-                readonly outcome: { readonly column: 'outcome' };
+                readonly status: { readonly column: 'status' };
                 readonly updatedAt: { readonly column: 'updated_at' };
               };
             };
@@ -1459,13 +1488,19 @@ type ContractBase = Omit<
             readonly members: readonly [
               { readonly name: 'SUCCCESS'; readonly value: 'success' },
               { readonly name: 'FAIL'; readonly value: 'fail' },
+              { readonly name: 'PROCESSING'; readonly value: 'processing' },
             ];
           };
-          readonly RunOutcome: {
+          readonly FileSource: {
+            readonly codecId: 'pg/varchar@1';
+            readonly members: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          };
+          readonly RunStatus: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
               { readonly name: 'SUCCCESS'; readonly value: 'success' },
               { readonly name: 'FAIL'; readonly value: 'fail' },
+              { readonly name: 'PROCESSING'; readonly value: 'processing' },
             ];
           };
           readonly Union: {
@@ -1505,10 +1540,13 @@ type ContractBase = Omit<
           readonly FileOutcome: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
+            { readonly name: 'PROCESSING'; readonly value: 'processing' },
           ];
-          readonly RunOutcome: readonly [
+          readonly FileSource: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          readonly RunStatus: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
+            { readonly name: 'PROCESSING'; readonly value: 'processing' },
           ];
           readonly Union: readonly [
             { readonly name: 'METEL'; readonly value: 'metel' },
