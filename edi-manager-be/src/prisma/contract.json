@@ -24,6 +24,14 @@
       "model": "Flows",
       "namespace": "public"
     },
+    "Lines": {
+      "model": "Lines",
+      "namespace": "public"
+    },
+    "Messages": {
+      "model": "Messages",
+      "namespace": "public"
+    },
     "Runs": {
       "model": "Runs",
       "namespace": "public"
@@ -124,7 +132,16 @@
               }
             ]
           },
-          "FileOutcome": {
+          "FileSource": {
+            "codecId": "pg/varchar@1",
+            "members": [
+              {
+                "name": "LOCAL",
+                "value": "LOCAL"
+              }
+            ]
+          },
+          "FileStatus": {
             "codecId": "pg/text@1",
             "members": [
               {
@@ -141,12 +158,41 @@
               }
             ]
           },
-          "FileSource": {
-            "codecId": "pg/varchar@1",
+          "LineStatus": {
+            "codecId": "pg/text@1",
             "members": [
               {
-                "name": "LOCAL",
-                "value": "LOCAL"
+                "name": "SUCCCESS",
+                "value": "success"
+              },
+              {
+                "name": "FAIL",
+                "value": "fail"
+              },
+              {
+                "name": "SKIPPED",
+                "value": "skipped"
+              }
+            ]
+          },
+          "MessageStatus": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "SUCCCESS",
+                "value": "success"
+              },
+              {
+                "name": "FAIL",
+                "value": "fail"
+              },
+              {
+                "name": "SKIPPED",
+                "value": "skipped"
+              },
+              {
+                "name": "PROCESSING",
+                "value": "processing"
               }
             ]
           },
@@ -453,19 +499,6 @@
                   "kind": "scalar"
                 }
               },
-              "outcome": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                },
-                "valueSet": {
-                  "entityKind": "enum",
-                  "entityName": "FileOutcome",
-                  "namespaceId": "public",
-                  "plane": "domain"
-                }
-              },
               "runId": {
                 "nullable": false,
                 "type": {
@@ -485,9 +518,37 @@
                   "namespaceId": "public",
                   "plane": "domain"
                 }
+              },
+              "status": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "FileStatus",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
               }
             },
             "relations": {
+              "messages": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "fileId"
+                  ]
+                },
+                "to": {
+                  "model": "Messages",
+                  "namespace": "public"
+                }
+              },
               "run": {
                 "cardinality": "N:1",
                 "nullable": false,
@@ -519,14 +580,14 @@
                 "id": {
                   "column": "id"
                 },
-                "outcome": {
-                  "column": "outcome"
-                },
                 "runId": {
                   "column": "run_id"
                 },
                 "source": {
                   "column": "source"
+                },
+                "status": {
+                  "column": "status"
                 }
               },
               "namespaceId": "public",
@@ -587,7 +648,7 @@
             "storage": {
               "fields": {
                 "customerId": {
-                  "column": "customerId"
+                  "column": "customer_id"
                 },
                 "flowId": {
                   "column": "flowId"
@@ -703,7 +764,7 @@
                 },
                 "through": {
                   "childColumns": [
-                    "customerId"
+                    "customer_id"
                   ],
                   "namespaceId": "public",
                   "parentColumns": [
@@ -765,6 +826,175 @@
               },
               "namespaceId": "public",
               "table": "Flows"
+            }
+          },
+          "Lines": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              },
+              "messageId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              },
+              "status": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "LineStatus",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              }
+            },
+            "relations": {
+              "message": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "messageId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Messages",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "created_at"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "messageId": {
+                  "column": "message_id"
+                },
+                "status": {
+                  "column": "status"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Lines"
+            }
+          },
+          "Messages": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "fileId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar"
+                }
+              },
+              "status": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "MessageStatus",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              }
+            },
+            "relations": {
+              "file": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "fileId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Files",
+                  "namespace": "public"
+                }
+              },
+              "lines": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "messageId"
+                  ]
+                },
+                "to": {
+                  "model": "Lines",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "created_at"
+                },
+                "fileId": {
+                  "column": "file_id"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "status": {
+                  "column": "status"
+                }
+              },
+              "namespaceId": "public",
+              "table": "Messages"
             }
           },
           "Runs": {
@@ -1048,14 +1278,14 @@
             "Files": {
               "checks": [
                 {
-                  "expression": "\"outcome\" IN ('success', 'fail', 'processing')",
-                  "name": "Files_outcome_check_3bebed73",
-                  "prefix": "Files_outcome_check"
-                },
-                {
                   "expression": "\"source\" IN ('LOCAL')",
                   "name": "Files_source_check_e103fa6f",
                   "prefix": "Files_source_check"
+                },
+                {
+                  "expression": "\"status\" IN ('success', 'fail', 'processing')",
+                  "name": "Files_status_check_a42ceca9",
+                  "prefix": "Files_status_check"
                 }
               ],
               "columns": {
@@ -1082,21 +1312,6 @@
                   "dataType": "pg/varchar",
                   "nullable": false
                 },
-                "outcome": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "default": {
-                    "kind": "literal",
-                    "value": "processing"
-                  },
-                  "nullable": false,
-                  "valueSet": {
-                    "entityKind": "valueSet",
-                    "entityName": "FileOutcome",
-                    "namespaceId": "public",
-                    "plane": "storage"
-                  }
-                },
                 "run_id": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
@@ -1109,6 +1324,21 @@
                   "valueSet": {
                     "entityKind": "valueSet",
                     "entityName": "FileSource",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "status": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "processing"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "FileStatus",
                     "namespaceId": "public",
                     "plane": "storage"
                   }
@@ -1154,7 +1384,7 @@
             },
             "FlowCustomers": {
               "columns": {
-                "customerId": {
+                "customer_id": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
                   "nullable": false
@@ -1187,11 +1417,11 @@
                 },
                 {
                   "index": {
-                    "name": "FlowCustomers_customerId_idx_b2a8a46c"
+                    "name": "FlowCustomers_customer_id_idx_e16dfa6b"
                   },
                   "source": {
                     "columns": [
-                      "customerId"
+                      "customer_id"
                     ],
                     "namespaceId": "public",
                     "tableName": "FlowCustomers"
@@ -1208,10 +1438,10 @@
               "indexes": [
                 {
                   "columns": [
-                    "customerId"
+                    "customer_id"
                   ],
-                  "name": "FlowCustomers_customerId_idx_b2a8a46c",
-                  "prefix": "FlowCustomers_customerId_idx",
+                  "name": "FlowCustomers_customer_id_idx_e16dfa6b",
+                  "prefix": "FlowCustomers_customer_id_idx",
                   "unique": false
                 },
                 {
@@ -1226,7 +1456,7 @@
               "primaryKey": {
                 "columns": [
                   "flowId",
-                  "customerId"
+                  "customer_id"
                 ]
               },
               "uniques": []
@@ -1387,6 +1617,164 @@
                 }
               ]
             },
+            "Lines": {
+              "checks": [
+                {
+                  "expression": "\"status\" IN ('success', 'fail', 'skipped')",
+                  "name": "Lines_status_check_b21afeff",
+                  "prefix": "Lines_status_check"
+                }
+              ],
+              "columns": {
+                "created_at": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
+                "message_id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
+                "status": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "LineStatus",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Lines_message_id_idx_8a7ff1ba"
+                  },
+                  "source": {
+                    "columns": [
+                      "message_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Lines"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Messages"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "message_id"
+                  ],
+                  "name": "Lines_message_id_idx_8a7ff1ba",
+                  "prefix": "Lines_message_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "Messages": {
+              "checks": [
+                {
+                  "expression": "\"status\" IN ('success', 'fail', 'skipped', 'processing')",
+                  "name": "Messages_status_check_cdafa6fb",
+                  "prefix": "Messages_status_check"
+                }
+              ],
+              "columns": {
+                "created_at": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "file_id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false
+                },
+                "status": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "processing"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "MessageStatus",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "Messages_file_id_idx_4f0f24cb"
+                  },
+                  "source": {
+                    "columns": [
+                      "file_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Messages"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Files"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "file_id"
+                  ],
+                  "name": "Messages_file_id_idx_4f0f24cb",
+                  "prefix": "Messages_file_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "Runs": {
               "checks": [
                 {
@@ -1517,7 +1905,13 @@
                 "ORDPRP"
               ]
             },
-            "FileOutcome": {
+            "FileSource": {
+              "kind": "valueSet",
+              "values": [
+                "LOCAL"
+              ]
+            },
+            "FileStatus": {
               "kind": "valueSet",
               "values": [
                 "success",
@@ -1525,10 +1919,21 @@
                 "processing"
               ]
             },
-            "FileSource": {
+            "LineStatus": {
               "kind": "valueSet",
               "values": [
-                "LOCAL"
+                "success",
+                "fail",
+                "skipped"
+              ]
+            },
+            "MessageStatus": {
+              "kind": "valueSet",
+              "values": [
+                "success",
+                "fail",
+                "skipped",
+                "processing"
               ]
             },
             "RunStatus": {
@@ -1552,10 +1957,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "cce2abe116c4cb3d9cf2c60bf8e0bb7abffa71d4d0eaa0231856cb605c776452"
+    "storageHash": "c2382e47fa8d7fcec1cdfc1a5caf08ece3c9fdd000523eef718aa2405abda56e"
   },
   "execution": {
-    "executionHash": "7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9",
+    "executionHash": "4f4672e50ce2fbd2ad6665edd121af9ea8934b51ebb776f073f8d86b4f92c205",
     "mutations": {
       "defaults": [
         {
@@ -1612,6 +2017,56 @@
           },
           "ref": {
             "entry": "Flows",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Lines",
+            "field": "created_at",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Lines",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "Messages",
+            "field": "created_at",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Messages",
             "field": "id",
             "namespace": "public"
           }

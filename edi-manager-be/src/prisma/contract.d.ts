@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'cce2abe116c4cb3d9cf2c60bf8e0bb7abffa71d4d0eaa0231856cb605c776452'>;
+  StorageHashBase<'c2382e47fa8d7fcec1cdfc1a5caf08ece3c9fdd000523eef718aa2405abda56e'>;
 export type ExecutionHash =
-  ExecutionHashBase<'7b46fb3ef72f1a734cfed390da4a9b210b9646d6a5527492dad74e82be6b19f9'>;
+  ExecutionHashBase<'4f4672e50ce2fbd2ad6665edd121af9ea8934b51ebb776f073f8d86b4f92c205'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -282,11 +282,11 @@ type FieldTypeOverrides = {
         readonly ediCompanyCodeType: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
       };
       readonly Files: {
-        readonly outcome: {
+        readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
+        readonly status: {
           readonly output: 'success' | 'fail' | 'processing';
           readonly input: 'success' | 'fail' | 'processing';
         };
-        readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
       };
       readonly Flows: {
         readonly ediRecordType: {
@@ -329,6 +329,18 @@ type FieldTypeOverrides = {
         };
         readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
       };
+      readonly Lines: {
+        readonly status: {
+          readonly output: 'success' | 'fail' | 'skipped';
+          readonly input: 'success' | 'fail' | 'skipped';
+        };
+      };
+      readonly Messages: {
+        readonly status: {
+          readonly output: 'success' | 'fail' | 'skipped' | 'processing';
+          readonly input: 'success' | 'fail' | 'skipped' | 'processing';
+        };
+      };
       readonly Runs: {
         readonly status: {
           readonly output: 'success' | 'fail' | 'processing';
@@ -360,11 +372,11 @@ type ColumnTypeOverrides = {
       readonly edi_company_code_type: { readonly output: 'ZZ' | '14'; readonly input: 'ZZ' | '14' };
     };
     readonly Files: {
-      readonly outcome: {
+      readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
+      readonly status: {
         readonly output: 'success' | 'fail' | 'processing';
         readonly input: 'success' | 'fail' | 'processing';
       };
-      readonly source: { readonly output: 'LOCAL'; readonly input: 'LOCAL' };
     };
     readonly Flows: {
       readonly edi_record_type: {
@@ -406,6 +418,18 @@ type ColumnTypeOverrides = {
         readonly input: 'download' | 'upload';
       };
       readonly union: { readonly output: 'metel' | 'ediel'; readonly input: 'metel' | 'ediel' };
+    };
+    readonly Lines: {
+      readonly status: {
+        readonly output: 'success' | 'fail' | 'skipped';
+        readonly input: 'success' | 'fail' | 'skipped';
+      };
+    };
+    readonly Messages: {
+      readonly status: {
+        readonly output: 'success' | 'fail' | 'skipped' | 'processing';
+        readonly input: 'success' | 'fail' | 'skipped' | 'processing';
+      };
     };
     readonly Runs: {
       readonly status: {
@@ -463,11 +487,12 @@ export namespace Models {
     errorMessage: FieldOutputTypes['public']['Files']['errorMessage'];
     filename: FieldOutputTypes['public']['Files']['filename'];
     id: FieldOutputTypes['public']['Files']['id'];
-    outcome: FieldOutputTypes['public']['Files']['outcome'];
     runId: FieldOutputTypes['public']['Files']['runId'];
     source: FieldOutputTypes['public']['Files']['source'];
+    status: FieldOutputTypes['public']['Files']['status'];
+    messages: public_Messages[];
     run: public_Runs;
-    readonly [RelationKeys]?: 'run';
+    readonly [RelationKeys]?: 'messages' | 'run';
   };
   export type public_FlowCustomers = {
     customerId: FieldOutputTypes['public']['FlowCustomers']['customerId'];
@@ -490,6 +515,23 @@ export namespace Models {
     lastRun: public_Runs | null;
     readonly [RelationKeys]?: 'company' | 'customers' | 'lastRun';
   };
+  export type public_Lines = {
+    createdAt: FieldOutputTypes['public']['Lines']['createdAt'];
+    id: FieldOutputTypes['public']['Lines']['id'];
+    messageId: FieldOutputTypes['public']['Lines']['messageId'];
+    status: FieldOutputTypes['public']['Lines']['status'];
+    message: public_Messages;
+    readonly [RelationKeys]?: 'message';
+  };
+  export type public_Messages = {
+    createdAt: FieldOutputTypes['public']['Messages']['createdAt'];
+    fileId: FieldOutputTypes['public']['Messages']['fileId'];
+    id: FieldOutputTypes['public']['Messages']['id'];
+    status: FieldOutputTypes['public']['Messages']['status'];
+    file: public_Files;
+    lines: public_Lines[];
+    readonly [RelationKeys]?: 'file' | 'lines';
+  };
   export type public_Runs = {
     createdAt: FieldOutputTypes['public']['Runs']['createdAt'];
     errorMessage: FieldOutputTypes['public']['Runs']['errorMessage'];
@@ -509,6 +551,8 @@ export declare const models: {
     Files: Models.public_Files;
     FlowCustomers: Models.public_FlowCustomers;
     Flows: Models.public_Flows;
+    Lines: Models.public_Lines;
+    Messages: Models.public_Messages;
     Runs: Models.public_Runs;
   };
 };
@@ -710,16 +754,6 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly outcome: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/text@1', 'processing'>;
-                  };
-                  readonly many: false;
-                };
                 readonly run_id: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
@@ -730,6 +764,16 @@ type ContractBase = Omit<
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'pg/varchar@1';
                   readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly status: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'processing'>;
+                  };
                   readonly many: false;
                 };
               };
@@ -760,7 +804,7 @@ type ContractBase = Omit<
             };
             readonly FlowCustomers: {
               columns: {
-                readonly customerId: {
+                readonly customer_id: {
                   readonly dataType: 'pg/varchar';
                   readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
@@ -773,13 +817,13 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
               };
-              primaryKey: { readonly columns: readonly ['flowId', 'customerId'] };
+              primaryKey: { readonly columns: readonly ['flowId', 'customer_id'] };
               uniques: readonly [];
               indexes: readonly [
                 {
-                  readonly name: 'FlowCustomers_customerId_idx_b2a8a46c';
-                  readonly prefix: 'FlowCustomers_customerId_idx';
-                  readonly columns: readonly ['customerId'];
+                  readonly name: 'FlowCustomers_customer_id_idx_e16dfa6b';
+                  readonly prefix: 'FlowCustomers_customer_id_idx';
+                  readonly columns: readonly ['customer_id'];
                   readonly unique: false;
                 },
                 {
@@ -806,7 +850,7 @@ type ContractBase = Omit<
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
                     readonly tableName: 'FlowCustomers';
-                    readonly columns: readonly ['customerId'];
+                    readonly columns: readonly ['customer_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
@@ -923,6 +967,116 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly Lines: {
+              columns: {
+                readonly created_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly message_id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly status: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'Lines_message_id_idx_8a7ff1ba';
+                  readonly prefix: 'Lines_message_id_idx';
+                  readonly columns: readonly ['message_id'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Lines';
+                    readonly columns: readonly ['message_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Messages';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+            readonly Messages: {
+              columns: {
+                readonly created_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly file_id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/varchar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly status: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'processing'>;
+                  };
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'Messages_file_id_idx_4f0f24cb';
+                  readonly prefix: 'Messages_file_id_idx';
+                  readonly columns: readonly ['file_id'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Messages';
+                    readonly columns: readonly ['file_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Files';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
             readonly Runs: {
               columns: {
                 readonly created_at: {
@@ -1023,11 +1177,19 @@ type ContractBase = Omit<
                 'ORDPRP',
               ];
             };
-            readonly FileOutcome: {
+            readonly FileSource: { readonly kind: 'valueSet'; readonly values: readonly ['LOCAL'] };
+            readonly FileStatus: {
               readonly kind: 'valueSet';
               readonly values: readonly ['success', 'fail', 'processing'];
             };
-            readonly FileSource: { readonly kind: 'valueSet'; readonly values: readonly ['LOCAL'] };
+            readonly LineStatus: {
+              readonly kind: 'valueSet';
+              readonly values: readonly ['success', 'fail', 'skipped'];
+            };
+            readonly MessageStatus: {
+              readonly kind: 'valueSet';
+              readonly values: readonly ['success', 'fail', 'skipped', 'processing'];
+            };
             readonly RunStatus: {
               readonly kind: 'valueSet';
               readonly values: readonly ['success', 'fail', 'processing'];
@@ -1055,6 +1217,8 @@ type ContractBase = Omit<
       readonly model: 'FlowCustomers';
     };
     readonly Flows: { readonly namespace: 'public' & NamespaceId; readonly model: 'Flows' };
+    readonly Lines: { readonly namespace: 'public' & NamespaceId; readonly model: 'Lines' };
+    readonly Messages: { readonly namespace: 'public' & NamespaceId; readonly model: 'Messages' };
     readonly Runs: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
   };
   readonly domain: {
@@ -1210,10 +1374,6 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
               };
-              readonly outcome: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
               readonly runId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
@@ -1222,8 +1382,23 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/varchar@1' };
               };
+              readonly status: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
             };
             readonly relations: {
+              readonly messages: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Messages';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['fileId'];
+                };
+              };
               readonly run: {
                 readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Runs' };
                 readonly cardinality: 'N:1';
@@ -1242,9 +1417,9 @@ type ContractBase = Omit<
                 readonly errorMessage: { readonly column: 'error_message' };
                 readonly filename: { readonly column: 'filename' };
                 readonly id: { readonly column: 'id' };
-                readonly outcome: { readonly column: 'outcome' };
                 readonly runId: { readonly column: 'run_id' };
                 readonly source: { readonly column: 'source' };
+                readonly status: { readonly column: 'status' };
               };
             };
           };
@@ -1289,7 +1464,7 @@ type ContractBase = Omit<
               readonly table: 'FlowCustomers';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly customerId: { readonly column: 'customerId' };
+                readonly customerId: { readonly column: 'customer_id' };
                 readonly flowId: { readonly column: 'flowId' };
               };
             };
@@ -1356,7 +1531,7 @@ type ContractBase = Omit<
                   readonly table: 'FlowCustomers';
                   readonly namespaceId: 'public';
                   readonly parentColumns: readonly ['flowId'];
-                  readonly childColumns: readonly ['customerId'];
+                  readonly childColumns: readonly ['customer_id'];
                   readonly targetColumns: readonly ['id'];
                 };
               };
@@ -1382,6 +1557,113 @@ type ContractBase = Omit<
                 readonly lastRunId: { readonly column: 'last_run_id' };
                 readonly operation: { readonly column: 'operation' };
                 readonly union: { readonly column: 'union' };
+              };
+            };
+          };
+          readonly Lines: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly messageId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly status: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly message: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Messages';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['messageId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Lines';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly id: { readonly column: 'id' };
+                readonly messageId: { readonly column: 'message_id' };
+                readonly status: { readonly column: 'status' };
+              };
+            };
+          };
+          readonly Messages: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly fileId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'sql/varchar@1' };
+              };
+              readonly status: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly file: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Files';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['fileId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly lines: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Lines';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['messageId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Messages';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly fileId: { readonly column: 'file_id' };
+                readonly id: { readonly column: 'id' };
+                readonly status: { readonly column: 'status' };
               };
             };
           };
@@ -1483,7 +1765,11 @@ type ContractBase = Omit<
               { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
             ];
           };
-          readonly FileOutcome: {
+          readonly FileSource: {
+            readonly codecId: 'pg/varchar@1';
+            readonly members: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          };
+          readonly FileStatus: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
               { readonly name: 'SUCCCESS'; readonly value: 'success' },
@@ -1491,9 +1777,22 @@ type ContractBase = Omit<
               { readonly name: 'PROCESSING'; readonly value: 'processing' },
             ];
           };
-          readonly FileSource: {
-            readonly codecId: 'pg/varchar@1';
-            readonly members: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          readonly LineStatus: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'SUCCCESS'; readonly value: 'success' },
+              { readonly name: 'FAIL'; readonly value: 'fail' },
+              { readonly name: 'SKIPPED'; readonly value: 'skipped' },
+            ];
+          };
+          readonly MessageStatus: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'SUCCCESS'; readonly value: 'success' },
+              { readonly name: 'FAIL'; readonly value: 'fail' },
+              { readonly name: 'SKIPPED'; readonly value: 'skipped' },
+              { readonly name: 'PROCESSING'; readonly value: 'processing' },
+            ];
           };
           readonly RunStatus: {
             readonly codecId: 'pg/text@1';
@@ -1537,12 +1836,23 @@ type ContractBase = Omit<
             { readonly name: 'NOTADD'; readonly value: 'NOTADD' },
             { readonly name: 'ORDPRP'; readonly value: 'ORDPRP' },
           ];
-          readonly FileOutcome: readonly [
+          readonly FileSource: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          readonly FileStatus: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
             { readonly name: 'PROCESSING'; readonly value: 'processing' },
           ];
-          readonly FileSource: readonly [{ readonly name: 'LOCAL'; readonly value: 'LOCAL' }];
+          readonly LineStatus: readonly [
+            { readonly name: 'SUCCCESS'; readonly value: 'success' },
+            { readonly name: 'FAIL'; readonly value: 'fail' },
+            { readonly name: 'SKIPPED'; readonly value: 'skipped' },
+          ];
+          readonly MessageStatus: readonly [
+            { readonly name: 'SUCCCESS'; readonly value: 'success' },
+            { readonly name: 'FAIL'; readonly value: 'fail' },
+            { readonly name: 'SKIPPED'; readonly value: 'skipped' },
+            { readonly name: 'PROCESSING'; readonly value: 'processing' },
+          ];
           readonly RunStatus: readonly [
             { readonly name: 'SUCCCESS'; readonly value: 'success' },
             { readonly name: 'FAIL'; readonly value: 'fail' },
@@ -1629,6 +1939,46 @@ type ContractBase = Omit<
           readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
           readonly ref: {
             readonly entry: 'Flows';
+            readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly ref: {
+            readonly entry: 'Lines';
+            readonly field: 'created_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Lines';
+            readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly ref: {
+            readonly entry: 'Messages';
+            readonly field: 'created_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Messages';
             readonly field: 'id';
             readonly namespace: 'public';
           };

@@ -3,25 +3,10 @@ import { CreateFlowSchema, UpdateFlowSchema } from './flows.schemas.js';
 import type { Company } from '../companies/companies.types.js';
 import type { Customer } from '../customers/customers.types.js';
 import type { PartialRun } from '../runs/runs.types.js';
+import { EdiRecordType } from '../parsers/parsers.types.js';
 
 export type Union = 'metel' | 'ediel';
 export type EdiOperation = 'download' | 'upload';
-export type EdiRecordType =
-  | 'ANPROD'
-  | 'DESADV'
-  | 'ORDERS'
-  | 'ORDRSP'
-  | 'PACLIS'
-  | 'SELLIN'
-  | 'INVSUP'
-  | 'ORDLIS'
-  | 'REMADV'
-  | 'INVRPT'
-  | 'SLSRPT'
-  | 'PRICAT'
-  | 'NOTACC'
-  | 'NOTADD'
-  | 'ORDPRP';
 
 export interface Flow {
   id: string;

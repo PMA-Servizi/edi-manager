@@ -102,7 +102,17 @@ model Flows {
   @@unique([companyId, ediRecordType, operation, union])
 }
 
-enum FileOutcome {
+model FlowCustomers {
+  flowId     String(varchar)
+  flow       Flows           @relation(fields: [flowId], references: [id])
+
+  customerId String(varchar) @map('customer_id')
+  customer   Customers       @relation(fields: [customerId], references: [id])
+
+  @@id([flowId, customerId])
+}
+
+enum FileStatus {
   @@type("pg/text@1")
   SUCCCESS = 'success'
   FAIL = 'fail'
@@ -118,20 +128,47 @@ model Files {
   id           String(varchar) @id @onCreate(uuid(4))
   createdAt    DateTime        @onCreate(now()) @map('created_at')
   filename     String(text)
-  outcome      FileOutcome     @default(PROCESSING)
+  status       FileStatus      @default(PROCESSING)
   source       FileSource
   errorMessage String(text)?   @map('error_message')
+
+  messages     Messages[]
 
   runId        String(varchar) @map('run_id')
   run          Runs            @relation(fields: [runId], references: [id])
 }
 
-model FlowCustomers {
-  flowId     String(varchar)
-  flow       Flows           @relation(fields: [flowId], references: [id])
+enum MessageStatus {
+  @@type("pg/text@1")
+  SUCCCESS = 'success'
+  FAIL = 'fail'
+  SKIPPED = 'skipped'
+  PROCESSING = 'processing'
+}
 
-  customerId String(varchar)
-  customer   Customers       @relation(fields: [customerId], references: [id])
+model Messages {
+  id        String(varchar) @id @onCreate(uuid(4))
+  createdAt DateTime        @onCreate(now()) @map('created_at')
+  status    MessageStatus   @default(PROCESSING)
 
-  @@id([flowId, customerId])
+  lines     Lines[]
+
+  fileId    String(varchar) @map('file_id')
+  file      Files           @relation(fields: [fileId], references: [id])
+}
+
+enum LineStatus {
+  @@type("pg/text@1")
+  SUCCCESS = 'success'
+  FAIL = 'fail'
+  SKIPPED = 'skipped'
+}
+
+model Lines {
+  id        String(varchar) @id @onCreate(uuid(4))
+  createdAt DateTime        @onCreate(now()) @map('created_at')
+  status    LineStatus
+
+  messageId String(varchar) @map('message_id')
+  message   Messages        @relation(fields: [messageId], references: [id])
 }
