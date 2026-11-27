@@ -1,13 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import type { Flow } from '../flows/flows.types.js';
-import type { FetchersService } from '../fetchers/fetchers.service.js';
+import { FetchersService } from '../fetchers/fetchers.service.js';
 
 @Injectable()
 export class RunnersService {
   constructor(private readonly fetchersService: FetchersService) {}
 
   async checkFlowImplementation(flow: Flow) {
-    // TODO: check implementation
+    if (flow.operation === 'download') {
+      if (!this.fetchersService.getFetcher(flow)) return false;
+      // TODO: complete check with other factories
+    } else {
+      // TODO: complete check with other factories
+    }
+
     return true;
   }
 
@@ -17,7 +23,9 @@ export class RunnersService {
   }
 
   async runDownloadFlow(flow: Flow) {
+    console.log('Running flow: ', flow.id, ' - RUNNER');
     const files = await this.fetchersService.getFetcher(flow).fetchFiles(flow);
+    console.log(files);
 
     // TODO
     // loop over files

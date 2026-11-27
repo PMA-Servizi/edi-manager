@@ -1,8 +1,27 @@
+import type { Fetcher } from '@/modules/fetchers/factory/Fetcher.js';
 import { LocalFetcher } from '@/modules/fetchers/factory/LocalFetcher.js';
-import type { AnyFetcher } from '@/modules/fetchers/fetchers.types.js';
+import type {
+  FetcherConfig,
+  LocalFetcherConfig,
+} from '@/modules/fetchers/fetchers.types.js';
 import type { Flow, Union } from '@/modules/flows/flows.types.js';
 
-export const FETCHERS_CONFIG: Record<Union, (flow: Flow) => AnyFetcher> = {
-  ediel: (flow) => new LocalFetcher(flow),
-  metel: (flow) => new LocalFetcher(flow),
+export const EDIEL_CONFIG: LocalFetcherConfig = {
+  source: 'LOCAL',
+  basePath: '/files',
+};
+export const METEL_CONFIG: LocalFetcherConfig = {
+  source: 'LOCAL',
+  basePath: '/files',
+};
+
+export const FETCHERS_CONFIG: Record<
+  Union,
+  {
+    fetcherClass: new (config: FetcherConfig) => Fetcher;
+    config: FetcherConfig;
+  }
+> = {
+  ediel: { fetcherClass: LocalFetcher, config: EDIEL_CONFIG },
+  metel: { fetcherClass: LocalFetcher, config: METEL_CONFIG },
 };

@@ -7,22 +7,18 @@ export interface FetcherConfigMap {
 
 export type FetchSource = keyof FetcherConfigMap;
 export type FetcherConfig = FetcherConfigMap[FetchSource];
-export type AnyFetcher = {
-  [K in FetchSource]: Fetcher<FetcherConfigMap[K]>;
-}[FetchSource];
 
 export interface LocalFetcherConfig {
   source: FetchSource;
-  path: string;
+  basePath: string;
 }
 
-export interface TextFile<T> {
-  fetcherConfig: T;
+export interface TextFile {
   content: string;
   filename: string;
 }
 
 export interface IFetcher<T> {
   config: T;
-  fetchFiles(flow: Flow): Promise<TextFile<T>[]>;
+  fetchFiles(flow: Flow): Promise<TextFile[]>;
 }

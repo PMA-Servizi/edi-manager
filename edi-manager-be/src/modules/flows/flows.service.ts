@@ -16,7 +16,7 @@ import {
   EntityNotFoundError,
   FlowExecutionError,
 } from '@/shared/errors.js';
-import type { RunnersService } from '../runners/runnsers.service.js';
+import { RunnersService } from '../runners/runnsers.service.js';
 
 // TODO: add socket messages for FE
 // TODO: add SMTP server and email for most important errors
@@ -40,7 +40,11 @@ export class FlowsService {
     for (const flow of flows) {
       const flowIsImplemented =
         await this.runnersService.checkFlowImplementation(flow);
-      if (!flow.enabled || !flowIsImplemented) continue;
+      if (!flow.enabled) continue;
+      if (!flowIsImplemented && flow.enabled) {
+        await this.toggleFlow(flow.id);
+        continue;
+      }
       await this.startFlow(flow);
     }
   }
@@ -57,6 +61,7 @@ export class FlowsService {
   }
 
   async runFlowJob(flowJob: Job<Flow>) {
+    console.log('Running flow: ', flowJob.data.id, ' - FLOWS');
     try {
       await this.runnersService.runFlow(flowJob.data);
 

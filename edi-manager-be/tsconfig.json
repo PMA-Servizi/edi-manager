@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": false
   }
 }
